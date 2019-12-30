@@ -131,7 +131,7 @@ namespace BL
         #endregion
 
 
-        public List<BankAccount> GetAllBranches()
+        public List<BankBranch> GetAllBranches()
         {
             return myDAL.GetAllBranches();
         }

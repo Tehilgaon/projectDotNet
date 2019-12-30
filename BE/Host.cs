@@ -16,7 +16,7 @@ namespace BE
         private string familyName;
         private string phoneNumber;
         private string mailAddress;
-        private BankAccount bankAccount;
+        private BankBranch bankAccount;
         private string bankAccountNumber;
         private bool collectionClearance;
         private double fee;
@@ -44,7 +44,7 @@ namespace BE
             }
         }
         public bool CollectionClearance { get => collectionClearance; set => collectionClearance = value; }
-        internal BankAccount BankAccount { get => bankAccount; set => bankAccount = value; }
+        internal BankBranch BankAccount { get => bankAccount; set => bankAccount = value; }
         public string BankAccountNumber { get => bankAccountNumber; set => bankAccountNumber = value; }
         public double Fee { get => fee; set => fee = value; }
         

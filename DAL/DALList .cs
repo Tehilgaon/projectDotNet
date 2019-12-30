@@ -91,15 +91,15 @@ namespace DAL
 
         #endregion
 
-        public List<BankAccount> GetAllBranches()
+        public List<BankBranch> GetAllBranches()
         {
-            List<BankAccount> bankAccounts = new List<BankAccount>()
+            List<BankBranch> bankAccounts = new List<BankBranch>()
             {
-                new BankAccount(12, "Leumi", 200, "Gilo 15", "jerusalem"),
-                new BankAccount(12, "Leumi",200, "Gilo 15", "jerusalem"   ),
-                new BankAccount(81, "hapoalim",150, "Herzel 30", "Tel Aviv" ),
-                new BankAccount(47, "Mizrahi", 411, "Vered 4", "Ashkelon" ),
-                new BankAccount(81, "hapoalim", 140, "Ben Guryon 21", "Lod" )
+                new BankBranch(12, "Leumi", 200, "Gilo 15", "jerusalem"),
+                new BankBranch(12, "Leumi",200, "Gilo 15", "jerusalem"   ),
+                new BankBranch(81, "hapoalim",150, "Herzel 30", "Tel Aviv" ),
+                new BankBranch(47, "Mizrahi", 411, "Vered 4", "Ashkelon" ),
+                new BankBranch(81, "hapoalim", 140, "Ben Guryon 21", "Lod" )
             };
             return bankAccounts;
         }

@@ -27,20 +27,7 @@ namespace PL
         {
             InitializeComponent();
             bL = MyBL.Instance;
-            /*bL.addHostingUnit(new HostingUnit()
-            {
-                HostingUnitName = "myMama",
-                HostingUnitType = Enums.HostingUnitType.וילה,
-                Area = Enums.Regions.North,
-                Host = new Host()
-                {
-                    CollectionClearance = true,
-                    PrivatrName = "maya",
-                    BankAccountNumber = "123456",
-                    MailAddress = "maya@gmail.com",
-                },
-
-            });*/
+     
             HostingUnit hu = new HostingUnit();
 
 

@@ -28,6 +28,6 @@ namespace DAL
         void updateOrder(Order order);
         #endregion
 
-        List<BankAccount> GetAllBranches();
+        List<BankBranch> GetAllBranches();
     }
 }

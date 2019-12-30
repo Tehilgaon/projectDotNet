@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace BE
 {
     [Serializable]
-    public class BankAccount
+    public class BankBranch
     {
         private int bankNumber;
         private string bankName;
@@ -23,7 +23,7 @@ namespace BE
         public string BranchCity { get => branchCity; }
         
 
-        public BankAccount(int BankNum,string BankName,int BranchNum, string BrancAddr,string BranchCity)
+        public BankBranch(int BankNum,string BankName,int BranchNum, string BrancAddr,string BranchCity)
         {
             bankNumber = BankNum;
             bankName = BankName;
