@@ -13,7 +13,7 @@ namespace BL
         void addHostingUnit(HostingUnit hostingUnit); 
         List<HostingUnit> getAllHostingUnits(Func<HostingUnit, bool> predicate = null);
         void updateHostingUnit(HostingUnit hostingUnit);
-        void deleteHostingUnit(string Key);
+        void deleteHostingUnit(HostingUnit hostingUnit);
         #endregion
 
         #region GuestRequest
@@ -35,7 +35,7 @@ namespace BL
         List<Order> AllOrdersSince(TimeSpan Time); 
         int AllOrdersOfGuestRequest(string guestRequestKey, Enums.OrderStatus status);  
         int AllOrdersOfHostingUnit(string hostingUnitKey, Enums.OrderStatus status); 
-        IGrouping<Enums.Regions, GuestRequest> GroupGuestRequestByRegion();  
+        IEnumerable<IGrouping<string, GuestRequest>> GroupGuestRequestByRegion();  
         IGrouping<int, GuestRequest> GroupGuestRequestByNumOfGuests(); 
         IGrouping<int, Host> GroupHostByNumOfHostingUnit();  
         IGrouping<Enums.Regions, HostingUnit> GroupHostingUnitByRegion(); 

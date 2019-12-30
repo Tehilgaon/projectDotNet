@@ -30,7 +30,7 @@ namespace BE
         private bool? childrensAttractions;
           
 
-        public string GuestRequestKey { get;}
+        
         public string PrivateName { get => privateName;
             set
             {
@@ -61,24 +61,25 @@ namespace BE
             } 
         }
         public DateTime RegistrationDate { get;}
-        public DateTime EntryDate { get => entryDate; }
-        public DateTime ReleaseDate { get => releaseDate; }
-        public string Status { get; set; }
-        public string Area { get; set; }
-        public string SubArea { get; set; }
-        public string Type { get; set; }
-        public int Adults { get; set;}
-        public int Children { get; set; }
-        public bool? Pool { get; set; }
-        public bool? Jacuzzi { get; set; }
-        public bool? Garden { get; set; }
-        public bool? ChildrensAttractions { get; set; }
+        public DateTime EntryDate { get => entryDate; set => entryDate=value; }
+        public DateTime ReleaseDate { get => releaseDate; set => releaseDate=value; }
+         
+        public string GuestRequestKey { get => guestRequestKey; set => guestRequestKey = value; }
+        public string Area { get => area; set => area = value; }
+        public string SubArea { get => subArea; set => subArea = value; }
+        public string Type { get => type; set => type = value; }
+        public int Adults { get => adults; set => adults = value; }
+        public int Children { get => children; set => children = value; }
+        public bool? Pool { get => pool; set => pool = value; }
+        public bool? Jacuzzi { get => jacuzzi; set => jacuzzi = value; }
+        public bool? Garden { get => garden; set => garden = value; }
+        public bool? ChildrensAttractions { get => childrensAttractions; set => childrensAttractions = value; }
+        public string Status { get => status; set => status = value; }
 
-          
         public GuestRequest()
         {
-            guestRequestKey = Configuration.GuestRequestKey++.ToString();
-            status = Enums.GuestRequestStatus.Active.ToString();
+            GuestRequestKey = Configuration.GuestRequestKey++.ToString();
+            Status = Enums.GuestRequestStatus.Active.ToString();
             registrationDate = DateTime.Now;
         }
 

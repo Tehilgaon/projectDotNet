@@ -12,7 +12,7 @@ namespace DAL
         #region HostingUnit        
         void addHostingUnit(HostingUnit hostingUnit); 
         List<HostingUnit> getAllHostingUnits(Func<HostingUnit, bool> predicate = null);
-        void deleteHostingUnit(string Key);
+        void deleteHostingUnit(HostingUnit hostingUnit);
         void updateHostingUnit(HostingUnit hostingUnit);
         #endregion
 

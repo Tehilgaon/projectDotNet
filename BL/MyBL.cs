@@ -34,27 +34,30 @@ namespace BL
 
         #region HostingUnit
         public void addHostingUnit(HostingUnit hostingUnit)
-        {
-
+        { 
             myDAL.addHostingUnit(hostingUnit);
-        } 
+        }
+        
         public List<HostingUnit> getAllHostingUnits(Func<HostingUnit, bool> p=null)
         {
             return myDAL.getAllHostingUnits(p);
         }
+
         public void updateHostingUnit(HostingUnit hostingUnit)
         {
-            if (!hostingUnit.Host.CollectionClearance && 
-                getAllOrders(Item => Item.HostingUnitKey == hostingUnit.HostingUnitKey && Item.OrderStatus == Enums.OrderStatus.Mailed) != null)
+            HostingUnit oldHostingUnit = getAllHostingUnits(Item => Item.HostingUnitKey == hostingUnit.HostingUnitKey).FirstOrDefault();
+            if (hostingUnit.Host.CollectionClearance==false && oldHostingUnit.Host.CollectionClearance==true &&
+                getAllOrders(Item => Item.HostingUnitKey == hostingUnit.HostingUnitKey && Item.OrderStatus == Enums.OrderStatus.Mailed).Count!=0)
                 throw new Exception("Collection clearance cannot be cancelled due to open orders");  
             myDAL.updateHostingUnit(hostingUnit);
         }
-        public void deleteHostingUnit(string Key )
+
+        public void deleteHostingUnit(HostingUnit hostingUnit)
         { 
-            if (getAllOrders(Item => Item.HostingUnitKey == Key &&
-            (Item.OrderStatus == Enums.OrderStatus.Mailed || Item.OrderStatus == Enums.OrderStatus.NotMailed)) != null)
+            if (getAllOrders(Item => Item.HostingUnitKey == hostingUnit.HostingUnitKey  &&
+            (Item.OrderStatus == Enums.OrderStatus.Mailed || Item.OrderStatus == Enums.OrderStatus.NotMailed)).Count!=0)
                 throw new Exception("Hosting unit cannot be deleted due to open orders");
-            myDAL.deleteHostingUnit(Key);
+            myDAL.deleteHostingUnit(hostingUnit);
         }
         #endregion
 
@@ -72,6 +75,7 @@ namespace BL
         {
             myDAL.updateGuestRequest(guestRequest);
         }
+
         public List<GuestRequest> GetAllGuestRequests(Func<GuestRequest, bool> predicate=null)
         {
             return myDAL.GetAllGuestRequests(predicate);
@@ -83,6 +87,8 @@ namespace BL
         {
             HostingUnit hostingUnit = getAllHostingUnits(Item => Item.HostingUnitKey == order.HostingUnitKey).FirstOrDefault();
             GuestRequest guestRequest = GetAllGuestRequests(Item => Item.GuestRequestKey == order.GuestRequestKey).FirstOrDefault();
+            if (getAllOrders(Item=>Item.OrderKey==order.OrderKey).Count!=0)
+                throw new Exception("The order already exists in the system");
             if(ifAvailable(hostingUnit,guestRequest.EntryDate,guestRequest.ReleaseDate)==null)
                 throw new Exception("The requested dates are not available");  
             myDAL.addOrder(order);
@@ -108,18 +114,18 @@ namespace BL
             
             if (oldOrder.OrderStatus == Enums.OrderStatus.NotMailed&&order.OrderStatus==Enums.OrderStatus.Mailed)
             {
-                if (!hostingUnit.Host.CollectionClearance)
+                if (hostingUnit.Host.CollectionClearance==false)
                     throw new Exception("Must sign the collection clearance before sending an email");
                  //Sending an email
             }
             if (oldOrder.OrderStatus==Enums.OrderStatus.Mailed&&order.OrderStatus==Enums.OrderStatus.Closed)
             {
-                hostingUnit.Host.Fee+= DaysBetween(guestRequest.EntryDate, guestRequest.ReleaseDate) * Configuration.Fee; //and?
+                hostingUnit.Host.Fee+= DaysBetween(guestRequest.EntryDate, guestRequest.ReleaseDate) * Configuration.Fee;  
                 hostingUnit = updateDairy(hostingUnit, guestRequest);
                 updateHostingUnit(hostingUnit);
                 guestRequest.Status = Enums.GuestRequestStatus.NotActive.ToString();
                 updateGuestRequest(guestRequest);
-                var orders = getAllOrders().Where(Item => Item.GuestRequestKey == guestRequest.GuestRequestKey).ToList();
+                var orders = getAllOrders(Item => Item.GuestRequestKey == guestRequest.GuestRequestKey&& Item.OrderKey!=order.OrderKey).ToList();
                 foreach (var Item in orders)
                 {
                     Item.OrderStatus = Enums.OrderStatus.Canceled;
@@ -154,8 +160,8 @@ namespace BL
         public int DaysBetween(DateTime D1,DateTime D2=default)
         {
             if (D2 == default)
-                return (D1 - DateTime.Now).Days;
-            return (D1 - D2).Days;
+                return (DateTime.Now - D1).Days;
+            return (D2 - D1).Days;
         }
         public List<Order> AllOrdersSince(TimeSpan Time)
         {
@@ -172,10 +178,10 @@ namespace BL
         {
             return getAllOrders(Item => Item.HostingUnitKey == hostingUnitKey && Item.OrderStatus == status).Count;
         }
-        public IGrouping<Enums.Regions,GuestRequest> GroupGuestRequestByRegion()
+        public IEnumerable<IGrouping<string ,GuestRequest>> GroupGuestRequestByRegion()
         {
-            return (IGrouping < Enums.Regions, GuestRequest>) from guestRequest in GetAllGuestRequests()
-                                                             group guestRequest by guestRequest.Area;
+            return from guestRequest in GetAllGuestRequests()
+                                    group guestRequest by guestRequest.Area;
         }
         public IGrouping<int, GuestRequest> GroupGuestRequestByNumOfGuests()
         {
@@ -197,7 +203,7 @@ namespace BL
         public HostingUnit updateDairy(HostingUnit hostingUnit,GuestRequest guestRequest)
         {
             DateTime date = guestRequest.EntryDate;
-            while(date.Day!= guestRequest.EntryDate.Day)
+            while(date.Day!= guestRequest.ReleaseDate.Day)
             {
                 hostingUnit[date] = true;
                 date = date.AddDays(1);

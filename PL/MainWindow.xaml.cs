@@ -27,29 +27,141 @@ namespace PL
         {
             InitializeComponent();
             bL = MyBL.Instance;
-     
-            HostingUnit hu = new HostingUnit();
 
 
-            hu.HostingUnitName = "ThePlace";
-            hu.HostingUnitType = Enums.HostingUnitType.צימר;
-            hu.Area = Enums.Regions.Jerusalem;
-            hu.Host = new Host()
+
+            try
             {
-                CollectionClearance = true,
-                PrivatrName = "dani",
-                BankAccountNumber = "654321",
-                MailAddress = "dani@gmail.com",
-            };
+                Order order1 = new Order()
+                {
+                    HostingUnitKey = "1000000",
+                    GuestRequestKey = "1000000",
+                    OrderDate = new DateTime(2020, 2, 3),
+                };
+                Order order2 = new Order()
+                {
+                    HostingUnitKey = "1000001",
+                    GuestRequestKey = "1000001",
+                    OrderDate = new DateTime(2020, 3, 3),
+                };
+                Order order3 = new Order()
+                {
+                    HostingUnitKey = "1000001",
+                    GuestRequestKey = "1000002",
+                    OrderDate = new DateTime(2020, 3, 3),
+                };
+                Order order4 = new Order()
+                {
+                    HostingUnitKey = "1000003",
+                    GuestRequestKey = "1000002",
+                    OrderDate = new DateTime(2020, 6, 12),
+                };
+                Order order5 = new Order()
+                {
+                    HostingUnitKey = "1000004",
+                    GuestRequestKey = "1000002",
+                    OrderDate = new DateTime(2020, 5, 5),
+                };
+                Order order6 = new Order()
+                {
+                    HostingUnitKey = "1000001",
+                    GuestRequestKey = "1000000",
+                    OrderDate = new DateTime(2020, 9, 9),
+                };
 
-            
-            bL.addHostingUnit(hu);
-            hu.HostingUnitName = "great";
-            bL.updateHostingUnit(hu);
-            lb_HostingUnits.DataContext = bL.getAllHostingUnits();
+                bL.addOrder(order1);
+                //bL.addOrder(order1);  //Exception "already Exist"
+                bL.addOrder(order2);
 
- 
-            
+
+                //order1.OrderStatus = Enums.OrderStatus.Mailed;
+                //bL.updateOrder(order1);   //Exception "collection clearance  unsigned"
+                order2.OrderStatus = Enums.OrderStatus.Mailed;
+                bL.updateOrder(order2);
+                order2.OrderStatus = Enums.OrderStatus.Closed;
+                bL.updateOrder(order2);
+                //bL.addOrder(order3); //Exception "Days not available"
+
+                 
+
+
+
+                HostingUnit unit1 = new HostingUnit()
+                {
+                    HostingUnitName = "malon",
+                    HostingUnitType = Enums.HostingUnitType.צימר,
+                    Area = Enums.Regions.Jerusalem,
+                    Host = new Host()
+                    {
+                        HostKey = "123456789",
+                        CollectionClearance = false,
+                        PrivatrName = "Dani",
+                        FamilyName = "cohen",
+                        MailAddress = "Dani@gmail.com",
+                        PhoneNumber = "0505050505",
+                        BankAccountNumber = "123123",
+                        Bankbranch = bL.GetAllBranches()[0],
+                    }
+                };
+                HostingUnit unit2 = new HostingUnit()
+                {
+                    HostingUnitName = "mySelf",
+                    HostingUnitType = Enums.HostingUnitType.מאהל,
+                    Area = Enums.Regions.North,
+                    Host = new Host()
+                    {
+                        HostKey = "315136952",
+                        CollectionClearance = true,
+                        PrivatrName = "sara",
+                        FamilyName = "levi",
+                        MailAddress = "SLevi@gmail.com",
+                        PhoneNumber = "0505770505",
+                        BankAccountNumber = "111111",
+                        Bankbranch = bL.GetAllBranches()[3],
+                    }
+                };
+                bL.addHostingUnit(unit1);
+                bL.addHostingUnit(unit2);
+
+                unit1.Host.CollectionClearance = true;
+                bL.updateHostingUnit(unit1);
+                
+                bL.addOrder(order4);
+                order4.OrderStatus = Enums.OrderStatus.Mailed;
+                bL.updateOrder(order4);
+                //unit1.Host.CollectionClearance = false;
+                //bL.updateHostingUnit(unit1);  //Exception can not cancel collection clearance
+                
+                HostingUnit unit3 = bL.getAllHostingUnits(item => item.HostingUnitKey == order2.HostingUnitKey).FirstOrDefault();
+                //bL.deleteHostingUnit(unit3);
+
+                //unit3 = bL.getAllHostingUnits(item => item.HostingUnitKey == order4.HostingUnitKey).FirstOrDefault();
+                //bL.deleteHostingUnit(unit3); //Exception "can not be deleted- open orders
+
+                //lb_HostingUnits.DataContext = bL.AllAvailable(new DateTime(2020, 3, 3), 2);
+
+                bL.addOrder(order5);
+                order5.OrderStatus = Enums.OrderStatus.Mailed;
+                bL.updateOrder(order5);
+
+                //tbx_exceptions.Text = bL.AllOrdersOfGuestRequest("1000002", Enums.OrderStatus.Mailed).ToString();
+
+                bL.addOrder(order6);
+                order6.OrderStatus = Enums.OrderStatus.Mailed;
+                bL.updateOrder(order6);
+                order6.OrderStatus = Enums.OrderStatus.Closed;
+                //bL.updateOrder(order6);
+
+                //tbx_exceptions.Text = bL.AllOrdersOfHostingUnit("1000001", Enums.OrderStatus.Closed).ToString();
+
+                IEnumerable<IGrouping<string, GuestRequest>> list1 = bL.GroupGuestRequestByRegion();
+            }
+            catch (Exception e)
+            {
+                tbx_exceptions.Text = e.Message;
+            }
+
+
 
             }
     }

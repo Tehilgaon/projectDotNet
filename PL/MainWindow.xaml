@@ -8,6 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <ListBox x:Name="lb_HostingUnits" HorizontalAlignment="Left" ItemsSource="{Binding}" Height="300" Margin="50,50,0,0" VerticalAlignment="Top" Width="300"/>
+        <TextBox x:Name="tbx_exceptions" HorizontalAlignment="Left" Height="50" Margin="450,150,0,0" TextWrapping="Wrap" Text="  " VerticalAlignment="Top" Width="250"/>
 
     </Grid>
 </Window>

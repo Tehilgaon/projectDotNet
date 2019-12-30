@@ -35,15 +35,15 @@ namespace DAL
             DataSource.hostingUnits.CopyTo(hostingUnitArr);
             return hostingUnitArr.ToList();
         }
-        public void deleteHostingUnit(string Key)
+        public void deleteHostingUnit(HostingUnit hostingUnit)
         {
-            HostingUnit hostingUnit=getAllHostingUnits(Item=>Item.HostingUnitKey==Key).FirstOrDefault();
-            DataSource.hostingUnits.Remove(hostingUnit);   
+            HostingUnit Unit= DataSource.hostingUnits.Where(Item => Item.HostingUnitKey == hostingUnit.HostingUnitKey).FirstOrDefault();
+            DataSource.hostingUnits.Remove(Unit);   
         }
         public void updateHostingUnit(HostingUnit hostingUnit)
         {
             int index=DataSource.hostingUnits.FindIndex(Item => Item.HostingUnitKey == hostingUnit.HostingUnitKey);
-            DataSource.hostingUnits.Insert(index ,hostingUnit.Clone());   
+            DataSource.hostingUnits[index] = hostingUnit.Clone();  
         }   
         #endregion
 
@@ -63,7 +63,8 @@ namespace DAL
         } 
         public void updateOrder(Order order)
         {
-            DataSource.orders.Where(Item => Item.OrderKey == order.OrderKey).Select(Item => Item = order.Clone());
+            int index = DataSource.orders.FindIndex(Item => Item.OrderKey == order.OrderKey);
+            DataSource.orders[index] = order.Clone();
         }
 
         #endregion
@@ -75,7 +76,8 @@ namespace DAL
         }
         public void updateGuestRequest(GuestRequest guestRequest)
         {
-            DataSource.guestRequests.Where(Item=>Item.GuestRequestKey==guestRequest.GuestRequestKey).Select(Item=>Item=guestRequest.Clone());
+            int index = DataSource.guestRequests.FindIndex(Item => Item.GuestRequestKey == guestRequest.GuestRequestKey);
+            DataSource.guestRequests[index] = guestRequest.Clone(); 
         }
         public List<GuestRequest> GetAllGuestRequest()
         {
@@ -85,7 +87,7 @@ namespace DAL
         {
             if(predicate!=null)
                 return DataSource.guestRequests.Where(predicate).ToList().Clone();
-            return DataSource.guestRequests.Select(Item => Item).ToList().Clone();
+            return DataSource.guestRequests.Select (Item => Item).ToList().Clone();
 
         }
 
@@ -93,15 +95,7 @@ namespace DAL
 
         public List<BankBranch> GetAllBranches()
         {
-            List<BankBranch> bankAccounts = new List<BankBranch>()
-            {
-                new BankBranch(12, "Leumi", 200, "Gilo 15", "jerusalem"),
-                new BankBranch(12, "Leumi",200, "Gilo 15", "jerusalem"   ),
-                new BankBranch(81, "hapoalim",150, "Herzel 30", "Tel Aviv" ),
-                new BankBranch(47, "Mizrahi", 411, "Vered 4", "Ashkelon" ),
-                new BankBranch(81, "hapoalim", 140, "Ben Guryon 21", "Lod" )
-            };
-            return bankAccounts;
+            return DataSource.GetAllBranches();
         }
 
         

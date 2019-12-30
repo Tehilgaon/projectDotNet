@@ -22,7 +22,7 @@ namespace BE
         //facilities
 
 
-        public string HostingUnitKey { get; }
+        public string HostingUnitKey { get => hostingUnitKey; set => hostingUnitKey = value; }
         public string HostingUnitName { get => hostingUnitName; set => hostingUnitName = value; }   
         public Host Host { get => host; set => host = value; }
         public bool[,] Diary { get => diary; set => diary = value; } 
@@ -34,13 +34,13 @@ namespace BE
         public HostingUnit() 
         {
             HostingUnitKey = Configuration.HostingUnitKey++.ToString();
-            Diary = new bool[31, 12];
+            Diary = new bool[12, 31];
         }
          
 
         public override string ToString()
         {
-            return this.hostingUnitName + " " + HostingUnitType;
+            return this.hostingUnitName + " " + HostingUnitType+" "+ HostingUnitKey;
         }
 
 
