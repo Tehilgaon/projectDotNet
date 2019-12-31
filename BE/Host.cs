@@ -12,7 +12,7 @@ namespace BE
     public class Host
     {
         private string hostKey;
-        private string privatrName;
+        private string privateName;
         private string familyName;
         private string phoneNumber;
         private string mailAddress;
@@ -22,7 +22,7 @@ namespace BE
         private double fee;
 
         public string HostKey { get => hostKey; set => hostKey = value; }
-        public string PrivatrName { get => privatrName; set => privatrName = value; }
+        public string PrivateName { get => privateName; set => privateName = value; }
         public string FamilyName { get => familyName; set => familyName = value; }
         public string PhoneNumber { get => phoneNumber;
             set 
@@ -55,7 +55,9 @@ namespace BE
 
         public override string ToString()
         {
-            return hostKey;
+            return ",  מספר תעודת זהות:" + hostKey + ",  שם פרטי:" + PrivateName + ",  שם משפחה:"
+                + familyName + ",  מספר טלפון:" + phoneNumber + ",  כתובת מייל:" + mailAddress + 
+                ",  פרטי סניף בנק:" + Bankbranch + ",  מספר חשבון בנק:" + bankAccountNumber +  ",  עמלה" + Fee; ;
         }
 
          

@@ -19,6 +19,10 @@ namespace BE
         private string address;
         private double ratingPercentage;
         private string review;
+        private bool pool;
+        private bool jacuzzi;
+        private bool garden;
+        private bool childrensAttractions;
         //facilities
 
 
@@ -40,7 +44,8 @@ namespace BE
 
         public override string ToString()
         {
-            return this.hostingUnitName + " " + HostingUnitType+" "+ HostingUnitKey;
+            return ",  מספר זיהוי:"+HostingUnitKey + ",  שם :" + HostingUnitName +
+                " ,סוג האירוח:" + HostingUnitType.ToString() + ",  פרטי בעלים:" + Host ;
         }
 
 

@@ -86,7 +86,11 @@ namespace BE
 
         public override string ToString()
         {
-            return MailAddress + Convert.ToString(GuestRequestKey);
+            return Convert.ToString(GuestRequestKey) + ",  שם פרטי:" + privateName + " ,שם משפחה:" + familyName +
+                " , כתובת מייל: " + mailAddress + "  ,סטטוס דרישת לקוח:" + Status + 
+                "  ,תאריך התחלה" + EntryDate.ToString("MM/dd/yyyy ") + "  ,תאריך סוף:" + releaseDate.ToString("MM/dd/yyyy ") + "  ,אזור:"
+                + Area + "  ,סוג אירוח:" + Type + "  ,מספר מבוגרים:" + Adults + "  ,מספר ילדים:" + Children;
+
         }
     }
 }

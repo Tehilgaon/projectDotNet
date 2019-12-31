@@ -35,7 +35,7 @@ namespace BL
         List<Order> AllOrdersSince(TimeSpan Time); 
         int AllOrdersOfGuestRequest(string guestRequestKey, Enums.OrderStatus status);  
         int AllOrdersOfHostingUnit(string hostingUnitKey, Enums.OrderStatus status); 
-        IEnumerable<IGrouping<string, GuestRequest>> GroupGuestRequestByRegion();  
+        List<IGrouping<string, GuestRequest>> GroupGuestRequestByRegion();  
         IGrouping<int, GuestRequest> GroupGuestRequestByNumOfGuests(); 
         IGrouping<int, Host> GroupHostByNumOfHostingUnit();  
         IGrouping<Enums.Regions, HostingUnit> GroupHostingUnitByRegion(); 

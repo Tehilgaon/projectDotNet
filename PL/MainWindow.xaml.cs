@@ -95,7 +95,7 @@ namespace PL
                     {
                         HostKey = "123456789",
                         CollectionClearance = false,
-                        PrivatrName = "Dani",
+                        PrivateName = "Dani",
                         FamilyName = "cohen",
                         MailAddress = "Dani@gmail.com",
                         PhoneNumber = "0505050505",
@@ -112,7 +112,7 @@ namespace PL
                     {
                         HostKey = "315136952",
                         CollectionClearance = true,
-                        PrivatrName = "sara",
+                        PrivateName = "sara",
                         FamilyName = "levi",
                         MailAddress = "SLevi@gmail.com",
                         PhoneNumber = "0505770505",
@@ -154,7 +154,9 @@ namespace PL
 
                 //tbx_exceptions.Text = bL.AllOrdersOfHostingUnit("1000001", Enums.OrderStatus.Closed).ToString();
 
-                IEnumerable<IGrouping<string, GuestRequest>> list1 = bL.GroupGuestRequestByRegion();
+                //lb_HostingUnits.DataContext = bL.GroupGuestRequestByRegion();
+
+                tbx_exceptions.Text = unit1.ToString();
             }
             catch (Exception e)
             {

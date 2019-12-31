@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Mail;
+using System.Data;  
 
 namespace BL
 {
@@ -48,7 +49,7 @@ namespace BL
             HostingUnit oldHostingUnit = getAllHostingUnits(Item => Item.HostingUnitKey == hostingUnit.HostingUnitKey).FirstOrDefault();
             if (hostingUnit.Host.CollectionClearance==false && oldHostingUnit.Host.CollectionClearance==true &&
                 getAllOrders(Item => Item.HostingUnitKey == hostingUnit.HostingUnitKey && Item.OrderStatus == Enums.OrderStatus.Mailed).Count!=0)
-                throw new Exception("Collection clearance cannot be cancelled due to open orders");  
+                throw new Exception("לא ניתן לבטל הרשאה לחיוב חשבון בנק בשל הזמנות פתוחות");  
             myDAL.updateHostingUnit(hostingUnit);
         }
 
@@ -56,7 +57,7 @@ namespace BL
         { 
             if (getAllOrders(Item => Item.HostingUnitKey == hostingUnit.HostingUnitKey  &&
             (Item.OrderStatus == Enums.OrderStatus.Mailed || Item.OrderStatus == Enums.OrderStatus.NotMailed)).Count!=0)
-                throw new Exception("Hosting unit cannot be deleted due to open orders");
+                throw new Exception("לא ניתן למחוק יחידת אירוח בשל הזמנות פתוחות");
             myDAL.deleteHostingUnit(hostingUnit);
         }
         #endregion
@@ -65,9 +66,9 @@ namespace BL
         public void addGuestRequest(GuestRequest guestRequest)
         {   if (guestRequest.PrivateName == null || guestRequest.FamilyName == null || guestRequest.MailAddress == null
                 || guestRequest.EntryDate == default || guestRequest.ReleaseDate == default || guestRequest.Area == null)
-                throw new Exception("All details are required."); 
+                throw new Exception("חובה למלא את כל הפרטים"); 
             if((guestRequest.ReleaseDate-guestRequest.EntryDate).Days<1) 
-                throw new Exception("Booking an order for less than one day is not allowed");
+                throw new Exception("לא ניתן לבצע הזמנה לפחות מיום אחד");
             myDAL.addGuestRequest(guestRequest);
         }
 
@@ -87,10 +88,12 @@ namespace BL
         {
             HostingUnit hostingUnit = getAllHostingUnits(Item => Item.HostingUnitKey == order.HostingUnitKey).FirstOrDefault();
             GuestRequest guestRequest = GetAllGuestRequests(Item => Item.GuestRequestKey == order.GuestRequestKey).FirstOrDefault();
+            if (hostingUnit == null) throw new KeyNotFoundException("לא קיימת יחידת אירוח עבור הזמנה זו");
+            if (guestRequest == null) throw new KeyNotFoundException("לא קיימת דרישת לקוח עבור הזמנה זו"); 
             if (getAllOrders(Item=>Item.OrderKey==order.OrderKey).Count!=0)
-                throw new Exception("The order already exists in the system");
+                throw new InvalidExpressionException( "הזמנה כבר קיימת במערכת");
             if(ifAvailable(hostingUnit,guestRequest.EntryDate,guestRequest.ReleaseDate)==null)
-                throw new Exception("The requested dates are not available");  
+                throw new Exception("התאריכים המבוקשים אינם זמינים");  
             myDAL.addOrder(order);
         }
          
@@ -107,15 +110,15 @@ namespace BL
             if (hostingUnit == null || guestRequest == null || oldOrder == null || oldOrder.OrderStatus == Enums.OrderStatus.Canceled ||
                 oldOrder.OrderStatus == Enums.OrderStatus.Mailed && order.OrderStatus == Enums.OrderStatus.NotMailed ||
                 oldOrder.OrderStatus == Enums.OrderStatus.NotMailed && order.OrderStatus == Enums.OrderStatus.Closed)
-                throw new Exception("Invalid order details");
+                throw new InvalidExpressionException("פרטי הזמנה אינם נכונים");
             if (oldOrder.OrderStatus == order.OrderStatus)  return;
             if (oldOrder.OrderStatus == Enums.OrderStatus.Closed)
-                throw new Exception("Closed order cannot be changed"); 
+                throw new Exception(" לא ניתן לשנות הזמנה שנסגרה"); 
             
             if (oldOrder.OrderStatus == Enums.OrderStatus.NotMailed&&order.OrderStatus==Enums.OrderStatus.Mailed)
             {
                 if (hostingUnit.Host.CollectionClearance==false)
-                    throw new Exception("Must sign the collection clearance before sending an email");
+                    throw new Exception("חובה לחתום על הרשאה לחיוב חשבון בנק לפני שליחת מייל ללקוח");
                  //Sending an email
             }
             if (oldOrder.OrderStatus==Enums.OrderStatus.Mailed&&order.OrderStatus==Enums.OrderStatus.Closed)
@@ -178,10 +181,10 @@ namespace BL
         {
             return getAllOrders(Item => Item.HostingUnitKey == hostingUnitKey && Item.OrderStatus == status).Count;
         }
-        public IEnumerable<IGrouping<string ,GuestRequest>> GroupGuestRequestByRegion()
+        public List<IGrouping<string ,GuestRequest>> GroupGuestRequestByRegion()
         {
-            return from guestRequest in GetAllGuestRequests()
-                                    group guestRequest by guestRequest.Area;
+            return (from guestRequest in GetAllGuestRequests()
+                                    group guestRequest by guestRequest.Area).ToList();
         }
         public IGrouping<int, GuestRequest> GroupGuestRequestByNumOfGuests()
         {

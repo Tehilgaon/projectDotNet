@@ -26,7 +26,8 @@ namespace BE
 
         public override string ToString()
         {
-            return orderKey +" "+ orderStatus.ToString();
+            return ",  מספר הזמנה:  " + OrderKey + ",  מספר יחידת אירוח:  " + HostingUnitKey + ",  מספר דרישת לקוח:  " + GuestRequestKey +
+                ",  סטטוס הזמנה:  " + OrderStatus.ToString() + ",  תאריך הזמנה:  " + orderDate.ToString("MM/dd/yyyy ");
         }
         public Order() 
         {

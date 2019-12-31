@@ -20,7 +20,7 @@ namespace DS
                 {
                     HostKey="123456789",
                     CollectionClearance=false,
-                    PrivatrName="Dani",
+                    PrivateName="Dani",
                     FamilyName="cohen",
                     MailAddress="Dani@gmail.com",
                     PhoneNumber="0505050505",
@@ -37,7 +37,7 @@ namespace DS
                 {
                     HostKey="987654321",
                     CollectionClearance=true,
-                    PrivatrName="Via",
+                    PrivateName="Via",
                     FamilyName="Levin",
                     MailAddress="Via@gmail.com",
                     PhoneNumber="0501010101",
@@ -54,7 +54,7 @@ namespace DS
                 {
                     HostKey="121212121",
                     CollectionClearance=true,
-                    PrivatrName="Tael",
+                    PrivateName="Tael",
                     FamilyName="Levi",
                     MailAddress="Tael@gmail.com",
                     PhoneNumber="0507777777",
