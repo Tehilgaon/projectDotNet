@@ -1,0 +1,80 @@
+﻿<Window x:Class="PL.AddGuestRequest"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="הוספת דרישת לקוח" Height="400" Width="280">
+    <Grid Height="370" Margin="0,0,-0.4,0" VerticalAlignment="Top">
+        <Grid x:Name="grid1" HorizontalAlignment="Center"  Margin="10" VerticalAlignment="Top" FlowDirection="RightToLeft">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="שם פרטי:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3,0,0" Grid.Row="0" VerticalAlignment="Top"/>
+            <TextBox x:Name="privateNameTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" 
+                     Text="{Binding PrivateName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
+                     VerticalAlignment="Center" Width="120"/>
+
+            <Label Content="שם משפחה:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+            <TextBox x:Name="familyNameTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" 
+                     Text="{Binding FamilyName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
+                     VerticalAlignment="Center" Width="120"/>
+
+            <Label Content="כתובת מייל:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+            <TextBox x:Name="EmailTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23"  Margin="2.8,0,0,2.8" Grid.Row="2" 
+                     Text="{Binding MailAddress, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
+                     VerticalAlignment="Center" Width="120"/>
+
+            <Label Content=" תאריך צ'ק-אין:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+            <DatePicker x:Name="EntryDatePicker" Grid.Column="1" HorizontalAlignment="Center" Margin="3" Grid.Row="3" 
+                        SelectedDate="{Binding EntryDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
+                        VerticalAlignment="Center" />
+
+            <Label Content="תאריך צ'ק-אאוט:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
+            <DatePicker x:Name="ReleaseDatePicker" Grid.Column="1" HorizontalAlignment="Center" Margin="3" Grid.Row="4" 
+                        SelectedDate="{Binding ReleaseDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
+                        VerticalAlignment="Center"/>
+
+            <Label Content="אזור נופש:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
+            <ComboBox x:Name="AreaComboBox" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" 
+                      SelectedItem="{Binding Area}" Grid.Row="5" VerticalAlignment="Center" Width="120" />
+
+            <Label Content="תת-אזור:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
+            <ComboBox x:Name="subAreaComboBox" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" 
+                      SelectedItem="{Binding SubArea}" Grid.Row="6" VerticalAlignment="Center" Width="120"/>
+
+            <Label Content="סוג אירוח:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
+            <ComboBox x:Name="HostingTypeComboBox" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" 
+                      SelectedItem="{Binding Type}" Grid.Row="7" VerticalAlignment="Center" Width="120"/>
+
+            <Label Content="מבוגרים:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="8" VerticalAlignment="Center"/>
+            <TextBox x:Name="AdultsTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="8" 
+                     Text="{Binding Adults, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
+                     VerticalAlignment="Center" Width="120"/>
+
+            <Label Content="ילדים:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="9" VerticalAlignment="Center"/>
+            <TextBox x:Name="ChildrenTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="9" 
+                     Text="{Binding Children, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
+                     VerticalAlignment="Center" Width="120"/>
+        </Grid>
+        <Button Content="הוסף" HorizontalAlignment="Center" Margin="10"  VerticalAlignment="Bottom" Width="50" Click="Button_Click_1"  ></Button>
+    </Grid>
+</Window>

@@ -7,8 +7,24 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <ListBox x:Name="lb_HostingUnits" HorizontalAlignment="Left" ItemsSource="{Binding}" Height="300" Margin="50,50,0,0" VerticalAlignment="Top" Width="300"/>
-        <TextBox x:Name="tbx_exceptions" HorizontalAlignment="Left" Height="66" Margin="350,101,-0.4,0" TextWrapping="Wrap" Text="  " VerticalAlignment="Top" Width="444"/>
+        <Button Content="Guest" HorizontalAlignment="Left" Margin="350,100,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Host" HorizontalAlignment="Left" Margin="350,150,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="manager" HorizontalAlignment="Left" Margin="350,200,0,0" VerticalAlignment="Top" Width="75"/>
+
+
+        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FlowDirection="RightToLeft" TabStripPlacement="Left" >
+
+            <TabItem Header="Guest">
+                <local:GuestUC x:Name="GuestRequestZone" />
+            </TabItem>
+            <TabItem Header="Host"  >
+                  
+            </TabItem>
+            <TabItem Header="Manager">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+
+        </TabControl>
 
     </Grid>
 </Window>

@@ -46,7 +46,7 @@ namespace BE
                 Regex r = new Regex("^[a-zA-Zא-ת]{2,15}$");
                 if (!r.IsMatch(value))
                     throw new Exception("Name should contain only letters, Between 2-15.");
-                privateName = value;
+                familyName = value;
             } 
         }
         public string MailAddress { get => mailAddress;

@@ -13,16 +13,16 @@ namespace BE
         private string hostingUnitKey;
         private Host host;
         private string hostingUnitName;
-        private Enums.HostingUnitType hostingUnitType;
+        private string hostingUnitType;
         private bool[,] diary;
-        private Enums.Regions area;
-        private string address;
+        private string area;
+        private string subArea;
         private double ratingPercentage;
-        private string review;
         private bool pool;
         private bool jacuzzi;
         private bool garden;
         private bool childrensAttractions;
+        //private string review;
         //facilities
 
 
@@ -30,8 +30,8 @@ namespace BE
         public string HostingUnitName { get => hostingUnitName; set => hostingUnitName = value; }   
         public Host Host { get => host; set => host = value; }
         public bool[,] Diary { get => diary; set => diary = value; } 
-        public Enums.HostingUnitType HostingUnitType { get => hostingUnitType; set => hostingUnitType = value; }
-        public Enums.Regions Area { get => area; set => area = value; }
+        public string HostingUnitType { get => hostingUnitType; set => hostingUnitType = value; }
+        public string Area { get => area; set => area = value; }
 
         
 

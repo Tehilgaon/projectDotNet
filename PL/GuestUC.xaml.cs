@@ -1,6 +1,4 @@
-﻿using BL;
-using BE;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,31 +12,32 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BL;
+using BE;
 
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for GuestUC.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class GuestUC : UserControl
     {
         private MyBL bL;
-        
-        public MainWindow()
+        public GuestUC()
         {
             InitializeComponent();
             bL = MyBL.Instance;
-             
-            this.GuestRequestZone.AddButton.Click+= AddGuestRequestButton_Click;
-
         }
 
-        private void AddGuestRequestButton_Click(object sender, RoutedEventArgs e)
+         
+        private void LogInButton_Click(object sender, RoutedEventArgs e)
         {
-            new AddGuestRequest().ShowDialog();
+            List<GuestRequest> guestRequest =bL.GetAllGuestRequests(Item => Item.MailAddress == tbxEnterMail.Text);
+            if (guestRequest.Count == 0)
+                MessageBox.Show("לא נמצאו הזמנות");
+             
+
+
         }
-
-
-
     }
 }

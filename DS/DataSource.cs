@@ -14,8 +14,8 @@ namespace DS
             new HostingUnit()
             {
                 HostingUnitName="place",
-                HostingUnitType=Enums.HostingUnitType.צימר,
-                Area=Enums.Regions.North,
+                HostingUnitType=Enums.HostingUnitType.צימר.ToString(),
+                Area=Enums.Regions.North.ToString(),
                 Host=new Host()
                 {
                     HostKey="123456789",
@@ -31,8 +31,8 @@ namespace DS
              new HostingUnit()
              {
                 HostingUnitName="villa",
-                HostingUnitType=Enums.HostingUnitType.צימר,
-                Area=Enums.Regions.North,
+                HostingUnitType=Enums.HostingUnitType.צימר.ToString(),
+                Area=Enums.Regions.North.ToString(),
                 Host=new Host()
                 {
                     HostKey="987654321",
@@ -48,8 +48,8 @@ namespace DS
             new HostingUnit()
              {
                 HostingUnitName="Te",
-                HostingUnitType=Enums.HostingUnitType .צימר,
-                Area=Enums.Regions.Jerusalem,
+                HostingUnitType=Enums.HostingUnitType .צימר.ToString(),
+                Area=Enums.Regions.Jerusalem.ToString(),
                 Host=new Host()
                 {
                     HostKey="121212121",
