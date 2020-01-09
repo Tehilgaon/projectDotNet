@@ -35,6 +35,7 @@ namespace PL
                 this.GuestZone.AddButton.Click += AddGuestRequestButton_Click;
                 this.GuestZone.dataGrid.MouseDoubleClick += UpdateGuestRequestButton_Click;
                 this.GuestZone.dataGrid.SelectionChanged += Guest_selectionChange;
+                
 
                 this.HostZone.tbkEnterMail.Text = "כניסה לאיזור האישי";
                 this.HostZone.AddButton.Content = "הוסף יחידה";
@@ -69,8 +70,8 @@ namespace PL
 
 
 
-            private void AddHostingUnit_Click(object sender, RoutedEventArgs e)
-             {
+        private void AddHostingUnit_Click(object sender, RoutedEventArgs e)
+        {
             new AddHostingUnit().ShowDialog();
         }
 

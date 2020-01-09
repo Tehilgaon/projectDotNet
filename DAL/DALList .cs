@@ -76,8 +76,8 @@ namespace DAL
         }
         public void updateGuestRequest(GuestRequest guestRequest)
         {
-            int index = DataSource.guestRequests.FindIndex(Item => Item.GuestRequestKey == guestRequest.GuestRequestKey);
-            DataSource.guestRequests[index] = guestRequest.Clone(); 
+            DataSource.guestRequests.RemoveAll(Item => Item.GuestRequestKey == guestRequest.GuestRequestKey);
+            addGuestRequest(guestRequest); 
         }
         public List<GuestRequest> GetAllGuestRequest()
         {
