@@ -22,6 +22,7 @@ namespace BE
         private bool jacuzzi;
         private bool garden;
         private bool childrensAttractions;
+
         //private string review;
         //facilities
 
