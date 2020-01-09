@@ -23,29 +23,33 @@ namespace PL
     {
         BL.MyBL bl;
         BE.GuestRequest guestRequest;
-        public AddGuestRequest(GuestRequest request=null)
+        DateTime date=DateTime.Now;
+        public AddGuestRequest(GuestRequest request = null)
         {
-            InitializeComponent();   
-            bl = MyBL.Instance; 
-            if (request!=null)
+            InitializeComponent();
+            bl = MyBL.Instance;
+            if (request != null)
             {
+                guestRequest = request;
                 privateNameTextBox.IsEnabled = false;
                 familyNameTextBox.IsEnabled = false;
                 EmailTextBox.IsEnabled = false;
                 AreaComboBox.IsEnabled = false;
                 subAreaComboBox.IsEnabled = false;
                 HostingTypeComboBox.IsEnabled = false;
-            } 
+                AddGuest_B.Content = "שמור";
+                AddGuest_B.Click += UpdateButton_Click;
+            }
             else
             {
                 AreaComboBox.ItemsSource = Enum.GetValues(typeof(BE.Enums.Regions));
+                //AreaComboBox.SelectedValue = Enums.Regions.North.ToString();
                 subAreaComboBox.ItemsSource = Enum.GetValues(typeof(BE.Enums.SubArea));
                 HostingTypeComboBox.ItemsSource = Enum.GetValues(typeof(BE.Enums.HostingUnitType));
                 guestRequest = new BE.GuestRequest();
             }
-           
             DataContext = guestRequest;
-        } 
+        }
 
          
 
@@ -62,6 +66,19 @@ namespace PL
                 MessageBox.Show(ex.Message);
             }
 
+        }
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bl.updateGuestRequest(guestRequest);
+                //DialogResult = true;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

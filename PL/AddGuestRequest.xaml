@@ -50,7 +50,7 @@
             <Label Content=" תאריך צ'ק-אין:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
             <DatePicker x:Name="EntryDatePicker" Grid.Column="1" HorizontalAlignment="Center" Margin="3" Grid.Row="3" 
                         SelectedDate="{Binding EntryDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
-                        VerticalAlignment="Center" />
+                        VerticalAlignment="Center"   />
 
             <Label Content="תאריך צ'ק-אאוט:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
             <DatePicker x:Name="ReleaseDatePicker" Grid.Column="1" HorizontalAlignment="Center" Margin="3" Grid.Row="4" 
@@ -84,6 +84,6 @@
         <Grid x:Name="grid2" HorizontalAlignment="Left"  Margin="10" VerticalAlignment="Center" FlowDirection="RightToLeft" Visibility="Collapsed" >
          
         </Grid>
-        <Button Content="הוסף" HorizontalAlignment="Center" Margin="10"  VerticalAlignment="Bottom" Width="50" Click="AddButton_Click"  ></Button>
+        <Button x:Name="AddGuest_B" Content="הוסף" HorizontalAlignment="Center" Margin="10"  VerticalAlignment="Bottom" Width="50" Click="AddButton_Click"  ></Button>
     </Grid>
 </Window>

@@ -36,10 +36,9 @@ namespace PL
             if (guestRequest.Count == 0)
                 MessageBox.Show("לא נמצאו הזמנות");
             else
-                dataGrid.ItemsSource = guestRequest;
-             
-
-
+               
+            dataGrid.ItemsSource = guestRequest;
+              
         }
     }
 }

@@ -23,24 +23,36 @@ namespace PL
     public partial class MainWindow : Window
     {
         private MyBL bL;
-        
+        GuestRequest guestRequest;
         public MainWindow()
         {
-            InitializeComponent();
-            bL = MyBL.Instance;
+            try
+            {
+                InitializeComponent();
+                bL = MyBL.Instance;
 
-            this.GuestZone.tbkEnterMail.Text = "התחבר להצגת בקשות קודמות";
-            this.GuestZone.AddButton.Click+= AddGuestRequestButton_Click;
-            this.GuestZone.dataGrid.MouseDoubleClick += UpdateGuestRequestButton_Click;
+                this.GuestZone.tbkEnterMail.Text = "התחבר להצגת בקשות קודמות";
+                this.GuestZone.AddButton.Click += AddGuestRequestButton_Click;
+                this.GuestZone.dataGrid.MouseDoubleClick += UpdateGuestRequestButton_Click;
+                this.GuestZone.dataGrid.SelectionChanged += Guest_selectionChange;
 
-            this.HostZone.tbkEnterMail.Text = "כניסה לאיזור האישי";
-            this.HostZone.AddButton.Content = "הוסף יחידה";
-            this.HostZone.AddButton.Click += AddHostingUnit_Click;
-
+                this.HostZone.tbkEnterMail.Text = "כניסה לאיזור האישי";
+                this.HostZone.AddButton.Content = "הוסף יחידה";
+                this.HostZone.AddButton.Click += AddHostingUnit_Click;
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
 
 
         }
 
+        private void Guest_selectionChange(object sender, SelectionChangedEventArgs e)
+        {
+            guestRequest = (sender as DataGrid).SelectedItem as GuestRequest;
+          
+        }
         private void AddGuestRequestButton_Click(object sender, RoutedEventArgs e)
         {
             if (new AddGuestRequest().ShowDialog() == true)
@@ -48,16 +60,17 @@ namespace PL
 
         }
 
-        private void UpdateGuestRequestButton_Click (object sender, RoutedEventArgs e)
+        private void UpdateGuestRequestButton_Click (object sender, RoutedEventArgs e) 
         {
-             
-            
+            MessageBox.Show("checking");
+            new AddGuestRequest(guestRequest).ShowDialog(); 
+                
         }
 
 
 
             private void AddHostingUnit_Click(object sender, RoutedEventArgs e)
-        {
+             {
             new AddHostingUnit().ShowDialog();
         }
 
