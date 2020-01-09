@@ -35,6 +35,8 @@ namespace PL
             List<GuestRequest> guestRequest =bL.GetAllGuestRequests(Item => Item.MailAddress == tbxEnterMail.Text);
             if (guestRequest.Count == 0)
                 MessageBox.Show("לא נמצאו הזמנות");
+            else
+                dataGrid.ItemsSource = guestRequest;
              
 
 

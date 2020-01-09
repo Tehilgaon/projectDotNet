@@ -24,7 +24,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="התחבר להצגת הזמנות קודמות " HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15"/>
+                <TextBlock x:Name="tbkEnterMail" Text="התחבר   " HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15"/>
                 <TextBox x:Name="tbxEnterMail"  Grid.Row="1" HorizontalAlignment="Stretch" Margin="5,0,5 ,5" VerticalAlignment="Stretch" />
             </Grid>
             <Button x:Name="LogInButton" Content="התחבר"  Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Click="LogInButton_Click"  />

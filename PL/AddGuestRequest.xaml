@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="הוספת דרישת לקוח" Height="400" Width="280">
-    <Grid Height="370" Margin="0,0,-0.4,0" VerticalAlignment="Top">
-        <Grid x:Name="grid1" HorizontalAlignment="Center"  Margin="10" VerticalAlignment="Top" FlowDirection="RightToLeft">
+        Title="הוספת דרישת לקוח" Height="400" Width="300" >
+    <Grid Height="370"  VerticalAlignment="Bottom" FlowDirection="RightToLeft" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="grid1" HorizontalAlignment="Center"  Grid.Column="0" Margin="10" VerticalAlignment="Top" FlowDirection="RightToLeft">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
@@ -39,7 +43,7 @@
                      VerticalAlignment="Center" Width="120"/>
 
             <Label Content="כתובת מייל:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
-            <TextBox x:Name="EmailTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23"  Margin="2.8,0,0,2.8" Grid.Row="2" 
+            <TextBox x:Name="EmailTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23"  Margin="3" Grid.Row="2" 
                      Text="{Binding MailAddress, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
                      VerticalAlignment="Center" Width="120"/>
 
@@ -75,6 +79,11 @@
                      Text="{Binding Children, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
                      VerticalAlignment="Center" Width="120"/>
         </Grid>
-        <Button Content="הוסף" HorizontalAlignment="Center" Margin="10"  VerticalAlignment="Bottom" Width="50" Click="Button_Click_1"  ></Button>
+        
+        
+        <Grid x:Name="grid2" HorizontalAlignment="Left"  Margin="10" VerticalAlignment="Center" FlowDirection="RightToLeft" Visibility="Collapsed" >
+         
+        </Grid>
+        <Button Content="הוסף" HorizontalAlignment="Center" Margin="10"  VerticalAlignment="Bottom" Width="50" Click="AddButton_Click"  ></Button>
     </Grid>
 </Window>

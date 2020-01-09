@@ -28,14 +28,37 @@ namespace PL
         {
             InitializeComponent();
             bL = MyBL.Instance;
-             
-            this.GuestRequestZone.AddButton.Click+= AddGuestRequestButton_Click;
+
+            this.GuestZone.tbkEnterMail.Text = "התחבר להצגת בקשות קודמות";
+            this.GuestZone.AddButton.Click+= AddGuestRequestButton_Click;
+            this.GuestZone.dataGrid.MouseDoubleClick += UpdateGuestRequestButton_Click;
+
+            this.HostZone.tbkEnterMail.Text = "כניסה לאיזור האישי";
+            this.HostZone.AddButton.Content = "הוסף יחידה";
+            this.HostZone.AddButton.Click += AddHostingUnit_Click;
+
+
 
         }
 
         private void AddGuestRequestButton_Click(object sender, RoutedEventArgs e)
         {
-            new AddGuestRequest().ShowDialog();
+            if (new AddGuestRequest().ShowDialog() == true)
+                MessageBox.Show("בקשתך נוספה");
+
+        }
+
+        private void UpdateGuestRequestButton_Click (object sender, RoutedEventArgs e)
+        {
+             
+            
+        }
+
+
+
+            private void AddHostingUnit_Click(object sender, RoutedEventArgs e)
+        {
+            new AddHostingUnit().ShowDialog();
         }
 
 

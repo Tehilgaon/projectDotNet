@@ -77,7 +77,7 @@ namespace DS
                  EntryDate=new DateTime(2020,2,3),
                  ReleaseDate=new DateTime(2020,2,10), 
                  Area=Enums.Regions.North.ToString(),
-                 Pool=true,
+                 
                  Adults=2,
                  Children=2,
                  Type=Enums.HostingUnitType.צימר.ToString(),    
@@ -90,7 +90,7 @@ namespace DS
                  EntryDate=new DateTime(2020,3,3),
                  ReleaseDate=new DateTime(2020,3,6),
                  Area=Enums.Regions.Jerusalem.ToString(),
-                 Garden=true,
+                  
                  Adults=2,
                  Children=1,
                  Type=Enums.HostingUnitType.צימר.ToString(),
@@ -103,7 +103,7 @@ namespace DS
                  EntryDate=new DateTime(2020,3,3),
                  ReleaseDate=new DateTime(2020,3,6),
                  Area=Enums.Regions.North.ToString(),
-                 Pool=true,
+                 
                  Adults=1, 
                  Type=Enums.HostingUnitType.צימר.ToString(),
             }, 
