@@ -49,7 +49,10 @@ namespace BE
         public double Fee { get => fee; set => fee = value; }
         
 
-        public Host() { }
+        public Host()
+        {
+            Bankbranch = new BankBranch();
+        }
 
          
 

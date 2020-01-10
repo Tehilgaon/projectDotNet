@@ -22,6 +22,10 @@ namespace BE
         public string BranchAddress { get => branchAddress; }
         public string BranchCity { get => branchCity; }
         
+        public BankBranch()
+        {
+
+        }
 
         public BankBranch(int BankNum,string BankName,int BranchNum, string BrancAddr,string BranchCity)
         {

@@ -23,6 +23,8 @@ namespace PL
     public partial class MainWindow : Window
     {
         private MyBL bL;
+        List<GuestRequest> guestRequestsList;
+        List<HostingUnit> hostingUnitsList;
         GuestRequest guestRequest;
         public MainWindow()
         {
@@ -32,14 +34,17 @@ namespace PL
                 bL = MyBL.Instance;
 
                 this.GuestZone.tbkEnterMail.Text = "התחבר להצגת בקשות קודמות";
-                this.GuestZone.AddButton.Click += AddGuestRequestButton_Click;
-                this.GuestZone.dataGrid.MouseDoubleClick += UpdateGuestRequestButton_Click;
+                this.GuestZone.AddButton.Click += GuestAddButton_Click;
+                this.GuestZone.dataGrid.MouseDoubleClick += GuestUpdateButton_Click;
                 this.GuestZone.dataGrid.SelectionChanged += Guest_selectionChange;
-                
+                this.GuestZone.LogInButton.Click += GuestLogInButton_Click;
+
+
 
                 this.HostZone.tbkEnterMail.Text = "כניסה לאיזור האישי";
                 this.HostZone.AddButton.Content = "הוסף יחידה";
-                this.HostZone.AddButton.Click += AddHostingUnit_Click;
+                this.HostZone.AddButton.Click +=  HostingUnitAdd_Click;
+                this.HostZone.LogInButton.Click += HostLogInButton_Click;
             }
             catch(Exception e)
             {
@@ -54,28 +59,62 @@ namespace PL
             guestRequest = (sender as DataGrid).SelectedItem as GuestRequest;
           
         }
-        private void AddGuestRequestButton_Click(object sender, RoutedEventArgs e)
+        private void GuestAddButton_Click(object sender, RoutedEventArgs e)
         {
             if (new AddGuestRequest().ShowDialog() == true)
+            {
                 MessageBox.Show("בקשתך נוספה");
+               // GuestZone.dataGrid.Items.Add(this.)
+            }
+
 
         }
 
-        private void UpdateGuestRequestButton_Click (object sender, RoutedEventArgs e) 
+        private void GuestUpdateButton_Click(object sender, RoutedEventArgs e) 
         {
-            MessageBox.Show("checking");
-            new AddGuestRequest(guestRequest).ShowDialog(); 
-                
+            new AddGuestRequest(guestRequest).ShowDialog();    
         }
-
-
-
-        private void AddHostingUnit_Click(object sender, RoutedEventArgs e)
+        private void GuestLogInButton_Click(object sender, RoutedEventArgs e)
         {
-            new AddHostingUnit().ShowDialog();
+            guestRequestsList = bL.GetAllGuestRequests(Item => Item.MailAddress == GuestZone.tbxEnterMail.Text);
+            if (guestRequestsList.Count == 0)
+                MessageBox.Show("לא נמצאו הזמנות");
+            else
+                GuestZone.dataGrid.ItemsSource = guestRequestsList; 
         }
 
 
+
+        private void HostingUnitAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (new AddHostingUnit().ShowDialog() == true)
+            {
+                MessageBox.Show("היחידה נוספה בהצלחה"); 
+            }
+
+            else
+                MessageBox.Show("no");
+        }
+        private void HostLogInButton_Click(object sender, RoutedEventArgs e)
+        {
+            hostingUnitsList = bL.getAllHostingUnits(Item => Item.Host.MailAddress == HostZone.tbxEnterMail.Text);
+            if (hostingUnitsList.Count == 0)
+                MessageBox.Show("לא נמצאו יחידות אירוח");
+            else
+            {
+                HostZone.dataGrid.Visibility = Visibility.Collapsed;
+                HostZone.UnitsGrid.Visibility = Visibility.Visible;
+                for (int i = 0; i < hostingUnitsList.Count; i++)
+                {
+                    hostingUnitUC hostingUnit = new hostingUnitUC(hostingUnitsList[i]);
+                    HostZone.UnitsGrid.Children.Add(hostingUnit);
+                    Grid.SetRow(hostingUnit, i);
+ 
+                }
+            }
+
+
+        }
 
     }
 }

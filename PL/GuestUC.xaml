@@ -27,12 +27,22 @@
                 <TextBlock x:Name="tbkEnterMail" Text="התחבר   " HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15"/>
                 <TextBox x:Name="tbxEnterMail"  Grid.Row="1" HorizontalAlignment="Stretch" Margin="5,0,5 ,5" VerticalAlignment="Stretch" />
             </Grid>
-            <Button x:Name="LogInButton" Content="התחבר"  Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Click="LogInButton_Click"  />
+            <Button x:Name="LogInButton" Content="התחבר"  Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"  />
         </Grid>
 
         <DataGrid Grid.Row="1" x:Name="dataGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FlowDirection="RightToLeft">
-            
         </DataGrid>
+        <Grid x:Name="UnitsGrid" Grid.Row="1" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+        </Grid>
+
         <Grid Grid.Row="2"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FlowDirection="RightToLeft">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

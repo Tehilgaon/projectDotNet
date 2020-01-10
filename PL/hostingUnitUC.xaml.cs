@@ -12,24 +12,24 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using BL;
 using BE;
-
+using BL;
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for GuestUC.xaml
+    /// Interaction logic for hostingUnitUC.xaml
     /// </summary>
-    public partial class GuestUC : UserControl
+    public partial class hostingUnitUC : UserControl
     {
-        private MyBL bL;
-        public GuestUC()
+        public HostingUnit CurrentHostingUnit { get; set; }
+        public hostingUnitUC(HostingUnit hostingUnit)
         {
             InitializeComponent();
-            bL = MyBL.Instance;
+            labelUnitAddress.DataContext = hostingUnit.SubArea + " " + hostingUnit.Area;
+            this.CurrentHostingUnit = hostingUnit;
+            this.HostingUnitGrid.DataContext = CurrentHostingUnit;
         }
 
-         
-      
+        
     }
 }

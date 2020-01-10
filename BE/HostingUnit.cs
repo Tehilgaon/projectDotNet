@@ -33,13 +33,13 @@ namespace BE
         public bool[,] Diary { get => diary; set => diary = value; } 
         public string HostingUnitType { get => hostingUnitType; set => hostingUnitType = value; }
         public string Area { get => area; set => area = value; }
-
-        
+        public string SubArea { get => subArea; set => subArea = value; }
 
         public HostingUnit() 
         {
             HostingUnitKey = Configuration.HostingUnitKey++.ToString();
             Diary = new bool[12, 31];
+            Host = new Host();
         }
          
 

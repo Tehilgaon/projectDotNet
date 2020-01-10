@@ -35,7 +35,10 @@ namespace BL
 
         #region HostingUnit
         public void addHostingUnit(HostingUnit hostingUnit)
-        { 
+        {
+            if (hostingUnit.HostingUnitName == null ||hostingUnit.HostingUnitType == null)//||
+                //hostingUnit.Host.PrivateName==null)//||hostingUnit.Host.MailAddress==null)
+                throw new Exception("חובה למלא את כל הפרטים");
             myDAL.addHostingUnit(hostingUnit);
         }
         
