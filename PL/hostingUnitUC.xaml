@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PL"
              mc:Ignorable="d" 
-             d:DesignHeight="70" d:DesignWidth="800" BorderThickness="1">
-    <Grid x:Name="HostingUnitGrid" FlowDirection="RightToLeft"> 
+             d:DesignHeight="70" d:DesignWidth="800" BorderThickness="4" Background="LightYellow">
+    <Grid x:Name="HostingUnitGrid" FlowDirection="RightToLeft" > 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="70"/>
             <ColumnDefinition Width="*"/>
@@ -36,7 +36,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="1.5*"/> 
             </Grid.ColumnDefinitions>
-            <Button x:Name="updateUnitButton" Content="ערוך" Grid.Column="0"  Margin="5,20"/>
+            <Button x:Name="updateUnitButton" Content="ערוך" Grid.Column="0"  Margin="5,20" Click="updateUnitButton_Click"/>
             <Button x:Name="WatchOrdersButton" Content="עבור להזמנות " Grid.Column="1"  Margin="5,20"/>
         </Grid>
        

@@ -26,20 +26,34 @@ namespace PL
         {
             InitializeComponent();
             bl = MyBL.Instance;
+            UnitButtom.Click += AddButton_Click;
             cbxArea.ItemsSource = Enum.GetValues(typeof(BE.Enums.Regions));
             cbxSubArea.ItemsSource= Enum.GetValues(typeof(BE.Enums.SubArea));
             cbxUnitType.ItemsSource = Enum.GetValues(typeof(BE.Enums.HostingUnitType));
             hostingUnit = new HostingUnit();
             DataContext = hostingUnit; 
         }
-
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        public AddHostingUnit(HostingUnit unit)
         {
+            InitializeComponent();
+            bl = MyBL.Instance;
+            hostingUnit = unit;
+            UnitButtom.Content = "שמור";
+            UnitButtom.Click += UpdateButton_Click;
+             
+            tbxEmail.IsEnabled = false;
+            cbxArea.IsEditable = false;
+            cbxSubArea.IsEditable = false;
+            //cbxArea.SelectedItem = hostingUnit.Area;
+            DataContext = hostingUnit;
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+
+        private void Window_Loaded(object sender, RoutedEventArgs e) { }
+         
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -52,6 +66,19 @@ namespace PL
             {
                 MessageBox.Show(ex.Message);
             } 
+        }
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bl.updateHostingUnit(hostingUnit);
+                this.Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
 

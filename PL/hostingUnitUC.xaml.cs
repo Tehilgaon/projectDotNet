@@ -30,6 +30,11 @@ namespace PL
             this.HostingUnitGrid.DataContext = CurrentHostingUnit;
         }
 
-        
+        private void updateUnitButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (new AddHostingUnit(CurrentHostingUnit).ShowDialog() == true)
+                MessageBox.Show("פרטי יחידה עודכנו בהצלחה");
+
+        }
     }
 }

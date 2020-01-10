@@ -82,6 +82,7 @@ namespace PL
                 bl.updateGuestRequest(guestRequest);
                 //DialogResult = true;
                 this.Close();
+                MessageBox.Show("פרטיך עודכנו בהצלחה");
             }
             catch (Exception ex)
             {

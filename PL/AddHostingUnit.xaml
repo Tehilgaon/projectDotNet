@@ -65,6 +65,6 @@
                      VerticalAlignment="Center" Width="120"/>-->
             
         </Grid>
-        <Button Content="הוסף" HorizontalAlignment="Center" Margin="10"  VerticalAlignment="Bottom" Width="50" Click="Button_Click" ></Button>
+        <Button x:Name="UnitButtom" Content="הוסף" HorizontalAlignment="Center" Margin="10"  VerticalAlignment="Bottom" Width="50"  ></Button>
     </Grid>
 </Window>
