@@ -27,10 +27,10 @@ namespace BE
         public enum Regions
         {
             
-            South,
-            North,
-            Center,
-            Jerusalem
+            דרום,
+            צפון,
+            מרכז,
+            ירושלים
         }
         public enum guestRequestStatus
         {
@@ -47,16 +47,16 @@ namespace BE
         }
         public enum SubArea
         {
-            Tel_Aviv,
-            Tveria,
-            Tzfat,
-            Haifa,
-            Jerusalem,
-            Askelon,
-            Asdod,
-            Hadera,
-            Beer_sheva,
-            Eilat
+            תל_אביב,
+            טבריה,
+            צפת,
+            חיפה,
+            ירושלים,
+            אשקלון,
+            אשדוד,
+            חדרה,
+            באר_שבע,
+            אילת
         }
          
         public enum DataSourseType

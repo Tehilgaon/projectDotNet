@@ -29,10 +29,10 @@ namespace PL
         {
             InitializeComponent();
             bl = MyBL.Instance;
-            AreaComboBox.ItemsSource = Enum.GetValues(typeof(BE.Enums.Regions));
+            cbxArea.ItemsSource = Enum.GetValues(typeof(BE.Enums.Regions));
             //AreaComboBox.SelectedValue = Enums.Regions.North.ToString();
-            subAreaComboBox.ItemsSource = Enum.GetValues(typeof(BE.Enums.SubArea));
-            HostingTypeComboBox.ItemsSource = Enum.GetValues(typeof(BE.Enums.HostingUnitType));
+            cbxsubArea.ItemsSource = Enum.GetValues(typeof(BE.Enums.SubArea));
+            cbxHostingType.ItemsSource = Enum.GetValues(typeof(BE.Enums.HostingUnitType));
             guestRequest = new BE.GuestRequest();
             DataContext = guestRequest;
           
@@ -43,16 +43,20 @@ namespace PL
             InitializeComponent();
             bl = MyBL.Instance;  
             guestRequest = request;
-            privateNameTextBox.IsEnabled = false;
-            familyNameTextBox.IsEnabled = false;
-            EmailTextBox.IsEnabled = false;
-            AreaComboBox.IsEnabled = false;
-            subAreaComboBox.IsEnabled = false;
-            HostingTypeComboBox.IsEnabled = false;
+            tbxPrivateName.IsEnabled = false;
+            tbxFamilyName.IsEnabled = false;
+            tbxEmail.IsEnabled = false;
+            cbxArea.IsEnabled = false;
+            cbxsubArea.IsEnabled = false;
+            cbxHostingType.IsEnabled = false;
 
-            AreaComboBox.SelectedValue = request.Area;
-            subAreaComboBox.SelectedValue = request.SubArea;
-            HostingTypeComboBox.SelectedValue = request.Type;
+            cbxArea.ItemsSource = Enum.GetValues(typeof(BE.Enums.Regions));
+            cbxsubArea.ItemsSource = Enum.GetValues(typeof(BE.Enums.SubArea));
+            cbxHostingType.ItemsSource = Enum.GetValues(typeof(BE.Enums.HostingUnitType));
+
+            cbxArea.SelectedItem = request.Area;
+            cbxsubArea.SelectedValue = request.SubArea;
+            cbxHostingType.SelectedValue = request.Type;
 
             AddGuestButton.Content = "שמור";
             AddGuestButton.Click += UpdateButton_Click; 

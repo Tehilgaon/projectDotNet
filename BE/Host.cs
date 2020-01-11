@@ -22,7 +22,17 @@ namespace BE
         private double fee;
 
         public string HostKey { get => hostKey; set => hostKey = value; }
-        public string PrivateName { get => privateName; set => privateName = value; }
+        public string PrivateName
+        {
+            get => privateName;
+            set
+            {
+                Regex r = new Regex("^[a-zA-Zא-ת]{2,15}$");
+                if (!r.IsMatch(value))
+                    throw new Exception("Name should contain only letters, Between 2-15.");
+                privateName = value;
+            }
+        }
         public string FamilyName { get => familyName; set => familyName = value; }
         public string PhoneNumber { get => phoneNumber;
             set 
@@ -45,7 +55,16 @@ namespace BE
         }
         public bool CollectionClearance { get => collectionClearance; set => collectionClearance = value; }
         public BankBranch Bankbranch { get => bankBranch; set => bankBranch = value; }
-        public string BankAccountNumber { get => bankAccountNumber; set => bankAccountNumber = value; }
+        public string BankAccountNumber
+        {
+            get => bankAccountNumber;
+            set {
+                Regex r = new Regex("^[0-9]{6}$");
+                if (!r.IsMatch(value))
+                    throw new Exception("incorrect number account."); 
+                bankAccountNumber = value; 
+            }
+        }
         public double Fee { get => fee; set => fee = value; }
         
 

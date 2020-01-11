@@ -15,7 +15,7 @@ namespace DS
             {
                 HostingUnitName="place",
                 HostingUnitType=Enums.HostingUnitType.צימר.ToString(),
-                Area=Enums.Regions.North.ToString(),
+                Area=Enums.Regions.צפון.ToString(),
                 Host=new Host()
                 {
                     HostKey="123456789",
@@ -32,7 +32,7 @@ namespace DS
              {
                 HostingUnitName="villa",
                 HostingUnitType=Enums.HostingUnitType.צימר.ToString(),
-                Area=Enums.Regions.North.ToString(),
+                Area=Enums.Regions.צפון.ToString(),
                 Host=new Host()
                 {
                     HostKey="987654321",
@@ -49,7 +49,7 @@ namespace DS
              {
                 HostingUnitName="Te",
                 HostingUnitType=Enums.HostingUnitType .צימר.ToString(),
-                Area=Enums.Regions.Jerusalem.ToString(),
+                Area=Enums.Regions.ירושלים.ToString(),
                 Host=new Host()
                 {
                     HostKey="121212121",
@@ -76,7 +76,7 @@ namespace DS
                  MailAddress="ya123@gmail.com",
                  EntryDate=new DateTime(2020,2,3),
                  ReleaseDate=new DateTime(2020,2,10), 
-                 Area=Enums.Regions.North.ToString(),
+                 Area=Enums.Regions.צפון.ToString(),
                  
                  Adults=2,
                  Children=2,
@@ -89,7 +89,7 @@ namespace DS
                  MailAddress="jossef@gmail.com",
                  EntryDate=new DateTime(2020,3,3),
                  ReleaseDate=new DateTime(2020,3,6),
-                 Area=Enums.Regions.Jerusalem.ToString(),
+                 Area=Enums.Regions.ירושלים.ToString(),
                   
                  Adults=2,
                  Children=1,
@@ -102,7 +102,7 @@ namespace DS
                  MailAddress="rutt@gmail.com",
                  EntryDate=new DateTime(2020,3,3),
                  ReleaseDate=new DateTime(2020,3,6),
-                 Area=Enums.Regions.North.ToString(),
+                 Area=Enums.Regions.צפון.ToString(),
                  
                  Adults=1, 
                  Type=Enums.HostingUnitType.צימר.ToString(),

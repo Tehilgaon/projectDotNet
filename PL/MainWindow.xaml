@@ -12,17 +12,17 @@
         <Button Content="manager" HorizontalAlignment="Left" Margin="350,200,0,0" VerticalAlignment="Top" Width="75"/>
 
 
-        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FlowDirection="RightToLeft" TabStripPlacement="Left"  >
+        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FlowDirection="RightToLeft" TabStripPlacement="Top"  >
             
 
-            <TabItem Header="Guest" Height="40">
+            <TabItem Header="Guest" Height="30">
                 <local:GuestUC x:Name="GuestZone" />
             </TabItem>
-            <TabItem Header="Host" Height="40" >
+            <TabItem Header="Host" Height="30" >
                 <local:GuestUC x:Name="HostZone" />
             </TabItem>
-            <TabItem Header=" מנהל אתר" Height="40">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem Header=" מנהל אתר" Height="30">
+                <local:GuestUC x:Name="ManagerZone" />
             </TabItem>
 
         </TabControl>

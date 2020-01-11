@@ -42,9 +42,10 @@ namespace PL
             UnitButtom.Click += UpdateButton_Click;
              
             tbxEmail.IsEnabled = false;
-            cbxArea.IsEditable = false;
-            cbxSubArea.IsEditable = false;
-            //cbxArea.SelectedItem = hostingUnit.Area;
+            cbxArea.IsEnabled = false;
+            cbxSubArea.IsEnabled = false;
+            cbxUnitType.IsEnabled = false;
+            cbxArea.SelectedItem = hostingUnit.Area;
             DataContext = hostingUnit;
 
         }

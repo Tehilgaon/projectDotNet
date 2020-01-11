@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
- 
+using System.Text.RegularExpressions;
+
 
 namespace BE
 {
@@ -28,8 +29,27 @@ namespace BE
 
 
         public string HostingUnitKey { get => hostingUnitKey; set => hostingUnitKey = value; }
-        public string HostingUnitName { get => hostingUnitName; set => hostingUnitName = value; }   
-        public Host Host { get => host; set => host = value; }
+        public string HostingUnitName { get => hostingUnitName;
+            set
+            {
+                Regex r = new Regex("^[a-zA-Zא-ת]{2,15}$");
+                if (!r.IsMatch(value))
+                    throw new Exception("Name should contain only letters, Between 2-15."); 
+                hostingUnitName = value;
+            }
+        }   
+        public Host Host
+        {
+            get => host;
+            set
+            {
+                try { host = value; }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
         public bool[,] Diary { get => diary; set => diary = value; } 
         public string HostingUnitType { get => hostingUnitType; set => hostingUnitType = value; }
         public string Area { get => area; set => area = value; }

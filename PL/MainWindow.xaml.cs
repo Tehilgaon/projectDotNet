@@ -33,7 +33,7 @@ namespace PL
                 InitializeComponent();
                 bL = MyBL.Instance;
 
-                this.GuestZone.tbkEnterMail.Text = "התחבר להצגת בקשות קודמות";
+                this.GuestZone.tbkEnterMail.Text = "התחבר כאורח";
                 this.GuestZone.AddButton.Click += GuestAddButton_Click;
                 this.GuestZone.dataGrid.MouseDoubleClick += GuestUpdateButton_Click;
                 this.GuestZone.dataGrid.SelectionChanged += Guest_selectionChange;
@@ -41,10 +41,12 @@ namespace PL
 
 
 
-                this.HostZone.tbkEnterMail.Text = "כניסה לאיזור האישי";
+                this.HostZone.tbkEnterMail.Text = "התחבר כבעל יחידת אירוח";
                 this.HostZone.AddButton.Content = "הוסף יחידה";
                 this.HostZone.AddButton.Click +=  HostingUnitAdd_Click;
                 this.HostZone.LogInButton.Click += HostLogInButton_Click;
+
+                this.ManagerZone.tbkEnterMail.Text = "";
             }
             catch(Exception e)
             {
