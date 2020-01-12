@@ -82,7 +82,7 @@ namespace BE
         {
             GuestRequestKey = Configuration.GuestRequestKey++.ToString();
             Status = Enums.GuestRequestStatus.Active.ToString();
-            registrationDate = DateTime.Now;
+            RegistrationDate = DateTime.UtcNow;
             Options = new Dictionary<string, bool> { { "pool", false }, { "jacuzzi", false }, { "garden", false }, { "childrensAttractions", false } };
  
         }

@@ -82,7 +82,7 @@
         </Grid>
 
 
-        <Grid x:Name="grid2" Grid.Column="1" Margin="10,30" Width="120"  HorizontalAlignment="Left" VerticalAlignment="Top" FlowDirection="RightToLeft"   >
+        <Grid x:Name="grid2" Grid.Column="1" Margin="10,30" Width="120"  HorizontalAlignment="Left" VerticalAlignment="Top" FlowDirection="RightToLeft"  Visibility="Collapsed"  >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="20"/> 

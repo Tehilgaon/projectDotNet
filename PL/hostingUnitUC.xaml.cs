@@ -21,10 +21,15 @@ namespace PL
     /// </summary>
     public partial class hostingUnitUC : UserControl
     {
+        private MyBL bL;
+        List<Order> ordersList;
+        List<GuestRequest> guestRequestsList;
+        Orders currentOrders;
         public HostingUnit CurrentHostingUnit { get; set; }
         public hostingUnitUC(HostingUnit hostingUnit)
         {
             InitializeComponent();
+            bL = MyBL.Instance;
             labelUnitAddress.DataContext = hostingUnit.SubArea + " " + hostingUnit.Area;
             this.CurrentHostingUnit = hostingUnit;
             this.HostingUnitGrid.DataContext = CurrentHostingUnit;
@@ -35,6 +40,31 @@ namespace PL
             if (new AddHostingUnit(CurrentHostingUnit).ShowDialog() == true)
                 MessageBox.Show("פרטי יחידה עודכנו בהצלחה");
 
+        }
+
+        private void WatchOrdersButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                currentOrders = new Orders();
+                ordersList = bL.getAllOrders(Item => Item.HostingUnitKey == CurrentHostingUnit.HostingUnitKey);
+                guestRequestsList = bL.GetAllGuestRequests(Item => Item.Area == CurrentHostingUnit.Area
+                  && Item.Type == CurrentHostingUnit.HostingUnitType && bL.ifAvailable(CurrentHostingUnit, Item.EntryDate, Item.ReleaseDate) != null);
+                if (ordersList.Count != 0)
+                {
+                    currentOrders.OrdersGrid.ItemsSource = ordersList;
+                }
+                if(guestRequestsList.Count!=0)
+                {
+                    currentOrders.lbxNewOrders.ItemsSource = guestRequestsList;
+                }
+                currentOrders.ShowDialog();
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

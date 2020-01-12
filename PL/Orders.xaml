@@ -1,0 +1,25 @@
+﻿<controls:MetroWindow x:Class="PL.Orders"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="הזמנות" Height="450" Width="800">
+    <Grid>
+        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FlowDirection="RightToLeft" TabStripPlacement="Top">
+            <TabItem x:Name="existOrders" Header="הזמנות שלך">
+                <DataGrid x:Name="OrdersGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,10,0,0"  FlowDirection="RightToLeft"/>
+            </TabItem>
+            <TabItem x:Name="newOrders" Header="חדש">
+                <StackPanel>
+                    <Button  x:Name="buttonCreateOrder" Content="צור" VerticalAlignment="Top" HorizontalAlignment="Right" FlowDirection="RightToLeft" Visibility="Hidden"/>
+                    <ListBox x:Name="lbxNewOrders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,20,0,0" Height="300"/>
+                </StackPanel>
+            </TabItem>
+             
+
+        </TabControl>
+    </Grid>
+</controls:MetroWindow>

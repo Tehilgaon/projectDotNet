@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  FlowDirection="RightToLeft">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
@@ -29,7 +29,7 @@
             </Grid>
             <Button x:Name="LogInButton" Content="התחבר"  Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"  />
             <ComboBox x:Name="cbxfilter" Grid.Column="3" HorizontalAlignment="Right" Height="Auto" Margin="3" 
-                        VerticalAlignment="Center" Width="100" Visibility="Hidden"   SelectedItem="{Binding BE.dataType}" ItemsSource="{Binding}"/>
+                        VerticalAlignment="Top" Width="100" Visibility="Hidden"   SelectedItem="{Binding BE.dataType}" ItemsSource="{Binding}"/>
 
         </Grid>
 

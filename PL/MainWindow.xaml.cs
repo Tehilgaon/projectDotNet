@@ -46,8 +46,10 @@ namespace PL
                 this.HostZone.AddButton.Click +=  HostingUnitAdd_Click;
                 this.HostZone.LogInButton.Click += HostLogInButton_Click;
 
+
                 this.ManagerZone.tbkEnterMail.Text = "";
                 this.ManagerZone.cbxfilter.Visibility = Visibility.Visible;
+                this.ManagerZone.AddButton.Visibility = Visibility.Collapsed;
                 //this.ManagerZone.cbxfilter.
             }
             catch(Exception e)
@@ -115,10 +117,9 @@ namespace PL
                     Grid.SetRow(hostingUnit, i);
  
                 }
-            }
-
-
+            } 
         }
+
 
     }
 }

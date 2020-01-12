@@ -37,7 +37,7 @@
                 <ColumnDefinition Width="1.5*"/> 
             </Grid.ColumnDefinitions>
             <Button x:Name="updateUnitButton" Content="ערוך" Grid.Column="0"  Margin="5,18" Click="updateUnitButton_Click"/>
-            <Button x:Name="WatchOrdersButton" Content="עבור להזמנות " Grid.Column="1"  Margin="5,18"/>
+            <Button x:Name="WatchOrdersButton" Content="עבור להזמנות " Grid.Column="1"  Margin="5,18" Click="WatchOrdersButton_Click"/>
         </Grid>
        
         
