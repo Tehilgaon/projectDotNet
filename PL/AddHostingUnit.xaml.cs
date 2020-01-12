@@ -18,7 +18,7 @@ namespace PL
     /// <summary>
     /// Interaction logic for AddHostingUnit.xaml
     /// </summary>
-    public partial class AddHostingUnit : Window
+    public partial class AddHostingUnit  
     {
         BL.MyBL bl;
         BE.HostingUnit hostingUnit;

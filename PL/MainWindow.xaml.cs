@@ -20,7 +20,7 @@ namespace PL
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow 
     {
         private MyBL bL;
         List<GuestRequest> guestRequestsList;
@@ -47,6 +47,8 @@ namespace PL
                 this.HostZone.LogInButton.Click += HostLogInButton_Click;
 
                 this.ManagerZone.tbkEnterMail.Text = "";
+                this.ManagerZone.cbxfilter.Visibility = Visibility.Visible;
+                //this.ManagerZone.cbxfilter.
             }
             catch(Exception e)
             {

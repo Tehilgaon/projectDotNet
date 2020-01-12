@@ -19,7 +19,7 @@ namespace PL
     /// <summary>
     /// Interaction logic for AddGuestRequest.xaml
     /// </summary>
-    public partial class AddGuestRequest : Window
+    public partial class AddGuestRequest  
     {
         BL.MyBL bl;
         BE.GuestRequest guestRequest;
@@ -29,7 +29,7 @@ namespace PL
         {
             InitializeComponent();
             bl = MyBL.Instance;
-            cbxArea.ItemsSource = Enum.GetValues(typeof(BE.Enums.Regions));
+            cbxArea.ItemsSource = Enum.GetNames(typeof(BE.Enums.Regions));
             //AreaComboBox.SelectedValue = Enums.Regions.North.ToString();
             cbxsubArea.ItemsSource = Enum.GetValues(typeof(BE.Enums.SubArea));
             cbxHostingType.ItemsSource = Enum.GetValues(typeof(BE.Enums.HostingUnitType));

@@ -1,8 +1,9 @@
-﻿<Window x:Class="PL.AddHostingUnit"
+﻿<controls:MetroWindow x:Class="PL.AddHostingUnit"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="הוספת יחידת אירוח" Height="400" Width="280">
@@ -67,4 +68,4 @@
         </Grid>
         <Button x:Name="UnitButtom" Content="הוסף" HorizontalAlignment="Center" Margin="10"  VerticalAlignment="Bottom" Width="50"  ></Button>
     </Grid>
-</Window>
+ </controls:MetroWindow>

@@ -58,6 +58,12 @@ namespace BE
             באר_שבע,
             אילת
         }
+        public enum dataType
+        {
+            הזמנות,
+            יחידות_אירוח,
+            דרישות_לקוח 
+        }
          
         public enum DataSourseType
         {
