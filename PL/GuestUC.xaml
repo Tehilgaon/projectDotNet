@@ -33,7 +33,8 @@
 
         </Grid>
 
-        <DataGrid Grid.Row="1" x:Name="dataGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FlowDirection="RightToLeft">
+        <DataGrid Grid.Row="1" x:Name="dataGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AutoGenerateColumns="True"  FlowDirection="RightToLeft">
+             
         </DataGrid>
         <Grid x:Name="UnitsGrid" Grid.Row="1" Visibility="Collapsed">
             <Grid.RowDefinitions>

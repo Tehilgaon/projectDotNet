@@ -22,6 +22,7 @@ namespace PL
     {
         BL.MyBL bl;
         BE.HostingUnit hostingUnit;
+        DateTime CurrentDate = DateTime.UtcNow;
         public AddHostingUnit()
         {
             InitializeComponent();

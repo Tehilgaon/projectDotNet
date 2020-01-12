@@ -56,7 +56,7 @@ namespace PL
                 }
                 if(guestRequestsList.Count!=0)
                 {
-                    currentOrders.lbxNewOrders.ItemsSource = guestRequestsList;
+                    currentOrders.NewOrdersGrid.ItemsSource = guestRequestsList;
                 }
                 currentOrders.ShowDialog();
 

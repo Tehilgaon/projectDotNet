@@ -26,6 +26,9 @@ namespace PL
         List<GuestRequest> guestRequestsList;
         List<HostingUnit> hostingUnitsList;
         GuestRequest guestRequest;
+
+        
+
         public MainWindow()
         {
             try
@@ -37,6 +40,7 @@ namespace PL
                 this.GuestZone.AddButton.Click += GuestAddButton_Click;
                 this.GuestZone.dataGrid.MouseDoubleClick += GuestUpdateButton_Click;
                 this.GuestZone.dataGrid.SelectionChanged += Guest_selectionChange;
+                this.GuestZone.dataGrid.AutoGeneratingColumn += Guest_AutoGenerateColumns;   
                 this.GuestZone.LogInButton.Click += GuestLogInButton_Click;
 
 
@@ -45,7 +49,7 @@ namespace PL
                 this.HostZone.AddButton.Content = "הוסף יחידה";
                 this.HostZone.AddButton.Click +=  HostingUnitAdd_Click;
                 this.HostZone.LogInButton.Click += HostLogInButton_Click;
-
+               
 
                 this.ManagerZone.tbkEnterMail.Text = "";
                 this.ManagerZone.cbxfilter.Visibility = Visibility.Visible;
@@ -58,6 +62,63 @@ namespace PL
             }
 
 
+        }
+
+        private void Guest_AutoGenerateColumns(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        { 
+            switch (e.PropertyName)
+            {
+                case "PrivateName":
+                    e.Column.Header = "שם פרטי";
+                    e.Column.IsReadOnly = true;
+                    break;
+             case "FamilyName":
+                    e.Column.Header = "שם משפחה";
+                    e.Column.IsReadOnly = true;
+                    break;
+             case "MailAddress":
+                    e.Column.Header = "כתובת מייל";
+                    e.Column.IsReadOnly = true;
+                    break;
+             case "EntryDate":
+                    e.Column.Header = "תאריך צ'יק-אין";
+                    e.Column.IsReadOnly = true;
+                    break;
+             case "ReleaseDate":
+                    e.Column.Header = "תאריך צ'יק אאוט";
+                    e.Column.IsReadOnly = true;
+                    break;
+             case "Area":
+                    e.Column.Header = "איזור רצוי";
+                    e.Column.IsReadOnly = true;
+                    break;
+             case "SubArea":
+                    e.Column.Header = "איזור רצוי";
+                    e.Column.IsReadOnly = true;
+                    break;
+                case "Type":
+                    e.Column.Header = "סוג אירוח";
+                    e.Column.IsReadOnly = true;
+                    break;
+             case "Adults":
+                    e.Column.Header = "מבוגרים";
+                    e.Column.IsReadOnly = true;
+                    break;
+            case "Children":
+                    e.Column.Header = "ילדים";
+                    e.Column.IsReadOnly = true;
+                    break;
+            case "RegistrationDate":
+                    e.Column.Visibility = Visibility.Collapsed;
+                    break;
+            case "GuestRequestKey":
+                    e.Column.Visibility = Visibility.Collapsed;
+                    break;
+            case "Status":
+                    e.Column.Visibility = Visibility.Collapsed;
+                    break;
+
+            }
         }
 
         private void Guest_selectionChange(object sender, SelectionChangedEventArgs e)
@@ -74,8 +135,7 @@ namespace PL
             }
 
 
-        }
-
+        } 
         private void GuestUpdateButton_Click(object sender, RoutedEventArgs e) 
         {
             new AddGuestRequest(guestRequest).ShowDialog();    
@@ -118,6 +178,10 @@ namespace PL
  
                 }
             } 
+        }
+        private void prepareDataGrid()
+        {
+
         }
 
 

@@ -51,12 +51,12 @@
             <Label Content=" תאריך צ'ק-אין:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
             <DatePicker x:Name="EntryDatePicker" Grid.Column="1" HorizontalAlignment="Center" Margin="3" Grid.Row="3" 
                         SelectedDate="{Binding EntryDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
-                        VerticalAlignment="Center"   />
+                        VerticalAlignment="Center"  DisplayDate="{Binding date, Mode=TwoWay}" IsTodayHighlighted="true" IsDropDownOpen="False"  />
 
             <Label Content="תאריך צ'ק-אאוט:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
             <DatePicker x:Name="ReleaseDatePicker" Grid.Column="1" HorizontalAlignment="Center" Margin="3" Grid.Row="4" 
                         SelectedDate="{Binding ReleaseDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
-                        VerticalAlignment="Center"/>
+                        VerticalAlignment="Center" DisplayDate="{Binding date, Mode=TwoWay}" IsTodayHighlighted="true"  />
 
             <Label Content="אזור נופש:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
             <ComboBox x:Name="cbxArea" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" 
