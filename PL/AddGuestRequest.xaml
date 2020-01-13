@@ -89,15 +89,18 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/> 
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <TextBlock Text="בחר את האפשרויות העדיפות עליך"  FlowDirection="RightToLeft"  TextWrapping="Wrap" Grid.Row="0"/>
-            <CheckBox x:Name="cbxOption" Content="{Binding Options.values }" FlowDirection="RightToLeft" Grid.Row="2">
+            <!--<CheckBox x:Name="cbxOption" Content="{Binding Options.values }" FlowDirection="RightToLeft" Grid.Row="2">
                 <CheckBox.Resources>
                     <Style TargetType="{x:Type Path}">
                         <Setter Property="FlowDirection" Value="LeftToRight" />
                     </Style>
                 </CheckBox.Resources>
-            </CheckBox>
+            </CheckBox>-->
 
         </Grid>
         <Button x:Name="AddGuestButton" Content="הוסף" HorizontalAlignment="Center" Margin="10"  VerticalAlignment="Bottom" Width="50" Click="AddButton_Click"  ></Button>

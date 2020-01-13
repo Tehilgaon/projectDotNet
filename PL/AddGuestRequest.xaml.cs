@@ -34,9 +34,8 @@ namespace PL
             cbxsubArea.ItemsSource = Enum.GetValues(typeof(BE.Enums.SubArea));
             cbxHostingType.ItemsSource = Enum.GetValues(typeof(BE.Enums.HostingUnitType));
             guestRequest = new BE.GuestRequest();
-            DataContext = guestRequest;
-          
-
+            PrepareOptions();
+            DataContext = guestRequest;   
         }
         public AddGuestRequest(GuestRequest request)
         {
@@ -59,7 +58,8 @@ namespace PL
             cbxHostingType.SelectedValue = request.Type;
 
             AddGuestButton.Content = "שמור";
-            AddGuestButton.Click += UpdateButton_Click; 
+            AddGuestButton.Click += UpdateButton_Click;
+            PrepareOptions();
             DataContext = guestRequest;
         }
 
@@ -92,6 +92,26 @@ namespace PL
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+        void PrepareOptions()
+        {
+            int i = 2;
+            foreach (var option in guestRequest.Options)
+            {
+                StackPanel panel = new StackPanel(); 
+                TextBlock text = new TextBlock();
+                CheckBox cbxOption = new CheckBox();
+                //Binding binding = new Binding(option.Key);
+                //cbxOption.SetBinding(CheckBox.ContentProperty ,binding); 
+               //  binding = new Binding( option.Value );
+                //cbxOption.SetBinding(CheckBox.IsCheckedProperty, binding);
+                //panel.Children.Add(cbxOption);
+                //panel.Children.Add(text);
+
+                //grid2.Children.Add(cbxOption);
+                //Grid.SetRow(cbxOption, i++);
+            }
+
         }
 
       

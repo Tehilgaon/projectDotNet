@@ -29,7 +29,7 @@ namespace PL
             bl = MyBL.Instance;
             UnitButtom.Click += AddButton_Click;
             cbxArea.ItemsSource = Enum.GetValues(typeof(BE.Enums.Regions));
-            cbxSubArea.ItemsSource= Enum.GetValues(typeof(BE.Enums.SubArea));
+            //cbxSubArea.ItemsSource= Enum.GetValues(typeof(BE.Enums.SubArea));
             cbxUnitType.ItemsSource = Enum.GetValues(typeof(BE.Enums.HostingUnitType));
             hostingUnit = new HostingUnit();
             DataContext = hostingUnit; 
@@ -44,7 +44,7 @@ namespace PL
              
             tbxEmail.IsEnabled = false;
             cbxArea.IsEnabled = false;
-            cbxSubArea.IsEnabled = false;
+            //cbxSubArea.IsEnabled = false;
             cbxUnitType.IsEnabled = false;
             cbxArea.SelectedItem = hostingUnit.Area;
             DataContext = hostingUnit;

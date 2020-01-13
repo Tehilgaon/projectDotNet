@@ -25,6 +25,7 @@ namespace PL
         private MyBL bL;
         List<GuestRequest> guestRequestsList;
         List<HostingUnit> hostingUnitsList;
+        List<Order> ordersList;
         GuestRequest guestRequest;
 
         
@@ -53,10 +54,11 @@ namespace PL
                 this.HostZone.LogInButton.Click += HostLogInButton_Click;
                
 
-                this.ManagerZone.tbkEnterMail.Text = "";
-                this.ManagerZone.cbxfilter.Visibility = Visibility.Visible;
+                this.ManagerZone.tbkEnterMail.Text = ""; 
                 this.ManagerZone.AddButton.Visibility = Visibility.Collapsed;
-                //this.ManagerZone.cbxfilter.
+                this.ManagerZone.LogInButton.Click += LogInButton_Click;
+                this.ManagerZone.cbxfilter.SelectionChanged += Cbxfilter_SelectionChanged;
+                
             }
             catch(Exception e)
             {
@@ -64,6 +66,12 @@ namespace PL
             }
 
 
+        }
+
+        private void LogInButton_Click(object sender, RoutedEventArgs e)
+        {
+             if(ManagerZone.tbxEnterMail.Text==Configuration.Password.ToString())
+                this.ManagerZone.cbxfilter.Visibility = Visibility.Visible;
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -161,7 +169,11 @@ namespace PL
             if (guestRequestsList.Count == 0)
                 MessageBox.Show("לא נמצאו הזמנות");
             else
-                GuestZone.dataGrid.ItemsSource = guestRequestsList; 
+            {
+                GuestZone.dataGrid.ItemsSource = guestRequestsList;
+                GuestZone.SpLogin.Visibility = Visibility.Collapsed;
+            }
+
         }
 
 
@@ -194,7 +206,26 @@ namespace PL
                 }
             } 
         }
-        
+
+        private void Cbxfilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            switch (((ComboBoxItem)ManagerZone.cbxfilter.SelectedItem).Content.ToString())
+            {
+                case "דרישות לקוח":
+                    guestRequestsList = bL.GetAllGuestRequests();
+                    ManagerZone.dataGrid.ItemsSource = guestRequestsList;
+                    break;
+                case "יחידות אירוח":
+                    hostingUnitsList = bL.getAllHostingUnits();
+                    ManagerZone.dataGrid.ItemsSource = hostingUnitsList;
+                    break;
+                case "הזמנות":
+                    ordersList = bL.getAllOrders();
+                    ManagerZone.dataGrid.ItemsSource = ordersList;
+                    break;
+            }
+        }
+
 
     }
 }

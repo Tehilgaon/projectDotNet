@@ -16,11 +16,11 @@ namespace BE
         private string branchCity;
          
 
-        public int BankNumber { get => bankNumber; }
-        public string BankName { get => bankName; }
-        public int BranchNumber { get => branchNumber; }
-        public string BranchAddress { get => branchAddress; }
-        public string BranchCity { get => branchCity; }
+        public int BankNumber { get => bankNumber; set => bankNumber=value; }
+        public string BankName { get => bankName; set => bankName=value; }
+        public int BranchNumber { get => branchNumber; set => branchNumber=value; }
+        public string BranchAddress { get => branchAddress; set => branchAddress = value; }
+        public string BranchCity { get => branchCity; set => branchCity = value; }
         
         public BankBranch()
         {

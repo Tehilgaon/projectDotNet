@@ -6,9 +6,13 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="הוספת יחידת אירוח" Height="400" Width="280">
-    <Grid Height="370"  VerticalAlignment="Top">
-        <Grid x:Name="grid1" HorizontalAlignment="Center"  Margin="10" VerticalAlignment="Top" FlowDirection="RightToLeft">
+        Title="הוספת יחידת אירוח" Height="400" SizeToContent="WidthAndHeight" >
+    <Grid Height="370"  VerticalAlignment="Top" FlowDirection="RightToLeft">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions> 
+        <Grid x:Name="GrigUnit" HorizontalAlignment="Center" Grid.Column="0" Margin="10" VerticalAlignment="Top" FlowDirection="RightToLeft"> 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
@@ -22,49 +26,103 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                
+            </Grid.RowDefinitions>
+            <Label Content="פרטי יחידה" HorizontalAlignment="left" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontWeight="Bold"   />
+            <Label Content="שם יחידת אירוח:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+            <TextBox x:Name="tbxUnitName" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" 
+                     Text="{Binding HostingUnitName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
+                     VerticalAlignment="Center" Width="120"/>
+ 
+            <Label Content="אזור נופש:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+            <ComboBox x:Name="cbxArea" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" 
+                      SelectedItem="{Binding Area}" Grid.Row="2" VerticalAlignment="Center" Width="120" /> 
+            
+            <Label Content="סוג אירוח:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3,0,0" Grid.Row="3" VerticalAlignment="Top"/>
+            <ComboBox x:Name="cbxUnitType" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" 
+                      SelectedItem="{Binding HostingUnitType}" Grid.Row="3" VerticalAlignment="Center" Width="120"/>
+            <Label Content="אופציות:" HorizontalAlignment="left" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" FontWeight="Bold" />
+
+             
+            
+        </Grid>
+        <Grid x:Name="gridHost" HorizontalAlignment="Center" Grid.Column="1" Margin="10" VerticalAlignment="Top" FlowDirection="RightToLeft">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Label Content="שם יחידת אירוח:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3,0,0" Grid.Row="0" VerticalAlignment="Top"/>
-            <TextBox x:Name="tbxUnitName" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" 
-                     Text="{Binding HostingUnitName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
+            <Label Content="פרטי מארח" HorizontalAlignment="left" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontWeight="Bold" />
+
+            <Label Content="שם פרטי:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+            <TextBox x:Name="tbxPrivaName" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" 
+                     Text="{Binding Host.PrivateName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
                      VerticalAlignment="Center" Width="120"/>
- 
-            <Label Content="אזור נופש:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
-            <ComboBox x:Name="cbxArea" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" 
-                      SelectedItem="{Binding Area}" Grid.Row="1" VerticalAlignment="Center" Width="120" />
-
-            <Label Content="תת-אזור:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
-            <ComboBox x:Name="cbxSubArea" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" 
-                      SelectedItem="{Binding SubArea}" Grid.Row="2" VerticalAlignment="Center" Width="120"/>
-
+            <Label Content="שם משפחה:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+            <TextBox x:Name="tbxFamilyName" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" 
+                     Text="{Binding Host.FamilyName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
+                     VerticalAlignment="Center" Width="120"/>
+            <Label Content="תעודת זהות:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+            <TextBox x:Name="iDHostKey" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" 
+                     Text="{Binding Host.HostKey, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
+                     VerticalAlignment="Center" Width="120"/>
             <Label Content="כתובת מייל:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
             <TextBox x:Name="tbxEmail" Grid.Column="1" HorizontalAlignment="Left" Height="23"  Margin="3" Grid.Row="4" 
                      Text="{Binding Host.MailAddress, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
                      VerticalAlignment="Center" Width="120"/>
+            <Label VerticalAlignment="Center" Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="מספר טלפון:"/>
+            <TextBox x:Name="phoneNumberTextBox" Grid.Column="1" Width="120" VerticalAlignment="Center"
+                     Text="{Binding Host.PhoneNumber, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=true, ValidatesOnExceptions=true}" 
+                     Grid.Row="5" Margin="3" Height="23" HorizontalAlignment="Left" />
+            <Label Content="פרטי בנק" HorizontalAlignment="left" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" FontWeight="Bold"  />
+            <Grid x:Name="GridBank" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/> 
+                </Grid.RowDefinitions>
+                <Label Content="מספר בנק:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3,0,0" Grid.Row="0" VerticalAlignment="Top"/>
+                <TextBox x:Name="tbxBankNum" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" 
+                     Text="{Binding Host.Bankbranch.BankNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
+                     VerticalAlignment="Center" Width="40"/>
+                <Label Content="מספר סניף:" Grid.Column="2" HorizontalAlignment="Left" Margin="3,3,0,0" Grid.Row="0" VerticalAlignment="Top"/>
+                <TextBox x:Name="tbxBranchNum" Grid.Column="3" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" 
+                     Text="{Binding Host.Bankbranch.BranchNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
+                     VerticalAlignment="Center" Width="40"/>
+                <Label Content="מספר חשבון:" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="3,3,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+                <TextBox x:Name="tbxaccountNum" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" 
+                     Text="{Binding Host.BankAccountNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
+                     VerticalAlignment="Center" Width="60"/>
+            </Grid>
+            <CheckBox x:Name="onlyMyGenderCheckBox" Content="" Grid.Column="0" HorizontalAlignment="Left"   
+                      IsChecked="{Binding Host.CollectionClearance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
+                      Margin="0,30,0,0" Grid.Row="8" VerticalAlignment="Center"/>
+            <Label Content="חתימה על הרשאה לחיוב החשבון   " Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Left" Grid.Row="8" VerticalAlignment="Top" Margin="20,30,0,0" />
 
-            <Label Content="שם בעלים:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3,0,0" Grid.Row="5" VerticalAlignment="Top"/>
-            <TextBox x:Name="tbxPrivateName" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="5" 
-                     Text="{Binding Host.PrivateName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
-                     VerticalAlignment="Center" Width="120"/>
-            <Label Content="סוג אירוח:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3,0,0" Grid.Row="6" VerticalAlignment="Top"/>
-            <ComboBox x:Name="cbxUnitType" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" 
-                      SelectedItem="{Binding HostingUnitType}" Grid.Row="6" VerticalAlignment="Center" Width="120"/>
 
-            <!--<Label Content="מבוגרים:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
-            <TextBox x:Name="AdultsTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="6" 
-                     Text="{Binding Adults, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
-                     VerticalAlignment="Center" Width="120"/>
 
-            <Label Content="ילדים:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
-            <TextBox x:Name="ChildrenTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="7" 
-                     Text="{Binding Children, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
-                     VerticalAlignment="Center" Width="120"/>-->
-            
+
         </Grid>
         <Button x:Name="UnitButtom" Content="הוסף" HorizontalAlignment="Center" Margin="10"  VerticalAlignment="Bottom" Width="50"  ></Button>
     </Grid>

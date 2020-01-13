@@ -15,21 +15,32 @@
         <Grid Grid.Row="0"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FlowDirection="RightToLeft">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="250"/>
-                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="300"/> 
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="1" VerticalAlignment="Stretch">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <TextBlock x:Name="tbkEnterMail" Text="התחבר   " HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15"/>
-                <TextBox x:Name="tbxEnterMail"  Grid.Row="1" HorizontalAlignment="Stretch" Margin="5,0,5 ,5" VerticalAlignment="Stretch" />
-            </Grid>
-            <Button x:Name="LogInButton" Content="התחבר"  Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"  />
-            <ComboBox x:Name="cbxfilter" Grid.Column="3" HorizontalAlignment="Right" Height="Auto" Margin="3" 
-                        VerticalAlignment="Top" Width="100" Visibility="Hidden"   SelectedItem="{Binding BE.dataType}" ItemsSource="{Binding}"/>
+            <StackPanel x:Name="SpLogin" Grid.Column="1" VerticalAlignment="Center" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/> 
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="1.5*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="tbkEnterMail" Text="התחבר"  Grid.Column="0" Grid.Row="0" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15"/>
+                <TextBox x:Name="tbxEnterMail"  HorizontalAlignment="Stretch"  Grid.Row="1"   VerticalAlignment="Stretch" />
+                <Button x:Name="LogInButton" Content="התחבר"  Grid.Column="1" Grid.Row="1"   VerticalAlignment="Center" HorizontalAlignment="Center"  />
+                </Grid>
+        </StackPanel>
+             
+             
+            <ComboBox x:Name="cbxfilter" Grid.Column="3" HorizontalAlignment="Right" Width="120"  Margin="0,5,10,0"  VerticalAlignment="Top" Grid.ColumnSpan="2" Visibility="Collapsed">
+                <ComboBoxItem Content="יחידות אירוח" />
+                <ComboBoxItem Content="דרישות לקוח"/>
+                <ComboBoxItem Content="הזמנות"/>
+
+            </ComboBox>
 
         </Grid>
 
