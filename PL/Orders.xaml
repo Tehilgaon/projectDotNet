@@ -15,11 +15,10 @@
             <TabItem x:Name="newOrders" Header="חדש">
                 <StackPanel>
                     <Button  x:Name="buttonCreateOrder" Content="צור" VerticalAlignment="Top" HorizontalAlignment="Right" FlowDirection="RightToLeft" Visibility="Hidden"/>
-                    <DataGrid x:Name="NewOrdersGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0" Height="330"/>
+                    <DataGrid x:Name="NewOrdersGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0" Height="400"/>
                 </StackPanel>
-            </TabItem>
-             
-
+            </TabItem> 
         </TabControl>
+         
     </Grid>
 </controls:MetroWindow>

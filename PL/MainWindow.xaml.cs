@@ -47,6 +47,8 @@ namespace PL
 
                 this.HostZone.tbkEnterMail.Text = "התחבר כבעל יחידת אירוח";
                 this.HostZone.AddButton.Content = "הוסף יחידה";
+                this.HostZone.deleteButton.Visibility = Visibility.Visible;
+                this.HostZone.deleteButton.Click += DeleteButton_Click;
                 this.HostZone.AddButton.Click +=  HostingUnitAdd_Click;
                 this.HostZone.LogInButton.Click += HostLogInButton_Click;
                
@@ -62,6 +64,19 @@ namespace PL
             }
 
 
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("האם אתה בטוח שברצונך למחוק את היחידה",
+            "מחיקת יחידה", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+
+            }
+            else
+            {
+
+            }   
         }
 
         private void Guest_AutoGenerateColumns(object sender, DataGridAutoGeneratingColumnEventArgs e)
@@ -179,11 +194,7 @@ namespace PL
                 }
             } 
         }
-        private void prepareDataGrid()
-        {
-
-        }
-
+        
 
     }
 }

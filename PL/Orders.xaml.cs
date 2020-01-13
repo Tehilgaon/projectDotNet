@@ -24,12 +24,33 @@ namespace PL
         private MyBL bL;
         GuestRequest guestRequest;
         Order currentOrder;
+
+        List<Order> ordersList;
+        List<GuestRequest> guestRequestsList;
+        
+
+
+
+
+        public HostingUnit CurrentHostingUnit { get; set; }
         public Orders()
         {
             InitializeComponent();
             bL = MyBL.Instance;
             NewOrdersGrid.SelectionChanged += LbxNewOrders_SelectionChanged;
             buttonCreateOrder.Click += createOrder_button;
+            
+        }
+
+
+        void updateGrid()
+        { 
+            ordersList = bL.getAllOrders(Item => Item.HostingUnitKey == CurrentHostingUnit.HostingUnitKey); 
+            if (ordersList.Count != 0)
+            {
+                OrdersGrid.ItemsSource = ordersList;
+            }
+            ordersList = bL.getAllOrders(Item => Item.HostingUnitKey == CurrentHostingUnit.HostingUnitKey);     
         }
 
         private void createOrder_button(object sender, RoutedEventArgs e)
@@ -38,10 +59,12 @@ namespace PL
             {
                 currentOrder = new Order();
                 currentOrder.GuestRequestKey = guestRequest.GuestRequestKey;
-                //currentOrder.HostingUnitKey=
+                currentOrder.HostingUnitKey = CurrentHostingUnit.HostingUnitKey;
                 bL.addOrder(currentOrder);
-                DialogResult = true;
+                //DialogResult = true;
+                updateGrid();
                 MessageBox.Show("נוצרה הזמנה עבור" + "  " + guestRequest.ToString());
+                 
             }
             catch (Exception ex)
             {

@@ -47,9 +47,11 @@ namespace PL
             try
             {
                 currentOrders = new Orders();
+                currentOrders.CurrentHostingUnit=this.CurrentHostingUnit;
                 ordersList = bL.getAllOrders(Item => Item.HostingUnitKey == CurrentHostingUnit.HostingUnitKey);
                 guestRequestsList = bL.GetAllGuestRequests(Item => Item.Area == CurrentHostingUnit.Area
-                  && Item.Type == CurrentHostingUnit.HostingUnitType && bL.ifAvailable(CurrentHostingUnit, Item.EntryDate, Item.ReleaseDate) != null);
+                  && Item.Type == CurrentHostingUnit.HostingUnitType &&Item.Status==Enums.GuestRequestStatus.Active.ToString()
+                  && bL.ifAvailable(CurrentHostingUnit, Item.EntryDate, Item.ReleaseDate) != null);
                 if (ordersList.Count != 0)
                 {
                     currentOrders.OrdersGrid.ItemsSource = ordersList;

@@ -51,8 +51,11 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="130"/> 
             </Grid.ColumnDefinitions>
-            <Button x:Name="AddButton"  Grid.Column="1" Content=" הוסף בקשה חדשה" HorizontalAlignment="Center" Margin="10,5"  VerticalAlignment="Stretch" Width="100" ></Button>
+            <Button x:Name="AddButton"  Grid.Column="2" Content=" הוסף בקשה חדשה" HorizontalAlignment="Center" Margin="10,5"  VerticalAlignment="Stretch" Width="100" ></Button>
+            <Button x:Name="deleteButton"  Grid.Column="1" Content="מחק" HorizontalAlignment="Center" Margin="10,5"  VerticalAlignment="Stretch" Width="100" Visibility="Collapsed" ></Button>
+
         </Grid>
 
     </Grid>

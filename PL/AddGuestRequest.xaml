@@ -6,8 +6,8 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="הוספת דרישת לקוח" Height="400"  SizeToContent="Width" >
-    <Grid Height="370"  VerticalAlignment="Bottom" FlowDirection="RightToLeft" >
+        Title="הוספת דרישת לקוח"  SizeToContent="WidthAndHeight" >
+    <Grid Height="250"  VerticalAlignment="Top" FlowDirection="RightToLeft" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
@@ -16,6 +16,8 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/> 
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -38,8 +40,8 @@
                      Text="{Binding PrivateName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
                      VerticalAlignment="Center" Width="120"/>
 
-            <Label Content="שם משפחה:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
-            <TextBox x:Name="tbxFamilyName" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" 
+            <Label Content="שם משפחה:" Grid.Column="2" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <TextBox x:Name="tbxFamilyName" Grid.Column="3" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" 
                      Text="{Binding FamilyName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
                      VerticalAlignment="Center" Width="120"/>
 
@@ -53,8 +55,8 @@
                         SelectedDate="{Binding EntryDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
                         VerticalAlignment="Center"  DisplayDate="{Binding date, Mode=TwoWay}" IsTodayHighlighted="true" IsDropDownOpen="False"  />
 
-            <Label Content="תאריך צ'ק-אאוט:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
-            <DatePicker x:Name="ReleaseDatePicker" Grid.Column="1" HorizontalAlignment="Center" Margin="3" Grid.Row="4" 
+            <Label Content="תאריך צ'ק-אאוט:" Grid.Column="2" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+            <DatePicker x:Name="ReleaseDatePicker" Grid.Column="3" HorizontalAlignment="Center" Margin="3" Grid.Row="3" 
                         SelectedDate="{Binding ReleaseDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
                         VerticalAlignment="Center" DisplayDate="{Binding date, Mode=TwoWay}" IsTodayHighlighted="true"  />
 
@@ -62,9 +64,9 @@
             <ComboBox x:Name="cbxArea" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" 
                       SelectedItem="{Binding Area}" ItemsSource="{Binding}" Grid.Row="5" VerticalAlignment="Center" Width="120" />
 
-            <Label Content="תת-אזור:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
-            <ComboBox x:Name="cbxsubArea" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" 
-                      SelectedItem="{Binding SubArea}" ItemsSource="{Binding}" Grid.Row="6" VerticalAlignment="Center" Width="120"/>
+            <Label Content="תת-אזור:" Grid.Column="2" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
+            <ComboBox x:Name="cbxsubArea" Grid.Column="3" HorizontalAlignment="Left" Height="Auto" Margin="3" 
+                      SelectedItem="{Binding SubArea}" ItemsSource="{Binding}" Grid.Row="5" VerticalAlignment="Center" Width="120"/>
 
             <Label Content="סוג אירוח:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
             <ComboBox x:Name="cbxHostingType" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" 
@@ -75,18 +77,18 @@
                      Text="{Binding Adults, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
                      VerticalAlignment="Center" Width="120"/>
 
-            <Label Content="ילדים:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="9" VerticalAlignment="Center"/>
-            <TextBox x:Name="tbxChildren" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="9" 
+            <Label Content="ילדים:" Grid.Column="2" HorizontalAlignment="Left" Margin="3" Grid.Row="8" VerticalAlignment="Center"/>
+            <TextBox x:Name="tbxChildren" Grid.Column="3" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="8" 
                      Text="{Binding Children, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
                      VerticalAlignment="Center" Width="120"/>
         </Grid>
 
 
-        <Grid x:Name="grid2" Grid.Column="1" Margin="10,30" Width="120"  HorizontalAlignment="Left" VerticalAlignment="Top" FlowDirection="RightToLeft"  Visibility="Collapsed"  >
+        <Grid x:Name="grid2" Grid.Column="1" Margin="10,30" Width="120"  HorizontalAlignment="Left" VerticalAlignment="Top" FlowDirection="RightToLeft"    >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="20"/> 
-                <RowDefinition Height="*"/> 
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <TextBlock Text="בחר את האפשרויות העדיפות עליך"  FlowDirection="RightToLeft"  TextWrapping="Wrap" Grid.Row="0"/>
             <CheckBox x:Name="cbxOption" Content="{Binding Options.values }" FlowDirection="RightToLeft" Grid.Row="2">
