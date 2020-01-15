@@ -126,7 +126,7 @@ namespace BL
             }
             if (oldOrder.OrderStatus==Enums.OrderStatus.Mailed&&order.OrderStatus==Enums.OrderStatus.Closed)
             {
-                hostingUnit.Host.Fee+= DaysBetween(guestRequest.EntryDate, guestRequest.ReleaseDate) * Configuration.Fee;  
+                hostingUnit.Fee+= DaysBetween(guestRequest.EntryDate, guestRequest.ReleaseDate) * Configuration.Fee;  
                 hostingUnit = updateDairy(hostingUnit, guestRequest);
                 updateHostingUnit(hostingUnit);
                 guestRequest.Status = Enums.GuestRequestStatus.NotActive.ToString();
@@ -212,13 +212,15 @@ namespace BL
             while(date.Day!= guestRequest.ReleaseDate.Day)
             {
                 hostingUnit[date] = true;
+                /*if (date.Year==DateTime.Today.Year)
+                    hostingUnit.YearlyOccupied++;
+                else
+                    hostingUnit.YearlyOccupied = 1;*/
                 date = date.AddDays(1);
             }
             return hostingUnit;
         }
-
-
-
+         
         
 
 

@@ -7,6 +7,10 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        
+
+    </Window.Resources>
     <Grid>
         <Button Content="Guest" HorizontalAlignment="Left" Margin="350,100,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Content="Host" HorizontalAlignment="Left" Margin="350,150,0,0" VerticalAlignment="Top" Width="75"/>
@@ -16,13 +20,13 @@
         <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FlowDirection="RightToLeft" TabStripPlacement="Top"  >
             
 
-            <TabItem Header="Guest" Height="30">
+            <TabItem Header="Guest" >
                 <local:GuestUC x:Name="GuestZone" />
             </TabItem>
-            <TabItem Header="Host" Height="30" >
+            <TabItem Header="Host"   >
                 <local:GuestUC x:Name="HostZone"  />
             </TabItem>
-            <TabItem Header=" מנהל אתר" Height="30">
+            <TabItem Header=" מנהל אתר" >
                 <local:GuestUC x:Name="ManagerZone" />
             </TabItem>
 

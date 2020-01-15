@@ -26,7 +26,7 @@ namespace PL
         Order currentOrder;
 
         List<Order> ordersList;
-        List<GuestRequest> guestRequestsList;
+        List<GuestRequest> guestRequestsList=new List<GuestRequest>();
         
 
 
@@ -37,46 +37,105 @@ namespace PL
         {
             InitializeComponent();
             bL = MyBL.Instance;
-            NewOrdersGrid.SelectionChanged += LbxNewOrders_SelectionChanged;
-            buttonCreateOrder.Click += createOrder_button;
-            
+            OrdersGrid.AutoGeneratingColumn += ((MainWindow)System.Windows.Application.Current.MainWindow).OrdersGrid_AutoGeneratingColumn;
+            OrdersGrid.SelectionChanged += OrdersGrid_SelectionChanged;
+            IconMail.Click += IconMail_Click;
+            IconClose.Click += IconClose_Click;
+            tbxSearch.TextChanged += OrderFilter;
+            cbxOrderStatus.SelectionChanged += OrderFilter;
         }
 
+        private void IconClose_Click(object sender, RoutedEventArgs e)
+        {
+            currentOrder.OrderStatus = Enums.OrderStatus.Closed;
+            bL.updateOrder(currentOrder);
+            OrderFilter(this, new RoutedEventArgs());
+        }
+    
+         
+        private void OrdersGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.OriginalSource != null)
+            {
+                Type type = e.OriginalSource.GetType();
+                if (type == typeof(DataGrid))
+                {
+                    currentOrder = (sender as DataGrid).SelectedItem as Order;
+                    if (currentOrder != null)
+                    {
+                        IconMail.IsEnabled = false;
+                        IconClose.IsEnabled = false;
+                        if(currentOrder.OrderStatus == Enums.OrderStatus.NotMailed) 
+                            IconMail.IsEnabled = true;
+                        if (currentOrder.OrderStatus == Enums.OrderStatus.Mailed)
+                        {
+                            IconClose.IsEnabled = true;
+                        }
+                    }
+                }
+            }
+            
+            
+        }
+  
+        private void IconMail_Click(object sender, RoutedEventArgs e)
+        {
+            IconMail.IsEnabled = false;
+            currentOrder.OrderStatus = Enums.OrderStatus.Mailed;
+            currentOrder.OrderDate = DateTime.Now;
+            bL.updateOrder(currentOrder); 
+            OrderFilter(this, new RoutedEventArgs()); 
+           }
 
         void updateGrid()
         { 
             ordersList = bL.getAllOrders(Item => Item.HostingUnitKey == CurrentHostingUnit.HostingUnitKey); 
-            if (ordersList.Count != 0)
+            if (ordersList.Count != 0) { OrdersGrid.ItemsSource = ordersList; }
+            List<GuestRequest> NewGuestRequests = bL.GetAllGuestRequests(Item => Item.Area == CurrentHostingUnit.Area
+                    && Item.Type == CurrentHostingUnit.HostingUnitType && Item.Status == Enums.GuestRequestStatus.Active.ToString()
+                    && bL.ifAvailable(CurrentHostingUnit, Item.EntryDate, Item.ReleaseDate) != null  /*guestRequestsList.Contains(Item) == false*/);
+            foreach(var Item in NewGuestRequests)
             {
-                OrdersGrid.ItemsSource = ordersList;
+                guestRequestsList.Add(Item);
             }
-            ordersList = bL.getAllOrders(Item => Item.HostingUnitKey == CurrentHostingUnit.HostingUnitKey);     
+            guestRequestsList.Remove(guestRequest);
+            //NewOrdersGrid.Columns.Clear();
+     
         }
 
         private void createOrder_button(object sender, RoutedEventArgs e)
         {
             try
             {
-                currentOrder = new Order();
-                currentOrder.GuestRequestKey = guestRequest.GuestRequestKey;
-                currentOrder.HostingUnitKey = CurrentHostingUnit.HostingUnitKey;
-                bL.addOrder(currentOrder);
-                //DialogResult = true;
-                updateGrid();
-                MessageBox.Show("נוצרה הזמנה עבור" + "  " + guestRequest.ToString());
-                 
+                ((MainWindow)System.Windows.Application.Current.MainWindow).creatOrder(guestRequest, CurrentHostingUnit);  
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             } 
-        } 
-        private void LbxNewOrders_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        }
+        public void OrderFilter(object sender, RoutedEventArgs e)
         {
-            guestRequest= (sender as DataGrid).SelectedItem as GuestRequest;
-            buttonCreateOrder.Visibility = Visibility.Visible;
+            string orderStatus = null;
+            string text = tbxSearch.Text;
+            if (cbxOrderStatus.SelectedItem != null)
+                orderStatus = ((ComboBoxItem)cbxOrderStatus.SelectedItem).Content.ToString();
+            try
+            {
+                ordersList = bL.getAllOrders(item => item.HostingUnitKey == CurrentHostingUnit.HostingUnitKey &&
+                (item.OrderStatus.ToString().Contains(text) || item.OrderKey.Contains(text)) && (item.OrderStatus.ToString() == orderStatus || orderStatus == null||orderStatus=="All"));
+                OrdersGrid.ItemsSource = ordersList;    
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "לא נמצאו הזמנות", MessageBoxButton.OK,
+                                MessageBoxImage.Error, MessageBoxResult.Cancel, MessageBoxOptions.RightAlign);
+            }
+
+
 
         }
+
 
     }
 }

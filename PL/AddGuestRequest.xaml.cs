@@ -29,12 +29,10 @@ namespace PL
         {
             InitializeComponent();
             bl = MyBL.Instance;
-            cbxArea.ItemsSource = Enum.GetNames(typeof(BE.Enums.Regions));
-            //AreaComboBox.SelectedValue = Enums.Regions.North.ToString();
+            cbxArea.ItemsSource = Enum.GetNames(typeof(BE.Enums.Regions));  
             cbxsubArea.ItemsSource = Enum.GetValues(typeof(BE.Enums.SubArea));
             cbxHostingType.ItemsSource = Enum.GetValues(typeof(BE.Enums.HostingUnitType));
-            guestRequest = new BE.GuestRequest();
-            PrepareOptions();
+            guestRequest = new BE.GuestRequest(); 
             DataContext = guestRequest;   
         }
         public AddGuestRequest(GuestRequest request)
@@ -49,17 +47,17 @@ namespace PL
             cbxsubArea.IsEnabled = false;
             cbxHostingType.IsEnabled = false;
 
-            cbxArea.ItemsSource = Enum.GetValues(typeof(BE.Enums.Regions));
-            cbxsubArea.ItemsSource = Enum.GetValues(typeof(BE.Enums.SubArea));
-            cbxHostingType.ItemsSource = Enum.GetValues(typeof(BE.Enums.HostingUnitType));
+            this.cbxArea.ItemsSource = Enum.GetValues(typeof(BE.Enums.Regions));
+            this.cbxsubArea.ItemsSource = Enum.GetValues(typeof(BE.Enums.SubArea));
+            this.cbxHostingType.ItemsSource = Enum.GetValues(typeof(BE.Enums.HostingUnitType));
 
-            cbxArea.SelectedItem = request.Area;
-            cbxsubArea.SelectedValue = request.SubArea;
-            cbxHostingType.SelectedValue = request.Type;
+            this.cbxArea.SelectedItem = request.Area;
+            this.cbxsubArea.SelectedValue = request.SubArea;
+            this.cbxHostingType.SelectedValue = request.Type;
 
             AddGuestButton.Content = "שמור";
             AddGuestButton.Click += UpdateButton_Click;
-            PrepareOptions();
+            
             DataContext = guestRequest;
         }
 
@@ -70,6 +68,7 @@ namespace PL
             try
             {
                 bl.addGuestRequest(guestRequest);
+                ((MainWindow)System.Windows.Application.Current.MainWindow).GuestFilter(this, new RoutedEventArgs());
                 DialogResult = true;
                 this.Close();
             }
@@ -93,26 +92,9 @@ namespace PL
                 MessageBox.Show(ex.Message);
             }
         }
-        void PrepareOptions()
-        {
-            int i = 2;
-            foreach (var option in guestRequest.Options)
-            {
-                StackPanel panel = new StackPanel(); 
-                TextBlock text = new TextBlock();
-                CheckBox cbxOption = new CheckBox();
-                //Binding binding = new Binding(option.Key);
-                //cbxOption.SetBinding(CheckBox.ContentProperty ,binding); 
-               //  binding = new Binding( option.Value );
-                //cbxOption.SetBinding(CheckBox.IsCheckedProperty, binding);
-                //panel.Children.Add(cbxOption);
-                //panel.Children.Add(text);
+        
 
-                //grid2.Children.Add(cbxOption);
-                //Grid.SetRow(cbxOption, i++);
-            }
-
-        }
+         
 
       
     }

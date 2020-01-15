@@ -19,7 +19,8 @@ namespace BE
         private BankBranch bankBranch;
         private string bankAccountNumber;
         private bool collectionClearance;
-        private double fee;
+         
+
 
         public string HostKey { get => hostKey; set => hostKey = value; }
         public string PrivateName
@@ -34,17 +35,22 @@ namespace BE
             }
         }
         public string FamilyName { get => familyName; set => familyName = value; }
-        public string PhoneNumber { get => phoneNumber;
-            set 
+        public string PhoneNumber
+        {
+            get => phoneNumber;
+            set
             {
-                Regex r = new Regex("(^05(0|[2-9])-?[0-9]{7}$)|(^0(2|3|4|7|8|9)-?[0-9]{7}$)" );
+                Regex r = new Regex("(^05(0|[2-9])-?[0-9]{7}$)|(^0(2|3|4|7|8|9)-?[0-9]{7}$)");
                 if (!r.IsMatch(value))
                     throw new Exception("Phone number is incorrect.");
                 phoneNumber = value;
             }
         }
-        public string MailAddress { get => mailAddress;
-            set {
+        public string MailAddress
+        {
+            get => mailAddress;
+            set
+            {
                 try
                 {
                     MailAddress m = new MailAddress(value);
@@ -58,30 +64,31 @@ namespace BE
         public string BankAccountNumber
         {
             get => bankAccountNumber;
-            set {
+            set
+            {
                 Regex r = new Regex("^[0-9]{6}$");
                 if (!r.IsMatch(value))
-                    throw new Exception("incorrect number account."); 
-                bankAccountNumber = value; 
+                    throw new Exception("incorrect number account.");
+                bankAccountNumber = value;
             }
         }
-        public double Fee { get => fee; set => fee = value; }
-        
+        public double Fee { get; set; }
+      
 
         public Host()
         {
             Bankbranch = new BankBranch();
         }
 
-         
+
 
         public override string ToString()
         {
             return ",  מספר תעודת זהות:" + hostKey + ",  שם פרטי:" + PrivateName + ",  שם משפחה:"
-                + familyName + ",  מספר טלפון:" + phoneNumber + ",  כתובת מייל:" + mailAddress + 
-                ",  פרטי סניף בנק:" + Bankbranch + ",  מספר חשבון בנק:" + bankAccountNumber +  ",  עמלה" + Fee; ;
+                + familyName + ",  מספר טלפון:" + phoneNumber + ",  כתובת מייל:" + mailAddress +
+                ",  פרטי סניף בנק:" + Bankbranch + ",  מספר חשבון בנק:" + bankAccountNumber + ",  עמלה" + Fee; ;
         }
 
-         
+
     }
 }

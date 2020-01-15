@@ -43,9 +43,14 @@ namespace PL
             UnitButtom.Click += UpdateButton_Click;
              
             tbxEmail.IsEnabled = false;
-            cbxArea.IsEnabled = false;
-            //cbxSubArea.IsEnabled = false;
+            cbxArea.IsEnabled = false; 
             cbxUnitType.IsEnabled = false;
+            tbxEmail.IsEnabled = false;
+            tbxBankNum.IsEnabled = false;
+            tbxBranchNum.IsEnabled = false;
+            tbxaccountNum.IsEnabled = false;
+            iDHostKey.IsEnabled = false;
+
             cbxArea.SelectedItem = hostingUnit.Area;
             DataContext = hostingUnit;
 

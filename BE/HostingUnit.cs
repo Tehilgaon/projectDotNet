@@ -23,6 +23,9 @@ namespace BE
         private bool jacuzzi;
         private bool garden;
         private bool childrensAttractions;
+        private double fee;
+        private int yearlyOccupied;
+
 
         //private string review;
         //facilities
@@ -54,6 +57,8 @@ namespace BE
         public string HostingUnitType { get => hostingUnitType; set => hostingUnitType = value; }
         public string Area { get => area; set => area = value; }
         public string SubArea { get => subArea; set => subArea = value; }
+        public double Fee { get => fee; set => fee = value; }
+        public int YearlyOccupied { get => yearlyOccupied; set => yearlyOccupied = value; }
 
         public HostingUnit() 
         {

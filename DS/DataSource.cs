@@ -73,7 +73,7 @@ namespace DS
             {
                  PrivateName="yaya",
                  FamilyName="haddad",
-                 MailAddress="ya123@gmail.com",
+                 MailAddress="rut@gmail.com",
                  EntryDate=new DateTime(2020,2,3),
                  ReleaseDate=new DateTime(2020,2,10), 
                  Area=Enums.Regions.צפון.ToString(),
@@ -86,7 +86,7 @@ namespace DS
             {
                  PrivateName="yossi",
                  FamilyName="jossef",
-                 MailAddress="jossef@gmail.com",
+                 MailAddress="rut@gmail.com",
                  EntryDate=new DateTime(2020,3,3),
                  ReleaseDate=new DateTime(2020,3,6),
                  Area=Enums.Regions.ירושלים.ToString(),
@@ -99,7 +99,7 @@ namespace DS
             {
                  PrivateName="rut",
                  FamilyName="dahan",
-                 MailAddress="rutt@gmail.com",
+                 MailAddress="rut@gmail.com",
                  EntryDate=new DateTime(2020,3,3),
                  ReleaseDate=new DateTime(2020,3,6),
                  Area=Enums.Regions.צפון.ToString(),
