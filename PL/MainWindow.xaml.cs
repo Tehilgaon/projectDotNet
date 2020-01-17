@@ -23,9 +23,11 @@ namespace PL
     public partial class MainWindow
     {
         private MyBL bL;
+
         List<GuestRequest> guestRequestsList;
         List<HostingUnit> hostingUnitsList;
         List<Order> ordersList;
+
         GuestRequest guestRequest;
         HostingUnit hostingUnit;
         Order order;
@@ -34,7 +36,10 @@ namespace PL
         List<HostingUnit> MgHostingUnitsList;
         List<Order> MgOrdersList;
 
+        public string guestMail, hostMail;
 
+        public GuestRequest GuestRequest { get; set; }
+        public HostingUnit HostingUnit { get; set; }
 
         public MainWindow()
         {
@@ -54,14 +59,16 @@ namespace PL
         private void Guest_Zone()
         {
             this.GuestZone.tbkEnterMail.Text = "התחבר כאורח";
+            this.GuestZone.AddButton.Content = "הוסף בקשה";
             this.GuestZone.AddButton.Click += GuestAddButton_Click;
             this.GuestZone.LogInButton.Click += GuestLogInButton_Click;
             this.GuestZone.dataGrid.SelectionChanged += Guest_selectionChange;
-            this.GuestZone.dataGrid.MouseDoubleClick += GuestUpdateButton_Click; 
+            this.GuestZone.dataGrid.MouseDoubleClick += GuestUpdateButton_Click;
             this.GuestZone.dataGrid.AutoGeneratingColumn += Guest_AutoGenerateColumns;
             this.GuestZone.tbxSearch.TextChanged += GuestFilter;
             this.GuestZone.cbxNewOld.SelectionChanged += GuestFilter;
-            
+            this.GuestZone.LogoutButton.Click += GuestLogoutButton_Click;
+
         }
          
         private void Host_Zone()
@@ -73,10 +80,14 @@ namespace PL
             this.HostZone.deleteButton.Click += HostingUnitDeleteButton_Click;
             this.HostZone.AddButton.Click += HostingUnitAdd_Click;
             this.HostZone.LogInButton.Click += HostLogInButton_Click;
-            this.HostZone.updateButton.Click += updateUnitButton_Click;
+            this.HostZone.updateButton.Click += UnitUpdateButton_Click;
             this.HostZone.watchOrdersButton.Click += WatchOrdersButton_Click;
-
+            this.HostZone.dataGrid.MouseDoubleClick +=UnitUpdateButton_Click;
+            this.HostZone.LogoutButton.Click += HostLogoutButton_Click;
         }
+
+        
+
         private void Manager_Zone()
         {
             this.ManagerZone.tbkEnterMail.Text = "";
@@ -86,16 +97,9 @@ namespace PL
             this.ManagerZone.dataGrid.AutoGeneratingColumn += DataGrid_AutoGeneratingColumn;
         }
 
-       
-
-       
-
-
-
-
-
-
         
+        
+     
 
         #region GuestZone
         private void Guest_selectionChange(object sender, SelectionChangedEventArgs e)
@@ -104,26 +108,32 @@ namespace PL
             {
                 Type type = e.OriginalSource.GetType();
                 if (type == typeof(DataGrid))
-                    guestRequest = (sender as DataGrid).SelectedItem as GuestRequest; 
+                    GuestRequest = (sender as DataGrid).SelectedItem as GuestRequest; 
             }
 
         } 
         private void GuestAddButton_Click(object sender, RoutedEventArgs e)
-        {
+        { 
             if (new AddGuestRequest().ShowDialog() == true) 
                 MessageBox.Show("בקשתך נוספה");
                   
         }
         private void GuestUpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            new AddGuestRequest(guestRequest).ShowDialog();
+            new AddGuestRequest(GuestRequest).ShowDialog();
         }
 
         private void GuestLogInButton_Click(object sender, RoutedEventArgs e)
         {
-            GuestZone.spFilter.Visibility = Visibility.Visible;
+            guestMail = this.GuestZone.tbxEnterMail.Text;
             GuestFilter(this, new RoutedEventArgs());
-
+            if (guestRequestsList.Count != 0)
+                logIn(this.GuestZone);             
+        }
+        private void GuestLogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            guestMail = null;
+            logOut(this.GuestZone);
         }
 
         #endregion
@@ -131,30 +141,28 @@ namespace PL
         #region HostZone
         private void HostingUnitAdd_Click(object sender, RoutedEventArgs e)
         {
-            if (new AddHostingUnit().ShowDialog() == true)
-            {
+            if (new AddHostingUnit().ShowDialog() == true) 
                 MessageBox.Show("היחידה נוספה בהצלחה");
-            }
-
-            else
-                MessageBox.Show("no");
+      
         }
         private void HostLogInButton_Click(object sender, RoutedEventArgs e)
         {
-                HostZone.dataGrid.Visibility = Visibility.Visible;
-                HostingUnitFilter(this, new RoutedEventArgs());
-            
+            hostMail = this.HostZone.tbxEnterMail.Text;
+            HostingUnitFilter(this, new RoutedEventArgs());
+            if (hostingUnitsList.Count != 0)
+                logIn(this.HostZone);
         }
         private void Unit_selectionChange(object sender, SelectionChangedEventArgs e)
         { 
-            hostingUnit = (sender as DataGrid).SelectedItem as HostingUnit;
-            this.HostZone.deleteButton.Visibility = Visibility.Visible;
-            this.HostZone.updateButton.Visibility = Visibility.Visible;
-            this.HostZone.watchOrdersButton.Visibility = Visibility.Visible;
+            HostingUnit = (sender as DataGrid).SelectedItem as HostingUnit;
+            if (HostingUnit != null)
+                this.HostZone.spUnitbuttons.Visibility = Visibility.Visible;
+            else
+                this.HostZone.spUnitbuttons.Visibility = Visibility.Collapsed;
         }
-        private void updateUnitButton_Click(object sender, RoutedEventArgs e)
+        private void UnitUpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            if (new AddHostingUnit(hostingUnit).ShowDialog() == true)
+            if (new AddHostingUnit(HostingUnit).ShowDialog() == true)
                 MessageBox.Show("פרטי יחידה עודכנו בהצלחה");
 
         }
@@ -163,15 +171,15 @@ namespace PL
             try
             {
                 Orders WindOrder = new Orders();
-                WindOrder.CurrentHostingUnit = hostingUnit;
-                guestRequestsList = bL.GetAllGuestRequests(Item => Item.Area == hostingUnit.Area
-                 && Item.Type == hostingUnit.HostingUnitType && Item.Status == Enums.GuestRequestStatus.Active.ToString()
-                 && bL.ifAvailable(hostingUnit, Item.EntryDate, Item.ReleaseDate) != null);
+                WindOrder.CurrentHostingUnit = HostingUnit;
+                guestRequestsList = bL.GetAllGuestRequests(Item => Item.Area == HostingUnit.Area
+                 && Item.Type == HostingUnit.HostingUnitType && Item.Status == Enums.GuestRequestStatus.Active.ToString()
+                 && bL.ifAvailable(HostingUnit, Item.EntryDate, Item.ReleaseDate) != null);
                 foreach (var item in guestRequestsList)
                 {
-                    creatOrder(item, hostingUnit);
+                    creatOrder(item, HostingUnit);
                 }
-                ordersList = bL.getAllOrders(Item => Item.HostingUnitKey == hostingUnit.HostingUnitKey);
+                ordersList = bL.getAllOrders(Item => Item.HostingUnitKey == HostingUnit.HostingUnitKey);
                 if (ordersList.Count != 0)
                 {
                     WindOrder.OrdersGrid.ItemsSource = ordersList;
@@ -191,6 +199,7 @@ namespace PL
                 order = new Order();
                 order.GuestRequestKey = guestRequest.GuestRequestKey;
                 order.HostingUnitKey = hostingUnit.HostingUnitKey;
+                order.GuestMail = guestRequest.MailAddress;
                 bL.addOrder(order);
             }
         }
@@ -202,7 +211,7 @@ namespace PL
                 if (MessageBox.Show("האם אתה בטוח שברצונך למחוק את היחידה",
                 "מחיקת יחידה", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    bL.deleteHostingUnit(hostingUnit);
+                    bL.deleteHostingUnit(HostingUnit);
                     HostingUnitFilter(this, new RoutedEventArgs());
                     this.HostZone.deleteButton.Visibility = Visibility.Collapsed;
                     this.HostZone.updateButton.Visibility = Visibility.Collapsed;
@@ -214,19 +223,24 @@ namespace PL
                 MessageBox.Show(ex.Message);
             }
         }
+        private void HostLogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            hostMail = null;
+            logOut(this.HostZone);
+        }
 
         #endregion
 
         #region ManagerZone
         private void Cbxfilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+          
             switch (((ComboBoxItem)ManagerZone.cbxfilter.SelectedItem).Content.ToString())
             {
                  
                 case "דרישות לקוח":   
                     MgGuestRequestsList = bL.GetAllGuestRequests();
-                    ManagerZone.dataGrid.ItemsSource = MgGuestRequestsList;
+                    ManagerZone.dataGrid.ItemsSource = MgGuestRequestsList; 
                     break;
                 case "יחידות אירוח":
                     MgHostingUnitsList = bL.getAllHostingUnits();  
@@ -236,8 +250,9 @@ namespace PL
                     MgOrdersList = bL.getAllOrders(); 
                     ManagerZone.dataGrid.ItemsSource = MgOrdersList;
                     break;
-
-                   
+                default:
+                    
+                    break;
                     
             }
         }
@@ -252,15 +267,18 @@ namespace PL
                 case "יחידות אירוח":
                     HostingUnit_AutoGenerateColumns(sender, e);
                     break;
-                default:
-                    OrdersGrid_AutoGeneratingColumn(sender, e);
+                case "הזמנות":
+                     OrdersGrid_AutoGeneratingColumn(sender, e);
+                    break;
+                default: 
                     break;
             }
         }
         private void ManagerLogInButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ManagerZone.tbxEnterMail.Text == Configuration.Password.ToString())
-                this.ManagerZone.cbxfilter.Visibility = Visibility.Visible;
+
+            if (ManagerZone.tbxEnterMail.Text == Configuration.Mng.ToString())
+                this.ManagerZone.cbxfilter.Visibility =ManagerZone.dataGrid.Visibility = Visibility.Visible; 
         }
 
         #endregion
@@ -289,6 +307,9 @@ namespace PL
                     break;
                 case "GuestRequestKey":
                     e.Column.Visibility = Visibility.Collapsed;
+                    break;
+                case "GuestMail":
+                    e.Column.Header = "מייל הלקוח";
                     break;
             }
         }
@@ -375,7 +396,7 @@ namespace PL
                  newOld = ((ComboBoxItem)GuestZone.cbxNewOld.SelectedItem).Content.ToString();   
             try
             {
-                guestRequestsList =  bL.GetAllGuestRequests(Item => Item.MailAddress == GuestZone.tbxEnterMail.Text &&
+                guestRequestsList =  bL.GetAllGuestRequests(Item => Item.MailAddress == guestMail &&
                 (Item.PrivateName.Contains(text)||Item.FamilyName.Contains(text))).ToList(); 
                 if (newOld != null)
                 {
@@ -383,6 +404,7 @@ namespace PL
                     if (newOld == "מהישן לחדש")
                         guestRequestsList.Reverse();
                 }
+               
                 this.GuestZone.dataGrid.ItemsSource = guestRequestsList;
             }
             catch (Exception ex)
@@ -396,8 +418,9 @@ namespace PL
         { 
             try
             {
-                hostingUnitsList = bL.getAllHostingUnits(Item => Item.Host.MailAddress == HostZone.tbxEnterMail.Text);
-                this.HostZone.dataGrid.ItemsSource = hostingUnitsList;
+                hostingUnitsList = bL.getAllHostingUnits(Item => Item.Host.MailAddress == hostMail);
+                
+                this.HostZone.dataGrid.ItemsSource = hostingUnitsList;  
             }
             catch (Exception ex)
             {
@@ -406,8 +429,20 @@ namespace PL
             }
 
         }
-
-
+        private void logOut(GuestUC zone)
+        {
+            zone.dataGrid.ItemsSource = null;
+            zone.dataGrid.Columns.Clear();
+            zone.SpLogin.Visibility = Visibility.Visible;
+            zone.LogoutButton.Visibility = zone.dataGrid.Visibility=zone.spFilter.Visibility=Visibility.Collapsed;
+            
+        }
+        private void logIn(GuestUC zone)
+        {
+            zone.spFilter.Visibility = zone.dataGrid.Visibility = zone.LogoutButton.Visibility = Visibility.Visible;
+            zone.tbxEnterMail.Clear();
+            zone.SpLogin.Visibility = Visibility.Collapsed;
+        }
 
 
 

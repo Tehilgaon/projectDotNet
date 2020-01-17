@@ -15,14 +15,15 @@ namespace BE
         private Enums.OrderStatus orderStatus;
         private DateTime createDate;
         private DateTime orderDate;
+        private string guestMail;
 
         public string HostingUnitKey { get => hostingUnitKey; set => hostingUnitKey = value; }
         public string GuestRequestKey { get => guestRequestKey; set => guestRequestKey = value; }
         public string OrderKey { get => orderKey; }
         public DateTime CreateDate { get => createDate; }
-        public DateTime OrderDate { get => orderDate; set => orderDate = value; }
+        public DateTime OrderDate { get => orderDate ; set => orderDate = value; }
         public Enums.OrderStatus OrderStatus { get => orderStatus; set => orderStatus = value; }
-      
+        public string GuestMail { get => guestMail; set => guestMail = value; }
 
         public override string ToString()
         {

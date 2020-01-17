@@ -24,6 +24,8 @@ namespace PL
         BL.MyBL bl;
         BE.GuestRequest guestRequest;
         DateTime date=DateTime.Now;
+        List<CheckBox> CheckBoxOptions;
+        
 
         public AddGuestRequest()
         {
@@ -33,32 +35,37 @@ namespace PL
             cbxsubArea.ItemsSource = Enum.GetValues(typeof(BE.Enums.SubArea));
             cbxHostingType.ItemsSource = Enum.GetValues(typeof(BE.Enums.HostingUnitType));
             guestRequest = new BE.GuestRequest(); 
-            DataContext = guestRequest;   
+            Options();
+            newOfSameGuest();
+            DataContext = guestRequest; 
         }
         public AddGuestRequest(GuestRequest request)
         {
-            InitializeComponent();
-            bl = MyBL.Instance;  
-            guestRequest = request;
-            tbxPrivateName.IsEnabled = false;
-            tbxFamilyName.IsEnabled = false;
-            tbxEmail.IsEnabled = false;
-            cbxArea.IsEnabled = false;
-            cbxsubArea.IsEnabled = false;
-            cbxHostingType.IsEnabled = false;
+            if (request != null)
+            {
+                InitializeComponent();
+                bl = MyBL.Instance;
+                guestRequest = request;
+                this.Title = "עידכון בקשה";
+                this.cbxArea.ItemsSource = Enum.GetNames(typeof(BE.Enums.Regions));
+                this.cbxsubArea.ItemsSource = Enum.GetNames(typeof(BE.Enums.SubArea));
+                this.cbxHostingType.ItemsSource = Enum.GetNames(typeof(BE.Enums.HostingUnitType));
+                Options();
+                tbxPrivateName.IsEnabled = false;
+                tbxFamilyName.IsEnabled = false;
+                tbxEmail.IsEnabled = false;
+                cbxArea.IsEnabled = false;
+                cbxsubArea.IsEnabled = false;
+                cbxHostingType.IsEnabled = false;
+                this.cbxArea.SelectedItem = request.Area;
+                this.cbxsubArea.SelectedValue = request.SubArea;
+                this.cbxHostingType.SelectedValue = request.Type;
 
-            this.cbxArea.ItemsSource = Enum.GetValues(typeof(BE.Enums.Regions));
-            this.cbxsubArea.ItemsSource = Enum.GetValues(typeof(BE.Enums.SubArea));
-            this.cbxHostingType.ItemsSource = Enum.GetValues(typeof(BE.Enums.HostingUnitType));
+                AddGuestButton.Content = "שמור";
+                AddGuestButton.Click += UpdateButton_Click;
 
-            this.cbxArea.SelectedItem = request.Area;
-            this.cbxsubArea.SelectedValue = request.SubArea;
-            this.cbxHostingType.SelectedValue = request.Type;
-
-            AddGuestButton.Content = "שמור";
-            AddGuestButton.Click += UpdateButton_Click;
-            
-            DataContext = guestRequest;
+                DataContext = guestRequest;
+            }
         }
 
          
@@ -90,6 +97,40 @@ namespace PL
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        void Options()
+        { 
+            int i = 0;
+            foreach (var key in guestRequest.Options)
+            {
+                CheckBox cbx = new CheckBox
+                {
+                    Content = key.Key,
+                    IsChecked = key.Value
+                };
+                Binding myBinding = new Binding();
+                myBinding.Source = key.Value;
+                myBinding.Path = new PropertyPath("Key");
+                myBinding.Mode = BindingMode.TwoWay;
+                myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                BindingOperations.SetBinding(cbx, CheckBox.IsCheckedProperty, myBinding);  
+                lbOptionList.Children.Add(cbx);
+                Grid.SetRow(cbx, i);
+                 
+                i++; 
+            }
+            
+        }
+        void newOfSameGuest() 
+        {
+            GuestRequest SameGuest = bl.GetAllGuestRequests(Item => Item.MailAddress == ((MainWindow)System.Windows.Application.Current.MainWindow).guestMail).FirstOrDefault();
+            if (SameGuest != null)
+            {
+                guestRequest.PrivateName = SameGuest.PrivateName;
+                guestRequest.FamilyName = SameGuest.FamilyName;
+                guestRequest.MailAddress = SameGuest.MailAddress;
             }
         }
         

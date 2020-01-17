@@ -29,11 +29,40 @@ namespace PL
             bl = MyBL.Instance;
             UnitButtom.Click += AddButton_Click;
             cbxArea.ItemsSource = Enum.GetValues(typeof(BE.Enums.Regions));
-            //cbxSubArea.ItemsSource= Enum.GetValues(typeof(BE.Enums.SubArea));
             cbxUnitType.ItemsSource = Enum.GetValues(typeof(BE.Enums.HostingUnitType));
+            this.cbxBankNum.ItemsSource = from item in bl.GetAllBranches() select item.BankNumber;
+            this.cbxBranchNum.ItemsSource = from item in bl.GetAllBranches() select item.BranchNumber;
+
             hostingUnit = new HostingUnit();
+            newOfSameHost();
             DataContext = hostingUnit; 
         }
+
+        /*private void TbxEmail_LostFocus(object sender, RoutedEventArgs e)
+        {
+            HostingUnit unit = bl.getAllHostingUnits(item => item.Host.MailAddress == (sender as TextBox).Text as string).FirstOrDefault();
+            if (unit != null)
+            {
+                string messegeBody = "?האם אלו פרטיך " + " " + hostingUnit.Host.PrivateName+ " "+hostingUnit.Host.FamilyName;
+                MessageBoxResult result = MessageBox.Show(messegeBody, "זיהוי", MessageBoxButton.YesNo,
+                                                          MessageBoxImage.Question, MessageBoxResult.No, MessageBoxOptions.RightAlign);
+                if (result == MessageBoxResult.Yes)
+                {
+                    Host host = hostingUnit.Host;
+                    tbxPrivateName. = host.PrivateName;
+                    tbxFamilyName.Text = host.FamilyName;
+
+                }
+            }
+
+        }*/
+        void newOfSameHost()
+        {
+            HostingUnit SameHost = bl.getAllHostingUnits(Item => Item.Host.MailAddress == ((MainWindow)System.Windows.Application.Current.MainWindow).hostMail).FirstOrDefault();
+            if (SameHost != null) 
+                hostingUnit.Host = SameHost.Host; 
+        }
+
         public AddHostingUnit(HostingUnit unit)
         {
             InitializeComponent();
@@ -41,13 +70,17 @@ namespace PL
             hostingUnit = unit;
             UnitButtom.Content = "שמור";
             UnitButtom.Click += UpdateButton_Click;
-             
+
+            this.cbxArea.ItemsSource = Enum.GetNames(typeof(BE.Enums.Regions));
+            this.cbxUnitType.ItemsSource = Enum.GetNames(typeof(BE.Enums.HostingUnitType));
+            this.cbxBankNum.ItemsSource = from item in bl.GetAllBranches() select item.BankNumber;
+            this.cbxBranchNum.ItemsSource = from item in bl.GetAllBranches() select item.BranchNumber;
             tbxEmail.IsEnabled = false;
             cbxArea.IsEnabled = false; 
             cbxUnitType.IsEnabled = false;
             tbxEmail.IsEnabled = false;
-            tbxBankNum.IsEnabled = false;
-            tbxBranchNum.IsEnabled = false;
+            cbxBankNum.IsEnabled = false;
+            cbxBranchNum.IsEnabled = false;
             tbxaccountNum.IsEnabled = false;
             iDHostKey.IsEnabled = false;
 

@@ -85,24 +85,9 @@ namespace PL
             currentOrder.OrderDate = DateTime.Now;
             bL.updateOrder(currentOrder); 
             OrderFilter(this, new RoutedEventArgs()); 
-           }
-
-        void updateGrid()
-        { 
-            ordersList = bL.getAllOrders(Item => Item.HostingUnitKey == CurrentHostingUnit.HostingUnitKey); 
-            if (ordersList.Count != 0) { OrdersGrid.ItemsSource = ordersList; }
-            List<GuestRequest> NewGuestRequests = bL.GetAllGuestRequests(Item => Item.Area == CurrentHostingUnit.Area
-                    && Item.Type == CurrentHostingUnit.HostingUnitType && Item.Status == Enums.GuestRequestStatus.Active.ToString()
-                    && bL.ifAvailable(CurrentHostingUnit, Item.EntryDate, Item.ReleaseDate) != null  /*guestRequestsList.Contains(Item) == false*/);
-            foreach(var Item in NewGuestRequests)
-            {
-                guestRequestsList.Add(Item);
-            }
-            guestRequestsList.Remove(guestRequest);
-            //NewOrdersGrid.Columns.Clear();
-     
         }
 
+        
         private void createOrder_button(object sender, RoutedEventArgs e)
         {
             try
@@ -124,7 +109,9 @@ namespace PL
             {
                 ordersList = bL.getAllOrders(item => item.HostingUnitKey == CurrentHostingUnit.HostingUnitKey &&
                 (item.OrderStatus.ToString().Contains(text) || item.OrderKey.Contains(text)) && (item.OrderStatus.ToString() == orderStatus || orderStatus == null||orderStatus=="All"));
-                OrdersGrid.ItemsSource = ordersList;    
+                
+                OrdersGrid.ItemsSource = ordersList;
+                
             }
             catch (Exception ex)
             {

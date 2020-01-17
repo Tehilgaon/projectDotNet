@@ -29,9 +29,9 @@ namespace BE
         //private bool garden;
         //private bool childrensAttractions;
         Dictionary<string, bool> options;
-          
 
-        
+
+
         public string PrivateName { get => privateName;
             set
             {
@@ -48,7 +48,7 @@ namespace BE
                 if (!r.IsMatch(value))
                     throw new Exception("Name should contain only letters, Between 2-15.");
                 familyName = value;
-            } 
+            }
         }
         public string MailAddress { get => mailAddress;
             set
@@ -59,12 +59,31 @@ namespace BE
                 }
                 catch (Exception) { throw new Exception("Invalid email address."); }
                 mailAddress = value;
-            } 
+            }
         }
-        public DateTime RegistrationDate { get;}
-        public DateTime EntryDate { get => entryDate; set => entryDate=value; }
-        public DateTime ReleaseDate { get => releaseDate; set => releaseDate=value; }
-         
+        public DateTime RegistrationDate { get; }
+        public DateTime EntryDate
+        {
+            get => entryDate;
+            set
+            {
+                if (value < DateTime.Now)
+                    throw new Exception("תאריך לא תקין");
+                entryDate = value;
+            }
+        }
+        public DateTime ReleaseDate
+        {
+            get => releaseDate;
+            set
+            {
+                if (value < DateTime.Now)
+                    throw new Exception("תאריך לא תקין");
+                releaseDate = value;
+            }
+        }
+       
+     
         public string GuestRequestKey { get => guestRequestKey; set => guestRequestKey = value; }
         public string Area { get => area; set => area = value; }
         public string SubArea { get => subArea; set => subArea = value; }
@@ -83,7 +102,7 @@ namespace BE
             GuestRequestKey = Configuration.GuestRequestKey++.ToString();
             Status = Enums.GuestRequestStatus.Active.ToString();
             RegistrationDate = DateTime.UtcNow;
-            Options = new Dictionary<string, bool> { { "pool", false }, { "jacuzzi", false }, { "garden", false }, { "childrensAttractions", false } };
+            Options = new Dictionary<string, bool> { { "בריכה", false }, { "ג'קוזי", false }, { "גינה", false }, { "חניה", false }, { "מיטת תינוק", false } };
  
         }
 

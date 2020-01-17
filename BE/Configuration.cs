@@ -14,7 +14,7 @@ namespace BE
         private static long hostingUnitKey=1000000;
         private static long orderKey=2005000;
         private static int fee = 10;
-        private static int password=1235;
+        private static int mng=315136951;
         private static int OrderValidity;
         public static string TypeDAL = ConfigurationSettings.AppSettings.Get("TypeDS");
 
@@ -22,6 +22,6 @@ namespace BE
         internal static long HostingUnitKey { get => hostingUnitKey; set => hostingUnitKey+=1; }
         internal static long OrderKey { get => orderKey; set => orderKey+=1; }
         public static int Fee { get => fee; set => fee = value; }
-        public static int Password { get => password;  }
+        public static int Mng { get => mng;  }
     }
 }

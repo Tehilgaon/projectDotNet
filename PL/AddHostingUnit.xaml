@@ -83,7 +83,7 @@
             <Label Content="כתובת מייל:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
             <TextBox x:Name="tbxEmail" Grid.Column="1" HorizontalAlignment="Left" Height="23"  Margin="3" Grid.Row="4" 
                      Text="{Binding Host.MailAddress, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
-                     VerticalAlignment="Center" Width="120"/>
+                     VerticalAlignment="Center" Width="120" />
             <Label VerticalAlignment="Center" Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="מספר טלפון:"/>
             <TextBox x:Name="tbxphoneNumber" Grid.Column="1" Width="120" VerticalAlignment="Center"
                      Text="{Binding Host.PhoneNumber, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=true, ValidatesOnExceptions=true}" 
@@ -102,12 +102,12 @@
                     <RowDefinition Height="auto"/> 
                 </Grid.RowDefinitions>
                 <Label Content="מספר בנק:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3,0,0" Grid.Row="0" VerticalAlignment="Top"/>
-                <TextBox x:Name="tbxBankNum" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" 
-                     Text="{Binding Host.Bankbranch.BankNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
+                <ComboBox x:Name="cbxBankNum" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" 
+                     SelectedItem="{Binding Host.Bankbranch.BankNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
                      VerticalAlignment="Center" Width="40"/>
                 <Label Content="מספר סניף:" Grid.Column="2" HorizontalAlignment="Left" Margin="3,3,0,0" Grid.Row="0" VerticalAlignment="Top"/>
-                <TextBox x:Name="tbxBranchNum" Grid.Column="3" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" 
-                     Text="{Binding Host.Bankbranch.BranchNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
+                <ComboBox x:Name="cbxBranchNum" Grid.Column="3" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" 
+                     SelectedItem="{Binding Host.Bankbranch.BranchNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
                      VerticalAlignment="Center" Width="40"/>
                 <Label Content="מספר חשבון:" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="3,3,0,0" Grid.Row="1" VerticalAlignment="Top"/>
                 <TextBox x:Name="tbxaccountNum" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" 
