@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
+using System.IO;
+
 
 namespace PL
 {
@@ -95,11 +98,12 @@ namespace PL
             this.ManagerZone.LogInButton.Click += ManagerLogInButton_Click;
             this.ManagerZone.cbxfilter.SelectionChanged += Cbxfilter_SelectionChanged;
             this.ManagerZone.dataGrid.AutoGeneratingColumn += DataGrid_AutoGeneratingColumn;
+            this.ManagerZone.cbxgroupBy.SelectionChanged += CbxgroupBy_SelectionChanged;
+            this.ManagerZone.LogoutButton.Click += LogoutButton_Click;
         }
 
-        
-        
-     
+         
+
 
         #region GuestZone
         private void Guest_selectionChange(object sender, SelectionChangedEventArgs e)
@@ -234,20 +238,27 @@ namespace PL
         #region ManagerZone
         private void Cbxfilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-          
+            string[] myKeys;
+            this.ManagerZone.cbxgroupBy.Visibility = Visibility.Visible;
+            this.ManagerZone.LgroupBy.Visibility = Visibility.Visible;
             switch (((ComboBoxItem)ManagerZone.cbxfilter.SelectedItem).Content.ToString())
-            {
-                 
+            { 
                 case "דרישות לקוח":   
                     MgGuestRequestsList = bL.GetAllGuestRequests();
+                    myKeys=new string[] { "אזורי ביקוש", "מספר אנשים" };
+                    this.ManagerZone.cbxgroupBy.ItemsSource = myKeys;
                     ManagerZone.dataGrid.ItemsSource = MgGuestRequestsList; 
                     break;
                 case "יחידות אירוח":
-                    MgHostingUnitsList = bL.getAllHostingUnits();  
+                    MgHostingUnitsList = bL.getAllHostingUnits();
+                    myKeys =new string[] { "אזורי אירוח", "סוגי אירוח" };
+                    this.ManagerZone.cbxgroupBy.ItemsSource = myKeys;
                     ManagerZone.dataGrid.ItemsSource = MgHostingUnitsList;
                     break;
                 case "הזמנות":
-                    MgOrdersList = bL.getAllOrders(); 
+                    MgOrdersList = bL.getAllOrders();
+                    myKeys = new string[] { "סטטוס", "תאריך הזמנה" };
+                    this.ManagerZone.cbxgroupBy.ItemsSource = myKeys;
                     ManagerZone.dataGrid.ItemsSource = MgOrdersList;
                     break;
                 default:
@@ -257,15 +268,82 @@ namespace PL
             }
         }
 
+        private void CbxgroupBy_SelectionChanged(object sender, SelectionChangedEventArgs e) 
+        {  
+            switch (this.ManagerZone.cbxgroupBy.SelectedItem) 
+            {
+                case "מספר אנשים":
+                    showGroupingGuestByNumOfPeople();
+                    break;
+                case "אזורי ביקוש":
+                    showGroupingGuestByAreas();
+                    break;
+                case "אזורי אירוח":
+                    showGroupingUnitsByAreas();
+                    break;
+                case "סוגי אירוח":
+                    showGroupingUnitsByType();
+                    break;
+                case "תאריך הזמנה":
+                    showGroupingOrderByOrderDate();
+                    break;
+                case "סטטוס":
+                   showGroupingOrderByStatus();
+                    break;
+                default:
+                    break;
+
+
+
+
+            }
+
+        }
+
         private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             switch (((ComboBoxItem)this.ManagerZone.cbxfilter.SelectedItem).Content.ToString())
             {
                 case "דרישות לקוח":
-                    Guest_AutoGenerateColumns(sender, e);
+                    
+                    switch(e.PropertyName)
+                    {
+                        case "RegistrationDate":
+                            e.Column.Header = "תאריך הרשמה";
+                            e.Column.Visibility = Visibility.Visible;
+                            break;
+                        case "GuestRequestKey":
+                            e.Column.Header = "מספר סידורי";
+                            e.Column.Visibility = Visibility.Visible;
+                            break;
+                        case "Status":
+                            e.Column.Header = "סטטוס";
+                            e.Column.Visibility = Visibility.Visible;
+                            break;
+                        default:
+                            Guest_AutoGenerateColumns(sender, e);
+                            break;
+                    } 
                     break;
-                case "יחידות אירוח":
-                    HostingUnit_AutoGenerateColumns(sender, e);
+                 case "יחידות אירוח":
+
+                    switch(e.PropertyName)
+                    {
+                        case "YearlyOccupied":
+                            e.Column.Header = "תפוסה שנתית";
+                            e.Column.Visibility = Visibility.Visible;
+                            break;
+                        case "HostingUnitKey":
+                            e.Column.Header = "מספר סידורי";
+                            e.Column.Visibility = Visibility.Visible;
+                            break;
+                        case "Host":
+                            e.Column.Header = "Host";
+                            break;
+                        default:
+                            HostingUnit_AutoGenerateColumns(sender, e);
+                            break;
+                    }
                     break;
                 case "הזמנות":
                      OrdersGrid_AutoGeneratingColumn(sender, e);
@@ -277,10 +355,14 @@ namespace PL
         private void ManagerLogInButton_Click(object sender, RoutedEventArgs e)
         {
 
-            if (ManagerZone.tbxEnterMail.Text == Configuration.Mng.ToString())
-                this.ManagerZone.cbxfilter.Visibility =ManagerZone.dataGrid.Visibility = Visibility.Visible; 
+            if (ManagerZone.tbxEnterMail.Text == Configuration.Mng.ToString()) 
+                logIn(this.ManagerZone); 
         }
-
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            logOut(this.ManagerZone);
+        }
+         
         #endregion
         public void OrdersGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
@@ -302,8 +384,8 @@ namespace PL
                     e.Column.Header = "תאריך סגירת ההזמנה";
                     e.Column.IsReadOnly = true;
                     break;
-                case "HostingUnitKey":
-                    e.Column.Visibility = Visibility.Collapsed;
+                case "HostingUnitKey":  
+                        e.Column.Visibility = Visibility.Collapsed;
                     break;
                 case "GuestRequestKey":
                     e.Column.Visibility = Visibility.Collapsed;
@@ -397,15 +479,16 @@ namespace PL
             try
             {
                 guestRequestsList =  bL.GetAllGuestRequests(Item => Item.MailAddress == guestMail &&
-                (Item.PrivateName.Contains(text)||Item.FamilyName.Contains(text))).ToList(); 
+                (Item.PrivateName.Contains(text)||Item.FamilyName.Contains(text)||text=="Search")).ToList(); 
+                 
                 if (newOld != null)
                 {
                     guestRequestsList = guestRequestsList.OrderByDescending(item => item.RegistrationDate).ToList();
-                    if (newOld == "מהישן לחדש")
+                    if (newOld == "הישנים יותר")
                         guestRequestsList.Reverse();
-                }
-               
+                } 
                 this.GuestZone.dataGrid.ItemsSource = guestRequestsList;
+               
             }
             catch (Exception ex)
             {
@@ -442,9 +525,80 @@ namespace PL
             zone.spFilter.Visibility = zone.dataGrid.Visibility = zone.LogoutButton.Visibility = Visibility.Visible;
             zone.tbxEnterMail.Clear();
             zone.SpLogin.Visibility = Visibility.Collapsed;
+            if (zone == this.ManagerZone)
+                zone.cbxfilter.Visibility = Visibility.Visible;
+            if (zone == this.GuestZone)
+                zone.cbxNewOld.Visibility = Visibility.Visible;
+
+        }
+
+
+        /*void showGroupingGuestByAreas()
+        {
+            ManagerZone.groupGrid.Visibility = Visibility.Visible;
+            ManagerZone.groupGrid.Columns.Clear(); 
+             
+            ObservableCollection< GroupInfoCollection < GuestRequest> >l= new ObservableCollection<GuestRequest>();
+            foreach(var item in bL.GroupGuestRequestByRegion())
+            {
+                 
+            }
+             
+        }*/
+
+        void showGroupingGuestByAreas()
+        {
+            MgGuestRequestsList = new List<GuestRequest>();
+            foreach (var item in bL.GroupGuestRequestByRegion()) 
+                foreach (var value in item)
+                  MgGuestRequestsList.Add(value);
+            this.ManagerZone.dataGrid.ItemsSource = MgGuestRequestsList;
+        }
+        void showGroupingGuestByNumOfPeople()
+        {
+            MgGuestRequestsList = new List<GuestRequest>();
+            foreach (var item in bL.GroupGuestRequestByNumOfGuests())
+                foreach (var value in item)
+                    MgGuestRequestsList.Add(value);
+            this.ManagerZone.dataGrid.ItemsSource = MgGuestRequestsList;
+        }
+        void showGroupingUnitsByAreas()
+        {
+            MgHostingUnitsList= new List<HostingUnit>();
+            foreach (var item in bL.GroupHostingUnitByRegion())
+                foreach (var value in item)
+                    MgHostingUnitsList.Add(value);
+            this.ManagerZone.dataGrid.ItemsSource = MgHostingUnitsList;
+        }
+        void showGroupingUnitsByType()
+        {
+            MgHostingUnitsList = new List<HostingUnit>();
+            foreach (var item in bL.GroupHostingUnitsByType())
+                foreach (var value in item)
+                    MgHostingUnitsList.Add(value);
+            this.ManagerZone.dataGrid.ItemsSource = MgHostingUnitsList;
+        }
+        void showGroupingOrderByStatus()
+        {
+            MgOrdersList = new List<Order>();
+            foreach (var item in bL.GroupOrdersByStatus())
+                foreach (var value in item)
+                    MgOrdersList.Add(value);
+            this.ManagerZone.dataGrid.ItemsSource = MgOrdersList;
+        }
+        void showGroupingOrderByOrderDate()
+        {
+            MgOrdersList = new List<Order>();
+            foreach (var item in bL.GroupOrderByDate())
+                foreach (var value in item)
+                    MgOrdersList.Add(value);
+            this.ManagerZone.dataGrid.ItemsSource = MgOrdersList.Where(item=>item.OrderDate!=default);
         }
 
 
 
-    } 
+
+
+
+    }
 }

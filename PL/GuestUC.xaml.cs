@@ -30,7 +30,15 @@ namespace PL
             bL = MyBL.Instance;
             tbxEnterMail.PreviewMouseDown += TbxEnterMail_PreviewMouseDown;
             tbxEnterMail.LostFocus += TbxEnterMail_LostFocus;
+            tbxSearch.PreviewKeyDown += TbxSearch_PreviewKeyDown;
 
+        }
+
+        private void TbxSearch_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (tbxSearch.Text == "Search")
+                tbxSearch.Clear();
+             
         }
 
         private void TbxEnterMail_LostFocus(object sender, RoutedEventArgs e)

@@ -36,11 +36,13 @@ namespace BL
         int AllOrdersOfGuestRequest(string guestRequestKey, Enums.OrderStatus status);  
         int AllOrdersOfHostingUnit(string hostingUnitKey, Enums.OrderStatus status); 
         List<IGrouping<string, GuestRequest>> GroupGuestRequestByRegion();  
-        IGrouping<int, GuestRequest> GroupGuestRequestByNumOfGuests(); 
+        List<IGrouping<int, GuestRequest>> GroupGuestRequestByNumOfGuests(); 
         IGrouping<int, Host> GroupHostByNumOfHostingUnit();  
-        IGrouping<Enums.Regions, HostingUnit> GroupHostingUnitByRegion(); 
-        HostingUnit updateDairy(HostingUnit hostingUnit, GuestRequest guestRequest);
-        
+        List<IGrouping<string, HostingUnit>> GroupHostingUnitByRegion();
+        List<IGrouping<string, HostingUnit>> GroupHostingUnitsByType();
+        List<IGrouping<Enums.OrderStatus, Order>> GroupOrdersByStatus(); 
+       List<IGrouping<DateTime, Order>> GroupOrderByDate();
+         
 
     }
 }

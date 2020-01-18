@@ -189,10 +189,10 @@ namespace BL
             return (from guestRequest in GetAllGuestRequests()
                                     group guestRequest by guestRequest.Area).ToList();
         }
-        public IGrouping<int, GuestRequest> GroupGuestRequestByNumOfGuests()
+        public List<IGrouping<int, GuestRequest>> GroupGuestRequestByNumOfGuests()
         {
-            return (IGrouping<int, GuestRequest>) from guestRequest in GetAllGuestRequests()
-                    group guestRequest by guestRequest.Children + guestRequest.Adults;
+            return  (from guestRequest in GetAllGuestRequests()
+                    group guestRequest by guestRequest.Children + guestRequest.Adults).ToList();
         }
         public  IGrouping<int, Host> GroupHostByNumOfHostingUnit()
         {             
@@ -202,9 +202,21 @@ namespace BL
             hosts.Distinct();
             return (IGrouping<int, Host>)hosts.GroupBy(Item => getAllHostingUnits(x => x.Host == Item).Count);
         }  
-        public IGrouping<Enums.Regions, HostingUnit> GroupHostingUnitByRegion()
+        public List<IGrouping<string, HostingUnit>> GroupHostingUnitByRegion()
         {
-            return (IGrouping <Enums.Regions, HostingUnit >) getAllHostingUnits().GroupBy(hostingUnit => hostingUnit.Area);
+            return getAllHostingUnits().GroupBy(hostingUnit => hostingUnit.Area).ToList();
+        }
+        public List<IGrouping<string,HostingUnit>> GroupHostingUnitsByType()
+        {
+            return getAllHostingUnits().GroupBy(hostingUnit => hostingUnit.HostingUnitType).ToList();
+        }
+        public List<IGrouping<Enums.OrderStatus,Order>> GroupOrdersByStatus()
+        {
+            return getAllOrders().GroupBy(order => order.OrderStatus).ToList();
+        }
+        public List<IGrouping<DateTime, Order>> GroupOrderByDate()
+        {
+            return getAllOrders().GroupBy(item => item.OrderDate).ToList();
         }
         public HostingUnit updateDairy(HostingUnit hostingUnit,GuestRequest guestRequest)
         {

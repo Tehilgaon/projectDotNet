@@ -19,7 +19,7 @@
             </Grid.Background>
             <Button x:Name="LogoutButton"  ToolTip="צא" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Right" Width="40" Height="40" VerticalContentAlignment="Center" Background="Transparent" Visibility="Collapsed" >
                 <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  VerticalAlignment="Center"  Background="Transparent" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="appbar_people_arrow_left" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
-                    <Path Width="26" Height="25" Canvas.Left="5" Canvas.Top="25" Stretch="Fill" Fill="#FF000000" Data="F1 M 50.6667,44.3333L 57,44.3333L 52.9097,
+                    <Path Width="26" Height="25" Canvas.Left="5"  Canvas.Top="25" Stretch="Fill" Fill="#FF000000" Data="F1 M 50.6667,44.3333L 57,44.3333L 52.9097,
                           49.0833L 60.1667,49.0833L 60.1667,53.8333L 52.9097,53.8333L 57,58.5833L 50.6667,58.5833L 45.125,51.4583L 50.6667,44.3333 Z M 33.25,15.8333C 37.6222,15.8333 41.1667,19.3778 41.1667,23.75C 41.1667,28.1223
                           37.6222,31.6667 33.25,31.6667C 28.8777,31.6667 25.3333,28.1223 25.3333,23.75C 25.3333,19.3778 28.8778,15.8333 33.25,15.8333 Z M 25.3333,42.75C 24.2778,43.2778 22.1667,47.4999 22.1667,47.4999C 22.1667,47.4999 
                           21.1111,49.0833 20.5833,55.4166L 15.8333,53.8333L 17.4167,45.9167C 17.4167,45.9167 20.5833,34.8333 26.9166,34.8335L 39.5832,34.8335C 44.2566,34.8334 47.2057,40.868 48.4306,44.0315L 44.7578,48.5205L 44.3334,47.5C 
@@ -43,14 +43,10 @@
                 <Button x:Name="LogInButton" Content="התחבר"  Grid.Column="1" Grid.Row="1"   VerticalAlignment="Center" HorizontalAlignment="Center"  />
             </Grid>
         </StackPanel>
-       
 
-            <ComboBox x:Name="cbxfilter" Grid.Column="3" HorizontalAlignment="Right" Width="120"  Margin="0,5,10,0"  VerticalAlignment="Top" Grid.ColumnSpan="2" Visibility="Collapsed">
-            <ComboBoxItem Content="יחידות אירוח" />
-            <ComboBoxItem Content="דרישות לקוח"/>
-            <ComboBoxItem Content="הזמנות"/>
-        </ComboBox>
-        <StackPanel x:Name="spFilter" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="70" FlowDirection="LeftToRight" Visibility="Collapsed" >
+
+
+        <StackPanel x:Name="spFilter" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="70" FlowDirection="LeftToRight" Visibility="Collapsed"  >
             <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                 <Grid.RowDefinitions >
                     <RowDefinition Height="*"/>
@@ -61,17 +57,26 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-
-                <ComboBox x:Name="cbxNewOld" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" Grid.Row="1" VerticalAlignment="Center" Width="100" >
-                    <ComboBoxItem Content="מהחדש לישן" />
-                    <ComboBoxItem Content="מהישן לחדש"/>
+                <ComboBox x:Name="cbxfilter" Grid.Column="1"  HorizontalAlignment="Left" Width="120"  Margin="5,0,0,0"  VerticalAlignment="Top" Grid.ColumnSpan="2" Visibility="Hidden" >
+                    <ComboBoxItem Content="יחידות אירוח" />
+                    <ComboBoxItem Content="דרישות לקוח" IsSelected="True" />
+                    <ComboBoxItem Content="הזמנות"/>  
+                </ComboBox> 
+                <ComboBox x:Name="cbxNewOld" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" Grid.Row="1" VerticalAlignment="Center" Width="100" Visibility="Collapsed">
+                    <ComboBoxItem Content="החדשים יותר" />
+                    <ComboBoxItem Content="הישנים יותר"/>
                 </ComboBox>
-                <Label Content="חפש " Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" />
-                <TextBox x:Name="tbxSearch" Grid.Column="0" Width="130" TextWrapping="Wrap" Text="" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3"  Grid.Row="1"  />
+                <Label Name="LgroupBy" Content=":קבץ לפי"  Grid.Column="2" FontWeight="Bold"  Grid.Row="1" Visibility="Collapsed"/>
+                <ComboBox x:Name="cbxgroupBy" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" Grid.Row="1" VerticalAlignment="Center" Width="100" Visibility="Collapsed">
+                </ComboBox> 
+                
+                <TextBox x:Name="tbxSearch" Text="Search" Foreground="Gray" Grid.Column="0" Width="130" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3"  Grid.Row="1"  />
             </Grid>
         </StackPanel>
  
-        <DataGrid Grid.Row="1" x:Name="dataGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AutoGenerateColumns="True"  FlowDirection="RightToLeft" Visibility="Collapsed" ></DataGrid>
+        <DataGrid Grid.Row="1" x:Name="dataGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AutoGenerateColumns="True"  FlowDirection="RightToLeft" Visibility="Collapsed"   HorizontalContentAlignment="Center" ></DataGrid>
+        <DataGrid Grid.Row="1" x:Name="groupGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AutoGenerateColumns="True"  FlowDirection="RightToLeft" Visibility="Collapsed"  ></DataGrid>
+
         <Grid x:Name="dataGridUnits" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -108,6 +113,6 @@
                 </Grid>
             </StackPanel>
         </Grid>
-
+        
     </Grid>
 </UserControl>
