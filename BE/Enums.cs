@@ -29,8 +29,11 @@ namespace BE
             
             דרום,
             צפון,
-            מרכז,
-            ירושלים
+            שפלה,
+            ירושלים,
+            ים_המלח,
+            אילת,
+
         }
         public enum guestRequestStatus
         {
@@ -45,19 +48,7 @@ namespace BE
             Canceled,
             Closed
         }
-        public enum SubArea
-        {
-            תל_אביב,
-            טבריה,
-            צפת,
-            חיפה,
-            ירושלים,
-            אשקלון,
-            אשדוד,
-            חדרה,
-            באר_שבע,
-            אילת
-        }
+         
         public enum dataType
         {
             הזמנות,

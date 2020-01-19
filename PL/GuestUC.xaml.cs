@@ -65,6 +65,12 @@ namespace PL
                 tbxEnterMail.Foreground = Brushes.Gray;
             }
         }
+        
+        void Yearlycalender()
+        {
+            Calendar dairy = new Calendar();
+             
+        }
 
     }
 }

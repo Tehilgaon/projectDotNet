@@ -35,7 +35,7 @@ namespace BE
         public string HostingUnitName { get => hostingUnitName;
             set
             {
-                Regex r = new Regex("^[a-zA-Zא-ת]{2,15}$");
+                Regex r = new Regex("^[ a-zA-Zא-ת]{2,15}$");
                 if (!r.IsMatch(value))
                     throw new Exception("Name should contain only letters, Between 2-15."); 
                 hostingUnitName = value;

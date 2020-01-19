@@ -46,7 +46,7 @@
              
             
         </Grid>
-        <Grid x:Name="gridHost" HorizontalAlignment="Center" Grid.Column="1" Margin="10" VerticalAlignment="Top" FlowDirection="RightToLeft">
+        <Grid x:Name="gridHost" HorizontalAlignment="Center" Grid.Column="1" Margin="10" VerticalAlignment="Stretch" FlowDirection="RightToLeft">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
@@ -114,11 +114,22 @@
                      Text="{Binding Host.BankAccountNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
                      VerticalAlignment="Center" Width="60"/>
             </Grid>
-            <CheckBox x:Name="onlyMyGenderCheckBox" Content="" Grid.Column="0" HorizontalAlignment="Left"   
+            <CheckBox x:Name="cbxaccept" Content="" Grid.Column="0" HorizontalAlignment="Left"   
                       IsChecked="{Binding Host.CollectionClearance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
-                      Margin="0,30,0,0" Grid.Row="8" VerticalAlignment="Center"/>
-            <Label Content="חתימה על הרשאה לחיוב החשבון   " Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Left" Grid.Row="8" VerticalAlignment="Top" Margin="20,30,0,0" />
-
+                      Margin="0,15,0,0" Grid.Row="8" VerticalAlignment="Center"/>
+            <Label Content="חתימה על הרשאה לחיוב החשבון   " Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Left" Grid.Row="8" VerticalAlignment="Top" Margin="20,15,0,0" />
+            <Label Content="לידיעתך, ללא חתימה על ההרשאה, לא תוכל לאשר הזמנות" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Left" Grid.Row="9" VerticalAlignment="Top" FontSize="9">
+                <Label.Style>
+                    <Style TargetType="Label">
+                            <Setter Property="Visibility" Value="Visible"></Setter>
+                            <Style.Triggers>
+                                 <DataTrigger Binding="{Binding ElementName=cbxaccept, Path=IsChecked}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                 </DataTrigger>
+                            </Style.Triggers>
+                    </Style>
+                 </Label.Style>
+            </Label> 
 
 
 

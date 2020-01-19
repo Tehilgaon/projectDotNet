@@ -47,7 +47,7 @@ namespace DS
             },
             new HostingUnit()
              {
-                HostingUnitName="Te",
+                HostingUnitName="Tejj",
                 HostingUnitType=Enums.HostingUnitType .צימר.ToString(),
                 Area=Enums.Regions.ירושלים.ToString(),
                 Host=new Host()
@@ -61,7 +61,58 @@ namespace DS
                     BankAccountNumber="777777",
                     Bankbranch=GetAllBranches()[2],
                 },
-            }
+            },
+            new HostingUnit()
+             {
+                HostingUnitName="שלנו",
+                HostingUnitType=Enums.HostingUnitType .צימר.ToString(),
+                Area=Enums.Regions.ירושלים.ToString(),
+                Host=new Host()
+                {
+                    HostKey="050505055",
+                    CollectionClearance=true,
+                    PrivateName="תהל",
+                    FamilyName="לוי",
+                    MailAddress="tata@gmail.com",
+                    PhoneNumber="0505050505",
+                    BankAccountNumber="777777",
+                    Bankbranch=GetAllBranches()[3],
+                },
+            },
+            new HostingUnit()
+             {
+                HostingUnitName="בית בכפר",
+                HostingUnitType=Enums.HostingUnitType .בית_הארחה.ToString(),
+                Area=Enums.Regions.אילת.ToString(),
+                Host=new Host()
+                {
+                    HostKey="147258391",
+                    CollectionClearance=false,
+                    PrivateName="רבקה",
+                    FamilyName="לוי",
+                    MailAddress="Riv@gmail.com",
+                    PhoneNumber="0501774277",
+                    BankAccountNumber="454777",
+                    Bankbranch=GetAllBranches()[2],
+                },
+            },
+            new HostingUnit()
+             {
+                HostingUnitName="פריז",
+                HostingUnitType=Enums.HostingUnitType .בית_הארחה.ToString(),
+                Area=Enums.Regions.שפלה.ToString(),
+                Host=new Host()
+                {
+                    HostKey="315136951",
+                    CollectionClearance=true,
+                    PrivateName="רחל",
+                    FamilyName="דןן",
+                    MailAddress="rachel@gmail.com",
+                    PhoneNumber="0508947777",
+                    BankAccountNumber="789654",
+                    Bankbranch=GetAllBranches()[0],
+                },
+            },
         };
 
         public static List<Order> orders = new List<Order>();
@@ -106,7 +157,42 @@ namespace DS
                  
                  Adults=1, 
                  Type=Enums.HostingUnitType.צימר.ToString(),
-            }, 
+            },
+              new GuestRequest()
+            {
+                 PrivateName="dina",
+                 FamilyName="dan",
+                 MailAddress="dina@gmail.com",
+                 EntryDate=new DateTime(2020,4,3),
+                 ReleaseDate=new DateTime(2020,4,6),
+                 Area=Enums.Regions.שפלה.ToString(), 
+                 Adults=1,
+                 Type=Enums.HostingUnitType.צימר.ToString(),
+            },
+              new GuestRequest()
+            {
+                 PrivateName="רון",
+                 FamilyName="כהן",
+                 MailAddress="ron@gmail.com",
+                 EntryDate=new DateTime(2020,6,3),
+                 ReleaseDate=new DateTime(2020,6,6),
+                 Area=Enums.Regions.אילת.ToString(),
+
+                 Adults=1,
+                 Type=Enums.HostingUnitType.בית_מלון.ToString(),
+            },
+              new GuestRequest()
+            {
+                 PrivateName="שלום",
+                 FamilyName="לוי",
+                 MailAddress="RUT@gmail.com",
+                 EntryDate=new DateTime(2020,3,5),
+                 ReleaseDate=new DateTime(2020,3,7),
+                 Area=Enums.Regions.ירושלים.ToString(),
+
+                 Adults=1,
+                 Type=Enums.HostingUnitType.צימר.ToString(),
+            },
         };
 
 

@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:PL"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
 
      <Grid  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  FlowDirection="RightToLeft" Background="White">
         <Grid.RowDefinitions>
@@ -13,6 +14,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
+         
         <Grid Grid.Row="0"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FlowDirection="RightToLeft"  >
             <Grid.Background>
                 <ImageBrush ImageSource="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTKwPZ5n4RfyGfvHxzHJe555tt2RBwLlGMIihEJjL5iz3MKKGqM"/>
@@ -59,7 +61,7 @@
                 </Grid.ColumnDefinitions>
                 <ComboBox x:Name="cbxfilter" Grid.Column="1"  HorizontalAlignment="Left" Width="120"  Margin="5,0,0,0"  VerticalAlignment="Top" Grid.ColumnSpan="2" Visibility="Hidden" >
                     <ComboBoxItem Content="יחידות אירוח" />
-                    <ComboBoxItem Content="דרישות לקוח" IsSelected="True" />
+                    <ComboBoxItem Content="דרישות לקוח"  />
                     <ComboBoxItem Content="הזמנות"/>  
                 </ComboBox> 
                 <ComboBox x:Name="cbxNewOld" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" Grid.Row="1" VerticalAlignment="Center" Width="100" Visibility="Collapsed">
@@ -67,7 +69,7 @@
                     <ComboBoxItem Content="הישנים יותר"/>
                 </ComboBox>
                 <Label Name="LgroupBy" Content=":קבץ לפי"  Grid.Column="2" FontWeight="Bold"  Grid.Row="1" Visibility="Collapsed"/>
-                <ComboBox x:Name="cbxgroupBy" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" Grid.Row="1" VerticalAlignment="Center" Width="100" Visibility="Collapsed">
+                <ComboBox x:Name="cbxgroupBy" Grid.Column="1" HorizontalAlignment="Left" Width="120" Height="Auto" Margin="3" Grid.Row="1" VerticalAlignment="Center" Visibility="Collapsed">
                 </ComboBox> 
                 
                 <TextBox x:Name="tbxSearch" Text="Search" Foreground="Gray" Grid.Column="0" Width="130" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3"  Grid.Row="1"  />
@@ -110,9 +112,13 @@
                 <Button x:Name="deleteButton" Grid.Column="0" Content="מחק" ToolTip="מחק" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="80" Margin="10,0"  ></Button>
                     <Button x:Name="updateButton" Grid.Column="1" Content="ערוך" ToolTip="ערוך" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="80" Margin="10,0"    ></Button>
                     <Button x:Name="watchOrdersButton" Grid.Column="2" Content="עבור להזמנות" ToolTip="עבור להזמנות" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="80"  Margin="10,0"  ></Button>
+                    <Button x:Name="watchDairy" Grid.Column="3" Content="לוח שנה" ToolTip="צפה במצב לוח השנה שלך" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="80"  Margin="10,0"  ></Button>
+
                 </Grid>
             </StackPanel>
+           
         </Grid>
-        
-    </Grid>
+         
+    </Grid> 
+    
 </UserControl>

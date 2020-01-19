@@ -7,26 +7,26 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-     <Window.Resources >
+    <Window.Resources >
         <StackPanel x:Key="ResHostingUnit">
             <Canvas   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="appbar_home" Width="76.0106" Height="76.0106" Clip="F1 M 0,0L 76.0106,0L 76.0106,76.0106L 0,76.0106L 0,0">
-            <Path Width="20" Height="20"  Canvas.Left="19.0027" Canvas.Top="20.0028" Stretch="Fill" Fill="#FF000000" Data="F1 M 24.0033,56.0078L 24.0033,38.0053L 22.0031,40.0056L 19.0027,35.0049L 38.0053,20.0028L 45.0063,25.5299L 45.0063,21.753L 49.0068,21.0029L 49.0068,28.6882L 57.008,35.0049L 54.0075,40.0056L 52.0073,38.0053L 52.0073,56.0078L 24.0033,56.0078 Z M 38.0053,26.9204L 27.0038,36.005L 27.0038,53.0074L 33.0046,53.0074L 33.0046,42.006L 43.006,42.006L 43.006,53.0074L 49.0068,53.0074L 49.0068,36.005L 38.0053,26.9204 Z "/>
+                <Path Width="20" Height="20"  Canvas.Left="19.0027" Canvas.Top="20.0028" Stretch="Fill" Fill="#FF000000" Data="F1 M 24.0033,56.0078L 24.0033,38.0053L 22.0031,40.0056L 19.0027,35.0049L 38.0053,20.0028L 45.0063,25.5299L 45.0063,21.753L 49.0068,21.0029L 49.0068,28.6882L 57.008,35.0049L 54.0075,40.0056L 52.0073,38.0053L 52.0073,56.0078L 24.0033,56.0078 Z M 38.0053,26.9204L 27.0038,36.005L 27.0038,53.0074L 33.0046,53.0074L 33.0046,42.006L 43.006,42.006L 43.006,53.0074L 49.0068,53.0074L 49.0068,36.005L 38.0053,26.9204 Z "/>
             </Canvas>
-            <TextBlock x:Name="tbkUnitName" Text="{Binding HostingUnitName, Mode=TwoWay}" /> 
+            <TextBlock x:Name="tbkUnitName" Text="{Binding HostingUnitName, Mode=TwoWay}" />
         </StackPanel>
     </Window.Resources>
 
-        <Grid>
+    <Grid>
         <Button Content="Guest" HorizontalAlignment="Left" Margin="350,100,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Content="Host" HorizontalAlignment="Left" Margin="350,150,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Content="manager" HorizontalAlignment="Left" Margin="350,200,0,0" VerticalAlignment="Top" Width="75"/>
 
 
         <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FlowDirection="RightToLeft" TabStripPlacement="Top"  >
-            
+
 
             <TabItem Header="Guest" >
-                <local:GuestUC x:Name="GuestZone" />
+                <local:GuestUC x:Name="GuestZone" Background="{x:Null}" />
             </TabItem>
             <TabItem Header="Host"   >
                 <local:GuestUC x:Name="HostZone"  />
@@ -36,6 +36,6 @@
             </TabItem>
 
         </TabControl>
-
+        <Calendar x:Name="myDairy" DisplayMode="Year" HorizontalContentAlignment="Center" VerticalAlignment="Center"  Width="200" Height="200" Grid.RowSpan="3" Visibility="Collapsed"  />
     </Grid>
- </controls:MetroWindow>
+</controls:MetroWindow>

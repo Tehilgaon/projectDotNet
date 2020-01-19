@@ -32,7 +32,6 @@ namespace PL
             InitializeComponent();
             bl = MyBL.Instance;
             cbxArea.ItemsSource = Enum.GetNames(typeof(BE.Enums.Regions));  
-            cbxsubArea.ItemsSource = Enum.GetValues(typeof(BE.Enums.SubArea));
             cbxHostingType.ItemsSource = Enum.GetValues(typeof(BE.Enums.HostingUnitType));
             guestRequest = new BE.GuestRequest(); 
             Options();
@@ -47,18 +46,15 @@ namespace PL
                 bl = MyBL.Instance;
                 guestRequest = request;
                 this.Title = "עידכון בקשה";
-                this.cbxArea.ItemsSource = Enum.GetNames(typeof(BE.Enums.Regions));
-                this.cbxsubArea.ItemsSource = Enum.GetNames(typeof(BE.Enums.SubArea));
+                this.cbxArea.ItemsSource = Enum.GetNames(typeof(BE.Enums.Regions));  
                 this.cbxHostingType.ItemsSource = Enum.GetNames(typeof(BE.Enums.HostingUnitType));
                 Options();
                 tbxPrivateName.IsEnabled = false;
                 tbxFamilyName.IsEnabled = false;
                 tbxEmail.IsEnabled = false;
-                cbxArea.IsEnabled = false;
-                cbxsubArea.IsEnabled = false;
+                cbxArea.IsEnabled = false; 
                 cbxHostingType.IsEnabled = false;
-                this.cbxArea.SelectedItem = request.Area;
-                this.cbxsubArea.SelectedValue = request.SubArea;
+                this.cbxArea.SelectedItem = request.Area; 
                 this.cbxHostingType.SelectedValue = request.Type;
 
                 AddGuestButton.Content = "שמור";

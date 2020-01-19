@@ -31,18 +31,18 @@ namespace PL
         List<HostingUnit> hostingUnitsList;
         List<Order> ordersList;
 
-        GuestRequest guestRequest;
-        HostingUnit hostingUnit;
-        Order order;
-
+         
         List<GuestRequest> MgGuestRequestsList;
         List<HostingUnit> MgHostingUnitsList;
         List<Order> MgOrdersList;
 
+        Calendar Dairy;
+        DateTime today = DateTime.Today;
         public string guestMail, hostMail;
 
         public GuestRequest GuestRequest { get; set; }
         public HostingUnit HostingUnit { get; set; }
+        public Order Order { get ; set ; }
 
         public MainWindow()
         {
@@ -87,9 +87,14 @@ namespace PL
             this.HostZone.watchOrdersButton.Click += WatchOrdersButton_Click;
             this.HostZone.dataGrid.MouseDoubleClick +=UnitUpdateButton_Click;
             this.HostZone.LogoutButton.Click += HostLogoutButton_Click;
+            this.HostZone.watchDairy.Click += WatchDairy_Click;
         }
 
-        
+        private void WatchDairy_Click(object sender, RoutedEventArgs e)
+        {
+           displayDairy();
+           myDairy.Visibility = Visibility.Visible;
+        }
 
         private void Manager_Zone()
         {
@@ -100,9 +105,22 @@ namespace PL
             this.ManagerZone.dataGrid.AutoGeneratingColumn += DataGrid_AutoGeneratingColumn;
             this.ManagerZone.cbxgroupBy.SelectionChanged += CbxgroupBy_SelectionChanged;
             this.ManagerZone.LogoutButton.Click += LogoutButton_Click;
+            this.ManagerZone.tbxSearch.TextChanged += ManagerFilter;
+            this.ManagerZone.dataGrid.SelectionChanged+= Manager_SelectionChanged;
+            this.ManagerZone.dataGrid.MouseDoubleClick += ManagerZone_edit;
         }
 
-         
+        private void ManagerZone_edit(object sender, MouseButtonEventArgs e)
+        {
+            string choice = ((ComboBoxItem)ManagerZone.cbxfilter.SelectedItem).Content.ToString();
+            if (choice == "יחידות אירוח")
+                UnitUpdateButton_Click(this, new RoutedEventArgs());
+            if (choice == "דרישות לקוח")
+                GuestUpdateButton_Click(this, new RoutedEventArgs());
+            //if (choice == "הזמנות")
+              
+        }
+
 
 
         #region GuestZone
@@ -183,9 +201,15 @@ namespace PL
                 {
                     creatOrder(item, HostingUnit);
                 }
+                ordersList = bL.getAllOrders(Item => Item.HostingUnitKey == HostingUnit.HostingUnitKey &&
+                  Item.OrderStatus == Enums.OrderStatus.Mailed && (bL.DaysBetween(Item.OrderDate) > Configuration.OrderValidity));
+                foreach(var item in ordersList)
+                {
+                    bL.updateOrder(item);
+                }
                 ordersList = bL.getAllOrders(Item => Item.HostingUnitKey == HostingUnit.HostingUnitKey);
                 if (ordersList.Count != 0)
-                {
+                {  
                     WindOrder.OrdersGrid.ItemsSource = ordersList;
                 } 
                 WindOrder.ShowDialog();
@@ -200,11 +224,11 @@ namespace PL
         {
             if (bL.getAllOrders(item => item.GuestRequestKey == guestRequest.GuestRequestKey && item.HostingUnitKey == hostingUnit.HostingUnitKey).Count == 0)
             {
-                order = new Order();
-                order.GuestRequestKey = guestRequest.GuestRequestKey;
-                order.HostingUnitKey = hostingUnit.HostingUnitKey;
-                order.GuestMail = guestRequest.MailAddress;
-                bL.addOrder(order);
+                Order = new Order();
+                Order.GuestRequestKey = guestRequest.GuestRequestKey;
+                Order.HostingUnitKey = hostingUnit.HostingUnitKey;
+                Order.GuestMail = guestRequest.MailAddress;
+                bL.addOrder(Order);
             }
         }
 
@@ -241,31 +265,74 @@ namespace PL
             string[] myKeys;
             this.ManagerZone.cbxgroupBy.Visibility = Visibility.Visible;
             this.ManagerZone.LgroupBy.Visibility = Visibility.Visible;
+            string text = this.ManagerZone.tbxSearch.Text;
             switch (((ComboBoxItem)ManagerZone.cbxfilter.SelectedItem).Content.ToString())
             { 
-                case "דרישות לקוח":   
-                    MgGuestRequestsList = bL.GetAllGuestRequests();
+                case "דרישות לקוח": 
                     myKeys=new string[] { "אזורי ביקוש", "מספר אנשים" };
                     this.ManagerZone.cbxgroupBy.ItemsSource = myKeys;
-                    ManagerZone.dataGrid.ItemsSource = MgGuestRequestsList; 
+                    MgGuestRequestsList = bL.GetAllGuestRequests();
+                    ManagerFilter(this, new RoutedEventArgs() );
                     break;
                 case "יחידות אירוח":
-                    MgHostingUnitsList = bL.getAllHostingUnits();
+                    
                     myKeys =new string[] { "אזורי אירוח", "סוגי אירוח" };
                     this.ManagerZone.cbxgroupBy.ItemsSource = myKeys;
-                    ManagerZone.dataGrid.ItemsSource = MgHostingUnitsList;
+                    MgHostingUnitsList = bL.getAllHostingUnits();
+                    ManagerFilter(this, new RoutedEventArgs());
                     break;
-                case "הזמנות":
-                    MgOrdersList = bL.getAllOrders();
+                case "הזמנות": 
                     myKeys = new string[] { "סטטוס", "תאריך הזמנה" };
                     this.ManagerZone.cbxgroupBy.ItemsSource = myKeys;
-                    ManagerZone.dataGrid.ItemsSource = MgOrdersList;
+                    MgOrdersList = bL.getAllOrders();
+                    ManagerFilter(this, new RoutedEventArgs());
                     break;
-                default:
-                    
+                default: 
                     break;
                     
             }
+        }
+        private void Manager_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string choice = ((ComboBoxItem)ManagerZone.cbxfilter.SelectedItem).Content.ToString();
+            if (choice == "יחידות אירוח")
+                HostingUnit = (sender as DataGrid).SelectedItem as HostingUnit;
+            if (choice == "דרישות לקוח")
+                GuestRequest = (sender as DataGrid).SelectedItem as GuestRequest;
+            if (choice == "הזמנות")
+                Order = (sender as DataGrid).SelectedItem as Order;
+
+        }
+
+
+
+        public void ManagerFilter(object sender, RoutedEventArgs e)
+        {
+            string text = this.ManagerZone.tbxSearch.Text;
+            if (ManagerZone.cbxfilter.SelectedItem != null)
+            {
+                switch (((ComboBoxItem)ManagerZone.cbxfilter.SelectedItem).Content.ToString())
+                {
+                    case "דרישות לקוח":
+                        ManagerZone.dataGrid.ItemsSource = MgGuestRequestsList.Where(item => (text == "" || text == "Search"
+                        || item.MailAddress.Contains(text) || item.PrivateName.Contains(text) ||
+                                item.FamilyName.Contains(text) || item.Status.Contains(text) || item.GuestRequestKey.Contains(text)));
+                        break;
+                    case "יחידות אירוח":
+                        ManagerZone.dataGrid.ItemsSource = MgHostingUnitsList.Where(item => item.HostingUnitKey.Contains(text) ||
+                        item.HostingUnitName.Contains(text) || item.HostingUnitType.Contains(text) || item.Host.HostKey.Contains(text) ||
+                        item.Host.PrivateName.Contains(text) || item.Host.MailAddress.Contains(text) || text == "Search" || text == "");
+                        break;
+                    case "הזמנות":
+                        ManagerZone.dataGrid.ItemsSource = MgOrdersList.Where(item => item.GuestRequestKey.Contains(text) ||
+                        item.HostingUnitKey.Contains(text) || item.OrderKey.Contains(text) || item.OrderStatus.ToString().Contains(text) ||
+                        text == "Search" || text == "");
+                        break;
+                    default:
+                        break;
+                }
+            }
+
         }
 
         private void CbxgroupBy_SelectionChanged(object sender, SelectionChangedEventArgs e) 
@@ -291,12 +358,9 @@ namespace PL
                    showGroupingOrderByStatus();
                     break;
                 default:
-                    break;
-
-
-
-
+                    break; 
             }
+            ManagerFilter(this, new RoutedEventArgs());
 
         }
 
@@ -532,20 +596,7 @@ namespace PL
 
         }
 
-
-        /*void showGroupingGuestByAreas()
-        {
-            ManagerZone.groupGrid.Visibility = Visibility.Visible;
-            ManagerZone.groupGrid.Columns.Clear(); 
-             
-            ObservableCollection< GroupInfoCollection < GuestRequest> >l= new ObservableCollection<GuestRequest>();
-            foreach(var item in bL.GroupGuestRequestByRegion())
-            {
-                 
-            }
-             
-        }*/
-
+         
         void showGroupingGuestByAreas()
         {
             MgGuestRequestsList = new List<GuestRequest>();
@@ -593,6 +644,20 @@ namespace PL
                 foreach (var value in item)
                     MgOrdersList.Add(value);
             this.ManagerZone.dataGrid.ItemsSource = MgOrdersList.Where(item=>item.OrderDate!=default);
+        }
+        void displayDairy() 
+        {
+
+            Dairy = new Calendar();
+            Dairy.DisplayMode = CalendarMode.Year;
+            Dairy.SelectionMode = CalendarSelectionMode.None;
+            Dairy.IsTodayHighlighted = true;
+            for (DateTime day= DateTime.Today;day<today.AddYears(1) ; day=day.AddDays(1))
+            {
+                if(HostingUnit[day])
+                Dairy.BlackoutDates.Add(new CalendarDateRange(day));
+            }
+            myDairy = Dairy; 
         }
 
 

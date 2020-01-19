@@ -69,10 +69,7 @@
             <ComboBox x:Name="cbxArea" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" 
                       SelectedItem="{Binding Area}" ItemsSource="{Binding}" Grid.Row="5" VerticalAlignment="Center" Width="120" />
 
-            <Label Content="תת-אזור:" Grid.Column="2" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
-            <ComboBox x:Name="cbxsubArea" Grid.Column="3" HorizontalAlignment="Left" Height="Auto" Margin="3" 
-                      SelectedItem="{Binding SubArea}" ItemsSource="{Binding}" Grid.Row="5" VerticalAlignment="Center" Width="120"/>
-
+              
             <Label Content="סוג אירוח:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
             <ComboBox x:Name="cbxHostingType" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" 
                       SelectedItem="{Binding Type}" ItemsSource="{Binding}" Grid.Row="7" VerticalAlignment="Center" Width="120"/>
@@ -108,6 +105,7 @@
                 </Grid.RowDefinitions>
                  
             </Grid> 
+            
         </Grid>
         <Button x:Name="AddGuestButton" Content="הוסף" HorizontalAlignment="Center" Margin="10"  VerticalAlignment="Bottom" Width="50" Click="AddButton_Click"  ></Button>
     </Grid>
