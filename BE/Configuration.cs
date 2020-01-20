@@ -16,7 +16,7 @@ namespace BE
         private static int fee = 10;
         private static string mng="0000";
         private static int orderValidity=14;
-        public static string TypeDAL = ConfigurationSettings.AppSettings.Get("TypeDS");
+        public static string TypeDAL = "XML";
         private string sMTP_Server="smtp.gmail.com";
 
         internal static long GuestRequestKey { get => guestRequestKey; set => guestRequestKey = value; }

@@ -12,8 +12,8 @@ namespace DAL
         {
             switch (typeDAL)
             {
-                case "List": return DALList.Instance;
-                //  case "XML": return DAL_XML.Instance;
+                //case "List": return DALList.Instance;
+                case "XML": return DAL_XML.Instance;
                 default: return null;
             }
         }

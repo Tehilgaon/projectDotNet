@@ -14,6 +14,9 @@ namespace BE
 {
     public static class tool
     {
+        static DateTime today = DateTime.Today;
+         static DateTime aYearFromNow = DateTime.Today.AddYears(1);
+       
         public static T Clone<T>(this T source)
         {
             var isNotSerializable = !typeof(T).IsSerializable;
@@ -30,24 +33,43 @@ namespace BE
                 return (T)formatter.Deserialize(stream);
             }
         }
-       /* public static bool SendingEmail(string recipients, string subject, string body)
+
+        public static  List<DateTime> Flatten(HostingUnit hostingUnit)
         {
-            try
+            List<DateTime> DairySer = new List<DateTime>();
+            if (hostingUnit[today] == true)
+                DairySer.Add(today);
+            for (DateTime day = DateTime.Today; day < aYearFromNow; day = day.AddDays(1))
             {
-                var client = new SmtpClient(BE.Configuration.SMTP_Server, BE.Configuration.SMTP_Port)
-                {
-                    Credentials = new NetworkCredential(Configuration.SenderEmailAddress, Configuration.EmailServerPasword),
-                    EnableSsl = true
-                };
-                MailMessage mailMessage = new MailMessage(recipients, recipients) { Body = body, IsBodyHtml = true, Subject = subject, };
-                client.Send(mailMessage);
-                return true;
+                if (hostingUnit[day] == false && hostingUnit[day.AddDays(1)] == true)
+                    DairySer.Add(day.AddDays(1));
+                if (hostingUnit[day] == true && hostingUnit[day.AddDays(1)] == false)
+                    DairySer.Add(day);
             }
-            catch (Exception)
-            {
-                return false;
-            }
-        }*/
+            if (hostingUnit[aYearFromNow] == true)
+                DairySer.Add(aYearFromNow);
+            return DairySer;
+        }
+
+        public static 
+        /* public static bool SendingEmail(string recipients, string subject, string body)
+         {
+             try
+             {
+                 var client = new SmtpClient(BE.Configuration.SMTP_Server, BE.Configuration.SMTP_Port)
+                 {
+                     Credentials = new NetworkCredential(Configuration.SenderEmailAddress, Configuration.EmailServerPasword),
+                     EnableSsl = true
+                 };
+                 MailMessage mailMessage = new MailMessage(recipients, recipients) { Body = body, IsBodyHtml = true, Subject = subject, };
+                 client.Send(mailMessage);
+                 return true;
+             }
+             catch (Exception)
+             {
+                 return false;
+             }
+         }*/
 
     }
 

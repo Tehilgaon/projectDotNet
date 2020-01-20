@@ -22,19 +22,12 @@ namespace DAL
         }
 
         private DALList() {
-            SaveToXML<List<GuestRequest>>(DataSource.guestRequests, guestRequestsPath);
+            
         }
         static DALList() { }
 
         #endregion
-        static readonly string ProjectPath = Directory.GetParent(Directory.GetParent(Environment.CurrentDirectory.ToString()).FullName).FullName; 
-        XElement configRoot;
-        private readonly string guestRequestsPath = ProjectPath + "/Files/guestRequests.xml";
-        private readonly string hostingUnitsPath = ProjectPath + "/Files/hostingUnits.xml";
-        private readonly string ordersPath = ProjectPath + "/Files/orders.xml";
-        private readonly string configPath = ProjectPath + "/Files/config.xml";
-        XElement guestRequestRoot;
-
+        
         #region HostingUnit
         public void addHostingUnit(HostingUnit hostingUnit)
         {
