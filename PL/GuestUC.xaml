@@ -6,30 +6,25 @@
              xmlns:local="clr-namespace:PL"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
 
-     <Grid  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  FlowDirection="RightToLeft" Background="White">
+     
+    <Grid  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  FlowDirection="RightToLeft">
+        <Grid.Background>
+            <ImageBrush ImageSource="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdAZIymhRMV1HUvGpS3H9E5HZVFBHFVR8MxbPS7LBoJdKpqtEzWA&amp;s"/>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-         
+
         <Grid Grid.Row="0"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FlowDirection="RightToLeft"  >
             <Grid.Background>
-                <ImageBrush ImageSource="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTKwPZ5n4RfyGfvHxzHJe555tt2RBwLlGMIihEJjL5iz3MKKGqM"/>
+                <ImageBrush ImageSource="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSsWnwKBT0yLXhGUKuDOl_HFQL8p61zfvhVbslcCuq96QWRJQSK"/>
             </Grid.Background>
-            <Button x:Name="LogoutButton"  ToolTip="צא" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Right" Width="40" Height="40" VerticalContentAlignment="Center" Background="Transparent" Visibility="Collapsed" >
-                <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  VerticalAlignment="Center"  Background="Transparent" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="appbar_people_arrow_left" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
-                    <Path Width="26" Height="25" Canvas.Left="5"  Canvas.Top="25" Stretch="Fill" Fill="#FF000000" Data="F1 M 50.6667,44.3333L 57,44.3333L 52.9097,
-                          49.0833L 60.1667,49.0833L 60.1667,53.8333L 52.9097,53.8333L 57,58.5833L 50.6667,58.5833L 45.125,51.4583L 50.6667,44.3333 Z M 33.25,15.8333C 37.6222,15.8333 41.1667,19.3778 41.1667,23.75C 41.1667,28.1223
-                          37.6222,31.6667 33.25,31.6667C 28.8777,31.6667 25.3333,28.1223 25.3333,23.75C 25.3333,19.3778 28.8778,15.8333 33.25,15.8333 Z M 25.3333,42.75C 24.2778,43.2778 22.1667,47.4999 22.1667,47.4999C 22.1667,47.4999 
-                          21.1111,49.0833 20.5833,55.4166L 15.8333,53.8333L 17.4167,45.9167C 17.4167,45.9167 20.5833,34.8333 26.9166,34.8335L 39.5832,34.8335C 44.2566,34.8334 47.2057,40.868 48.4306,44.0315L 44.7578,48.5205L 44.3334,47.5C 
-                          44.3334,47.5 42.2222,43.2778 41.1666,42.75L 41.8064,57.1293C 39.3996,58.0681 36.7808,58.5833 34.0416,58.5833C 30.7028,58.5833 27.5427,57.8178 24.7274,56.4526L 25.3333,42.75 Z "/>
-                </Canvas>
-            </Button>
+           
         </Grid>
- 
+
         <StackPanel x:Name="SpLogin" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="50,0,480,15" >
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -40,7 +35,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="1.5*"/>
                 </Grid.RowDefinitions>
-                <TextBlock x:Name="tbkEnterMail" Text="התחבר"  Grid.Column="0" Grid.Row="0" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15"/>
+                <TextBlock x:Name="tbkEnterMail" Text="התחבר" Foreground="White" Grid.Column="0" Grid.Row="0" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15"/>
                 <TextBox x:Name="tbxEnterMail"  HorizontalAlignment="Stretch" Text="Enter your email" Foreground="Gray" FlowDirection="LeftToRight"  Grid.Row="1"  VerticalAlignment="Stretch" />
                 <Button x:Name="LogInButton" Content="התחבר"  Grid.Column="1" Grid.Row="1"   VerticalAlignment="Center" HorizontalAlignment="Center"  />
             </Grid>
@@ -62,27 +57,27 @@
                 <ComboBox x:Name="cbxfilter" Grid.Column="1"  HorizontalAlignment="Left" Width="120"  Margin="5,0,0,0"  VerticalAlignment="Top" Grid.ColumnSpan="2" Visibility="Hidden" >
                     <ComboBoxItem Content="יחידות אירוח" />
                     <ComboBoxItem Content="דרישות לקוח"  />
-                    <ComboBoxItem Content="הזמנות"/>  
-                </ComboBox> 
+                    <ComboBoxItem Content="הזמנות"/>
+                </ComboBox>
                 <ComboBox x:Name="cbxNewOld" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" Grid.Row="1" VerticalAlignment="Center" Width="100" Visibility="Collapsed">
                     <ComboBoxItem Content="החדשים יותר" />
                     <ComboBoxItem Content="הישנים יותר"/>
                 </ComboBox>
-                <Label Name="LgroupBy" Content=":קבץ לפי"  Grid.Column="2" FontWeight="Bold"  Grid.Row="1" Visibility="Collapsed"/>
+                <Label Name="LgroupBy" Content=":קבץ לפי"   Foreground="White" BorderBrush="Black" Grid.Column="2" FontWeight="Bold"  Grid.Row="1" Visibility="Collapsed"/>
                 <ComboBox x:Name="cbxgroupBy" Grid.Column="1" HorizontalAlignment="Left" Width="120" Height="Auto" Margin="3" Grid.Row="1" VerticalAlignment="Center" Visibility="Collapsed">
-                </ComboBox> 
-                
+                </ComboBox>
+
                 <TextBox x:Name="tbxSearch" Text="Search" Foreground="Gray" Grid.Column="0" Width="130" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3"  Grid.Row="1"  />
             </Grid>
         </StackPanel>
- 
+
         <DataGrid Grid.Row="1" x:Name="dataGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AutoGenerateColumns="True"  FlowDirection="RightToLeft" Visibility="Collapsed"   HorizontalContentAlignment="Center" ></DataGrid>
         <DataGrid Grid.Row="1" x:Name="groupGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AutoGenerateColumns="True"  FlowDirection="RightToLeft" Visibility="Collapsed"  ></DataGrid>
 
         <Grid x:Name="dataGridUnits" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*"/> 
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -93,11 +88,11 @@
 
         <Grid Grid.Row="2"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FlowDirection="LeftToRight">
             <Grid.Background>
-                <ImageBrush ImageSource="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTKwPZ5n4RfyGfvHxzHJe555tt2RBwLlGMIihEJjL5iz3MKKGqM"/>
+                <ImageBrush ImageSource="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSsWnwKBT0yLXhGUKuDOl_HFQL8p61zfvhVbslcCuq96QWRJQSK"/>
             </Grid.Background>
-            <Grid.ColumnDefinitions> 
+            <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="110"/>
-                <ColumnDefinition Width="auto"/> 
+                <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="AddButton"  Grid.Column="0" Content=" הוסף " ToolTip="הוסף " HorizontalAlignment="Center"    VerticalAlignment="Stretch" Width="80" ></Button>
@@ -107,18 +102,27 @@
                         <ColumnDefinition Width=" auto"/>
                         <ColumnDefinition Width=" auto"/>
                         <ColumnDefinition Width=" auto"/>
-                        <ColumnDefinition Width=" auto"/> 
+                        <ColumnDefinition Width=" auto"/>
                     </Grid.ColumnDefinitions>
-                <Button x:Name="deleteButton" Grid.Column="0" Content="מחק" ToolTip="מחק" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="80" Margin="10,0"  ></Button>
+                    <Button x:Name="deleteButton" Grid.Column="0" Content="מחק" ToolTip="מחק" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="80" Margin="10,0"  ></Button>
                     <Button x:Name="updateButton" Grid.Column="1" Content="ערוך" ToolTip="ערוך" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="80" Margin="10,0"    ></Button>
                     <Button x:Name="watchOrdersButton" Grid.Column="2" Content="עבור להזמנות" ToolTip="עבור להזמנות" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="80"  Margin="10,0"  ></Button>
                     <Button x:Name="watchDairy" Grid.Column="3" Content="לוח שנה" ToolTip="צפה במצב לוח השנה שלך" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="80"  Margin="10,0"  ></Button>
 
                 </Grid>
             </StackPanel>
-           
+            
         </Grid>
-         
-    </Grid> 
-    
+        <Button x:Name="LogoutButton" BorderBrush="Transparent" ToolTip="צא" Grid.Column="2" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40" Height="40" VerticalContentAlignment="Center" Background="Transparent" Visibility="Collapsed"  >
+                <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"   VerticalAlignment="Center"  Background="Transparent" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="appbar_people_arrow_left" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+                    <Path Width="26" Height="25" Canvas.Left="5" Canvas.Top="25" Fill="Gray" Stretch="Fill"  Data="F1 M 50.6667,44.3333L 57,44.3333L 52.9097,
+                          49.0833L 60.1667,49.0833L 60.1667,53.8333L 52.9097,53.8333L 57,58.5833L 50.6667,58.5833L 45.125,51.4583L 50.6667,44.3333 Z M 33.25,15.8333C 37.6222,15.8333 41.1667,19.3778 41.1667,23.75C 41.1667,28.1223
+                          37.6222,31.6667 33.25,31.6667C 28.8777,31.6667 25.3333,28.1223 25.3333,23.75C 25.3333,19.3778 28.8778,15.8333 33.25,15.8333 Z M 25.3333,42.75C 24.2778,43.2778 22.1667,47.4999 22.1667,47.4999C 22.1667,47.4999 
+                          21.1111,49.0833 20.5833,55.4166L 15.8333,53.8333L 17.4167,45.9167C 17.4167,45.9167 20.5833,34.8333 26.9166,34.8335L 39.5832,34.8335C 44.2566,34.8334 47.2057,40.868 48.4306,44.0315L 44.7578,48.5205L 44.3334,47.5C 
+                          44.3334,47.5 42.2222,43.2778 41.1666,42.75L 41.8064,57.1293C 39.3996,58.0681 36.7808,58.5833 34.0416,58.5833C 30.7028,58.5833 27.5427,57.8178 24.7274,56.4526L 25.3333,42.75 Z "/>
+                </Canvas>
+            </Button>
+
+    </Grid>
+
 </UserControl>

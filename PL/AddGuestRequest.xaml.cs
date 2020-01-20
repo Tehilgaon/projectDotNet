@@ -34,7 +34,7 @@ namespace PL
             cbxArea.ItemsSource = Enum.GetNames(typeof(BE.Enums.Regions));  
             cbxHostingType.ItemsSource = Enum.GetValues(typeof(BE.Enums.HostingUnitType));
             guestRequest = new BE.GuestRequest(); 
-            Options();
+            
             newOfSameGuest();
             DataContext = guestRequest; 
         }
@@ -48,7 +48,7 @@ namespace PL
                 this.Title = "עידכון בקשה";
                 this.cbxArea.ItemsSource = Enum.GetNames(typeof(BE.Enums.Regions));  
                 this.cbxHostingType.ItemsSource = Enum.GetNames(typeof(BE.Enums.HostingUnitType));
-                Options();
+                
                 tbxPrivateName.IsEnabled = false;
                 tbxFamilyName.IsEnabled = false;
                 tbxEmail.IsEnabled = false;
@@ -96,29 +96,7 @@ namespace PL
             }
         }
 
-        void Options()
-        { 
-            int i = 0;
-            foreach (var key in guestRequest.Options)
-            {
-                CheckBox cbx = new CheckBox
-                {
-                    Content = key.Key,
-                    IsChecked = key.Value
-                };
-                Binding myBinding = new Binding();
-                myBinding.Source = key.Value;
-                myBinding.Path = new PropertyPath("Key");
-                myBinding.Mode = BindingMode.TwoWay;
-                myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                BindingOperations.SetBinding(cbx, CheckBox.IsCheckedProperty, myBinding);  
-                lbOptionList.Children.Add(cbx);
-                Grid.SetRow(cbx, i);
-                 
-                i++; 
-            }
-            
-        }
+         
         void newOfSameGuest() 
         {
             GuestRequest SameGuest = bl.GetAllGuestRequests(Item => Item.MailAddress == ((MainWindow)System.Windows.Application.Current.MainWindow).guestMail).FirstOrDefault();

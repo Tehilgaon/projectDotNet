@@ -15,8 +15,8 @@
             <TextBlock x:Name="tbkUnitName" Text="{Binding HostingUnitName, Mode=TwoWay}" />
         </StackPanel>
     </Window.Resources>
-
-    <Grid>
+      
+        <Grid>
         <Button Content="Guest" HorizontalAlignment="Left" Margin="350,100,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Content="Host" HorizontalAlignment="Left" Margin="350,150,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Content="manager" HorizontalAlignment="Left" Margin="350,200,0,0" VerticalAlignment="Top" Width="75"/>
@@ -31,7 +31,10 @@
             <TabItem Header="Host"   >
                 <local:GuestUC x:Name="HostZone"  />
             </TabItem>
-            <TabItem Header=" מנהל אתר" >
+            <TabItem Header=" " Width="500" >
+                <local:GuestUC x:Name="t"  />
+            </TabItem>
+            <TabItem Header= "מנהל אתר"  Opacity="1" >
                 <local:GuestUC x:Name="ManagerZone" />
             </TabItem>
 

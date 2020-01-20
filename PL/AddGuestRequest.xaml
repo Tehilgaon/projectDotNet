@@ -7,12 +7,9 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="הוספת דרישת לקוח"  SizeToContent="WidthAndHeight" >
-       <Window.Resources>
-           
 
-        </Window.Resources>
-        <Grid Height="250"  VerticalAlignment="Top" FlowDirection="RightToLeft" >
-        
+    <Grid Height="250"  VerticalAlignment="Top" FlowDirection="RightToLeft" >
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
@@ -22,7 +19,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/> 
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -69,7 +66,7 @@
             <ComboBox x:Name="cbxArea" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" 
                       SelectedItem="{Binding Area}" ItemsSource="{Binding}" Grid.Row="5" VerticalAlignment="Center" Width="120" />
 
-              
+
             <Label Content="סוג אירוח:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
             <ComboBox x:Name="cbxHostingType" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" 
                       SelectedItem="{Binding Type}" ItemsSource="{Binding}" Grid.Row="7" VerticalAlignment="Center" Width="120"/>
@@ -89,7 +86,7 @@
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="*"/>
-                 
+
             </Grid.RowDefinitions>
             <TextBlock Text="התקנים:"  FlowDirection="RightToLeft"  TextWrapping="Wrap" Grid.Row="0" FontWeight="Bold"  />
             <Grid x:Name="lbOptionList" Grid.Row="2" Height="160">
@@ -103,10 +100,15 @@
                     <RowDefinition Height="20"/>
                     <RowDefinition Height="20"/>
                 </Grid.RowDefinitions>
-                 
-            </Grid> 
+                <CheckBox Content="בריכה" IsChecked="{Binding Pool}" Grid.Row="0"  />
+                <CheckBox Content="ג'קוזי" IsChecked="{Binding Jacuzzi}" Grid.Row="1"  />
+                <CheckBox Content="חניה" IsChecked="{Binding Parking}" Grid.Row="2"  />
+                <CheckBox Content="מיטת תינוק" IsChecked="{Binding Baby_bed}" Grid.Row="3"  />
+                <CheckBox Content="גינה" IsChecked="{Binding Garden}" Grid.Row="4"  />
+
+            </Grid>
             
         </Grid>
         <Button x:Name="AddGuestButton" Content="הוסף" HorizontalAlignment="Center" Margin="10"  VerticalAlignment="Bottom" Width="50" Click="AddButton_Click"  ></Button>
     </Grid>
- </controls:MetroWindow>
+</controls:MetroWindow>

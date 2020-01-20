@@ -24,18 +24,19 @@ namespace BE
         private string type;
         private int adults;
         private int children;
-        //private bool pool;
-        //private bool jacuzzi;
-        //private bool garden;
-        //private bool childrensAttractions;
-        Dictionary<string, bool> options;
+        private bool pool;
+        private bool jacuzzi;
+        private bool garden;
+        private bool parking;
+        private bool baby_bed;
+
 
 
 
         public string PrivateName { get => privateName;
             set
             {
-                Regex r = new Regex("^[a-zA-Zא-ת]{2,15}$");
+                Regex r = new Regex("^[ a-zA-Zא-ת]{2,15}$");
                 if (!r.IsMatch(value))
                     throw new Exception("Name should contain only letters, Between 2-15.");
                 privateName = value;
@@ -44,7 +45,7 @@ namespace BE
         public string FamilyName { get => familyName;
             set
             {
-                Regex r = new Regex("^[a-zA-Zא-ת]{2,15}$");
+                Regex r = new Regex("^[ a-zA-Zא-ת]{2,15}$");
                 if (!r.IsMatch(value))
                     throw new Exception("Name should contain only letters, Between 2-15.");
                 familyName = value;
@@ -90,19 +91,18 @@ namespace BE
         public string Type { get => type; set => type = value; }
         public int Adults { get => adults; set => adults = value; }
         public int Children { get => children; set => children = value; }
-        //public bool Pool { get => pool; set => pool = value; }
-        //public bool Jacuzzi { get => jacuzzi; set => jacuzzi = value; }
-        //public bool Garden { get => garden; set => garden = value; }
-        //public bool ChildrensAttractions { get => childrensAttractions; set => childrensAttractions = value; }
         public string Status { get => status; set => status = value; }
-        public Dictionary<string, bool> Options { get => options; set => options = value; }
+        public bool Pool { get => pool; set => pool = value; }
+        public bool Jacuzzi { get => jacuzzi; set => jacuzzi = value; }
+        public bool Garden { get => garden; set => garden = value; }
+        public bool Parking { get => parking; set => parking = value; }
+        public bool Baby_bed { get => baby_bed; set => baby_bed = value; }
 
         public GuestRequest()
         {
             GuestRequestKey = Configuration.GuestRequestKey++.ToString();
             Status = Enums.GuestRequestStatus.Active.ToString();
             RegistrationDate = DateTime.UtcNow;
-            Options = new Dictionary<string, bool> { { "בריכה", false }, { "ג'קוזי", false }, { "גינה", false }, { "חניה", false }, { "מיטת תינוק", false } };
  
         }
 

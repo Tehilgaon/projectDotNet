@@ -17,6 +17,7 @@ namespace BE
         private static string mng="0000";
         private static int orderValidity=14;
         public static string TypeDAL = ConfigurationSettings.AppSettings.Get("TypeDS");
+        private string sMTP_Server="smtp.gmail.com";
 
         internal static long GuestRequestKey { get => guestRequestKey; set => guestRequestKey = value; }
         internal static long HostingUnitKey { get => hostingUnitKey; set => hostingUnitKey+=1; }
@@ -24,5 +25,6 @@ namespace BE
         public static int Fee { get => fee; set => fee = value; }
         public static string Mng { get => mng;  }
         public static int OrderValidity  { get => orderValidity; set => orderValidity = value; }
+        public string SMTP_Server { get => sMTP_Server; set => sMTP_Server = value; }
     }
 }

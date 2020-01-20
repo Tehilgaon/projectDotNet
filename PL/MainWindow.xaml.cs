@@ -90,12 +90,7 @@ namespace PL
             this.HostZone.watchDairy.Click += WatchDairy_Click;
         }
 
-        private void WatchDairy_Click(object sender, RoutedEventArgs e)
-        {
-           displayDairy();
-           myDairy.Visibility = Visibility.Visible;
-        }
-
+       
         private void Manager_Zone()
         {
             this.ManagerZone.tbkEnterMail.Text = "";
@@ -645,21 +640,31 @@ namespace PL
                     MgOrdersList.Add(value);
             this.ManagerZone.dataGrid.ItemsSource = MgOrdersList.Where(item=>item.OrderDate!=default);
         }
-        void displayDairy() 
+       
+
+        private void WatchDairy_Click(object sender, RoutedEventArgs e)
         {
 
-            Dairy = new Calendar();
-            Dairy.DisplayMode = CalendarMode.Year;
-            Dairy.SelectionMode = CalendarSelectionMode.None;
-            Dairy.IsTodayHighlighted = true;
-            for (DateTime day= DateTime.Today;day<today.AddYears(1) ; day=day.AddDays(1))
+            if (myDairy.Visibility == Visibility.Visible)
+                myDairy.Visibility =Dairy.Visibility= Visibility.Collapsed;
+            else
             {
-                if(HostingUnit[day])
-                Dairy.BlackoutDates.Add(new CalendarDateRange(day));
+                myDairy.Visibility = Visibility.Visible;
+                Dairy = new Calendar
+                {
+                    DisplayMode = CalendarMode.Year,
+                    SelectionMode = CalendarSelectionMode.None,
+                    IsTodayHighlighted = true
+                };
+                for (DateTime day = DateTime.Today; day < today.AddYears(1); day = day.AddDays(1))
+                {
+                    if (HostingUnit[day])
+                        Dairy.BlackoutDates.Add(new CalendarDateRange(day));
+                }
+                myDairy = Dairy;
             }
-            myDairy = Dairy; 
+            
         }
-
 
 
 

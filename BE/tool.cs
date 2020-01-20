@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Net.Mail;
 namespace BE
 {
     public static class tool
@@ -29,7 +30,27 @@ namespace BE
                 return (T)formatter.Deserialize(stream);
             }
         }
+       /* public static bool SendingEmail(string recipients, string subject, string body)
+        {
+            try
+            {
+                var client = new SmtpClient(BE.Configuration.SMTP_Server, BE.Configuration.SMTP_Port)
+                {
+                    Credentials = new NetworkCredential(Configuration.SenderEmailAddress, Configuration.EmailServerPasword),
+                    EnableSsl = true
+                };
+                MailMessage mailMessage = new MailMessage(recipients, recipients) { Body = body, IsBodyHtml = true, Subject = subject, };
+                client.Send(mailMessage);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }*/
 
     }
+
+
 
 }

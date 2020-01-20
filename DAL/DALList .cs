@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using BE;
 using DS;
+using System.Xml.Serialization;
+using System.Xml.Linq;
+using System.IO;
+
 
 namespace DAL
 {
@@ -17,10 +21,19 @@ namespace DAL
             get { return instance; }
         }
 
-        private DALList() { }
+        private DALList() {
+            SaveToXML<List<GuestRequest>>(DataSource.guestRequests, guestRequestsPath);
+        }
         static DALList() { }
 
         #endregion
+        static readonly string ProjectPath = Directory.GetParent(Directory.GetParent(Environment.CurrentDirectory.ToString()).FullName).FullName; 
+        XElement configRoot;
+        private readonly string guestRequestsPath = ProjectPath + "/Files/guestRequests.xml";
+        private readonly string hostingUnitsPath = ProjectPath + "/Files/hostingUnits.xml";
+        private readonly string ordersPath = ProjectPath + "/Files/orders.xml";
+        private readonly string configPath = ProjectPath + "/Files/config.xml";
+        XElement guestRequestRoot;
 
         #region HostingUnit
         public void addHostingUnit(HostingUnit hostingUnit)
@@ -72,6 +85,29 @@ namespace DAL
         #region GuestRequest
         public void addGuestRequest(GuestRequest guestRequest)
         {
+             
+            /*try
+            {
+                XElement Request = new XElement("guestRequest");
+                Request.Add(new XElement("guestRequestKey", guestRequest.GuestRequestKey),
+                      new XElement("PrivateName", guestRequest.PrivateName),
+                      new XElement("FamilyName", guestRequest.FamilyName),
+                      new XElement("entryDate", guestRequest.EntryDate.ToShortDateString()),
+                      new XElement("releaseDate", guestRequest.ReleaseDate.ToShortDateString()),
+                      new XElement("RegistrationDate", guestRequest.RegistrationDate.ToString()),
+                      new XElement("MailAddress", guestRequest.MailAddress),
+                      new XElement("Area", guestRequest.Area),
+                      new XElement("Adults", guestRequest.Adults),
+                      new XElement("Children", guestRequest.Children),
+                      new XElement("Type", guestRequest.Type),
+                      new XElement("Status", guestRequest.Status));
+               // new XElement("NumOfDrivingLessons", guestRequest.), 
+               guestRequestRoot.Add(Request);
+               guestRequestRoot.Save(guestRequestsPath);
+                
+            }
+            catch (Exception)
+            { }*/
             DataSource.guestRequests.Add(guestRequest.Clone());
         }
         public void updateGuestRequest(GuestRequest guestRequest)
@@ -98,6 +134,31 @@ namespace DAL
             return DataSource.GetAllBranches();
         }
 
-        
+
+
+
+        public static void SaveToXML<T>(T source, string path)
+        {
+            FileStream file = new FileStream(path, FileMode.Create);
+            XmlSerializer xmlSerializer = new XmlSerializer(source.GetType());
+            xmlSerializer.Serialize(file, source); file.Close();
+        }
+
+        /// <summary>
+        /// Load From XML tamplate
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static T LoadFromXML<T>(string path)
+        {
+            FileStream file = new FileStream(path, FileMode.Open);
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+            T result = (T)xmlSerializer.Deserialize(file);
+            file.Close();
+            return result;
+        }
+
+
     }
 }

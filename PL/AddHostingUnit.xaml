@@ -42,9 +42,27 @@
             <ComboBox x:Name="cbxUnitType" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" 
                       SelectedItem="{Binding HostingUnitType}" Grid.Row="3" VerticalAlignment="Center" Width="120"/>
             <Label Content="אופציות:" HorizontalAlignment="left" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" FontWeight="Bold" />
+            <Grid x:Name="lbOptionList" Grid.Row="5" Height="160" Grid.Column="0" Margin="0,20 0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                </Grid.RowDefinitions>
+                <CheckBox Content="בריכה" IsChecked="{Binding Pool}" Grid.Row="0"  />
+                <CheckBox Content="ג'קוזי" IsChecked="{Binding Jacuzzi}" Grid.Row="1"  />
+                <CheckBox Content="חניה" IsChecked="{Binding Parking}" Grid.Row="2"  />
+                <CheckBox Content="מיטת תינוק" IsChecked="{Binding Baby_bed}" Grid.Row="3"  />
+                <CheckBox Content="גינה" IsChecked="{Binding Garden}" Grid.Row="4"  />
 
-             
-            
+            </Grid>
+
+
+
         </Grid>
         <Grid x:Name="gridHost" HorizontalAlignment="Center" Grid.Column="1" Margin="10" VerticalAlignment="Stretch" FlowDirection="RightToLeft">
             <Grid.ColumnDefinitions>
