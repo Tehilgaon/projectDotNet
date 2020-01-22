@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
@@ -55,7 +56,7 @@
             <Label Content=" תאריך צ'ק-אין:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center" FontWeight="DemiBold"/>
             <DatePicker x:Name="EntryDatePicker" Grid.Column="1" HorizontalAlignment="Center" Margin="3" Grid.Row="3" 
                         SelectedDate="{Binding EntryDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
-                        VerticalAlignment="Center"  DisplayDate="{Binding date, Mode=TwoWay}" IsTodayHighlighted="true" IsDropDownOpen="False"  />
+                        VerticalAlignment="Center"  DisplayDate="{Binding date, Mode=TwoWay}"   DisplayDateStart="{x:Static sys:DateTime.Today}" DisplayDateEnd="{Binding  aYearFNow}"  IsTodayHighlighted="true"    />
 
             <Label Content="תאריך צ'ק-אאוט:" Grid.Column="2" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center" FontWeight="DemiBold"/>
             <DatePicker x:Name="ReleaseDatePicker" Grid.Column="3" HorizontalAlignment="Center" Margin="3" Grid.Row="3" 

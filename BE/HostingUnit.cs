@@ -27,12 +27,12 @@ namespace BE
         private bool jacuzzi;
         private bool garden;
         private bool parking;
-        private bool baby_bed; 
+        private bool baby_bed;
         private double fee;
         private int yearlyOccupied;
 
-        
-        
+
+
 
         public string HostingUnitKey { get => hostingUnitKey; set => hostingUnitKey = value; }
         public string HostingUnitName { get => hostingUnitName;
@@ -58,7 +58,7 @@ namespace BE
         }
         [XmlIgnore]
         public bool[,] Diary { get => diary; set => diary = value; }
-        
+
         public string HostingUnitType { get => hostingUnitType; set => hostingUnitType = value; }
         public string Area { get => area; set => area = value; }
         public string SubArea { get => subArea; set => subArea = value; }
@@ -69,10 +69,19 @@ namespace BE
         public bool Garden { get => garden; set => garden = value; }
         public bool Parking { get => parking; set => parking = value; }
         public bool Baby_bed { get => baby_bed; set => baby_bed = value; }
-         public List<DateTime> DairySer
-        {
-            get { return this.; }
-        }
+
+        [XmlArray("Diary")]
+        public bool [] DairySer
+       {
+            get
+            {
+                return Diary.Flatten();
+            }
+            set
+            {
+                Diary = value.Expand(12);
+            }
+      }
 
         public HostingUnit() 
         {

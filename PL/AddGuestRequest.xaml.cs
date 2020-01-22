@@ -24,6 +24,7 @@ namespace PL
         BL.MyBL bl;
         BE.GuestRequest guestRequest;
         DateTime date=DateTime.Now;
+        string aYearFNow=DateTime.Today.AddYears(1).ToShortDateString() ;
         List<CheckBox> CheckBoxOptions;
         
 
@@ -33,8 +34,8 @@ namespace PL
             bl = MyBL.Instance;
             cbxArea.ItemsSource = Enum.GetNames(typeof(BE.Enums.Regions));  
             cbxHostingType.ItemsSource = Enum.GetValues(typeof(BE.Enums.HostingUnitType));
-            guestRequest = new BE.GuestRequest(); 
-            
+            guestRequest = new BE.GuestRequest();
+             
             newOfSameGuest();
             DataContext = guestRequest; 
         }

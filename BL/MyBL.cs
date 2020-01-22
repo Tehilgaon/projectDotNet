@@ -25,9 +25,8 @@ namespace BL
 
         static MyBL()
         {
-            // string TypeDAL = ConfigurationSettings.AppSettings.Get("TypeDS");
+             
             string TypeDAL = Configuration.TypeDAL;
-            // string TypeDAL = "List";
             myDAL = factoryDAL.getDAL(TypeDAL);
         }
         private MyBL() { }
@@ -36,8 +35,8 @@ namespace BL
         #region HostingUnit
         public void addHostingUnit(HostingUnit hostingUnit)
         {
-            if (hostingUnit.HostingUnitName == null ||hostingUnit.HostingUnitType == null)//||
-                //hostingUnit.Host.PrivateName==null)//||hostingUnit.Host.MailAddress==null)
+            if (hostingUnit.HostingUnitName == null ||hostingUnit.HostingUnitType == null||
+                hostingUnit.Host.Bankbranch.BankNumber==0||hostingUnit.Host.Bankbranch.BranchNumber==0) 
                 throw new Exception("חובה למלא את כל הפרטים");
             myDAL.addHostingUnit(hostingUnit);
         }
@@ -122,7 +121,7 @@ namespace BL
             {
                 if (hostingUnit.Host.CollectionClearance==false)
                     throw new Exception("חובה לחתום על הרשאה לחיוב חשבון בנק לפני שליחת מייל ללקוח");
-                 //Sending an email
+                tool.SendEmail(guestRequest.MailAddress, hostingUnit.Host.MailAddress);
             }
             if (oldOrder.OrderStatus==Enums.OrderStatus.Mailed&&order.OrderStatus==Enums.OrderStatus.Closed)
             {
@@ -233,7 +232,30 @@ namespace BL
             return hostingUnit;
         }
          
-        
+        /*public void sendEmail(String HostMail, String GuestMail)
+        {
+
+           
+           MailMessage mail = new MailMessage(); 
+            mail.To.Add(GuestMail); 
+            mail.From = new MailAddress(HostMail);
+            mail.Subject = "הזמנת צימר"; 
+            mail.Body = "mailBody"; 
+            mail.IsBodyHtml = false; 
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Credentials = new System.Net.NetworkCredential(Configuration.MailSystem, Configuration.Password);
+            smtp.EnableSsl = true;
+            try
+            {
+                smtp.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+               // txtMessage.Text = ex.ToString();
+            }
+        }*/
 
 
     }

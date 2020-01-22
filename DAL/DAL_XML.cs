@@ -26,10 +26,10 @@ namespace DAL
 
         private DAL_XML()
         {
-             
-            guestRequestsList = LoadFromXML<List<GuestRequest>>(guestRequestsPath);
-            
-            orderList = LoadFromXML<List<Order>>(ordersPath);
+          
+            guestRequestsList = tool.LoadFromXML<List<GuestRequest>>(guestRequestsPath);
+            hostingUnitList = tool.LoadFromXML<List<HostingUnit>>(hostingUnitsPath);
+            orderList = tool.LoadFromXML<List<Order>>(ordersPath);
         }
         static DAL_XML() { }
 
@@ -44,32 +44,36 @@ namespace DAL
         private readonly string configPath =  "config.xml";
         XElement guestRequestRoot;
         List<GuestRequest> guestRequestsList = new List<GuestRequest>();
-        List<HostingUnit> hostingUnitList;
+        List<HostingUnit> hostingUnitList = new List<HostingUnit>();
         List<Order> orderList = new List<Order>();
+  
          
 
         #region HostingUnit
         public void addHostingUnit(HostingUnit hostingUnit)
         {
-            DataSource.hostingUnits.Add(hostingUnit.Clone());
+            hostingUnitList.Add(hostingUnit.Clone());
+            tool.SaveToXML<List<HostingUnit>>(hostingUnitList, hostingUnitsPath);
         }
         public List<HostingUnit> getAllHostingUnits(Func<HostingUnit, bool> predicate = null)
         {
             if (predicate != null)
-                return DataSource.hostingUnits.Where(predicate).ToList().Clone();
-            HostingUnit[] hostingUnitArr = new HostingUnit[DataSource.hostingUnits.Count];
-            DataSource.hostingUnits.CopyTo(hostingUnitArr);
+                return hostingUnitList.Where(predicate).ToList().Clone();
+            HostingUnit[] hostingUnitArr = new HostingUnit[hostingUnitList.Count];
+            hostingUnitList.CopyTo(hostingUnitArr);
             return hostingUnitArr.ToList();
         }
         public void deleteHostingUnit(HostingUnit hostingUnit)
         {
-            HostingUnit Unit = DataSource.hostingUnits.Where(Item => Item.HostingUnitKey == hostingUnit.HostingUnitKey).FirstOrDefault();
-            DataSource.hostingUnits.Remove(Unit);
+            HostingUnit Unit = hostingUnitList.Where(Item => Item.HostingUnitKey == hostingUnit.HostingUnitKey).FirstOrDefault();
+            hostingUnitList.Remove(Unit);
+            tool.SaveToXML<List<HostingUnit>>(hostingUnitList, hostingUnitsPath); 
         }
         public void updateHostingUnit(HostingUnit hostingUnit)
         {
-            int index = DataSource.hostingUnits.FindIndex(Item => Item.HostingUnitKey == hostingUnit.HostingUnitKey);
-            DataSource.hostingUnits[index] = hostingUnit.Clone();
+            int index = hostingUnitList.FindIndex(Item => Item.HostingUnitKey == hostingUnit.HostingUnitKey);
+            hostingUnitList[index] = hostingUnit.Clone();
+            tool.SaveToXML<List<HostingUnit>>(hostingUnitList, hostingUnitsPath);
         }
         #endregion
 
@@ -77,7 +81,7 @@ namespace DAL
         public void addOrder(Order order)
         {
             orderList.Add(order.Clone());
-            SaveToXML<List<Order>>(orderList, ordersPath);
+            tool.SaveToXML<List<Order>>(orderList, ordersPath);
         }
         public List<Order> getAllOrders(Func<Order, bool> predicate = null)
         {
@@ -92,7 +96,7 @@ namespace DAL
         {
             int index = DataSource.orders.FindIndex(Item => Item.OrderKey == order.OrderKey);
             orderList[index] = order.Clone();
-            SaveToXML<List<Order>>(orderList, ordersPath);
+            tool.SaveToXML<List<Order>>(orderList, ordersPath);
         }
 
         #endregion
@@ -101,12 +105,12 @@ namespace DAL
         public void addGuestRequest(GuestRequest guestRequest)
         { 
            guestRequestsList.Add(guestRequest.Clone());
-           SaveToXML<List<GuestRequest>>(guestRequestsList, guestRequestsPath);    
+           tool.SaveToXML<List<GuestRequest>>(guestRequestsList, guestRequestsPath);    
         }
         public void updateGuestRequest(GuestRequest guestRequest)
         {
             guestRequestsList.RemoveAll(Item => Item.GuestRequestKey == guestRequest.GuestRequestKey);
-            SaveToXML<List<GuestRequest>>(guestRequestsList, guestRequestsPath);
+            tool.SaveToXML<List<GuestRequest>>(guestRequestsList, guestRequestsPath);
             addGuestRequest(guestRequest);   
         }
         
@@ -126,29 +130,7 @@ namespace DAL
 
 
 
-
-        public static void SaveToXML<T>(T source, string path)
-        {
-            FileStream file = new FileStream(path, FileMode.Create);
-            XmlSerializer xmlSerializer = new XmlSerializer(source.GetType());
-            xmlSerializer.Serialize(file, source); file.Close();
-        }
-
-        /// <summary>
-        /// Load From XML tamplate
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public static T LoadFromXML<T>(string path)
-        {
-            FileStream file = new FileStream(path, FileMode.Open);
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-            T result = (T)xmlSerializer.Deserialize(file);
-            file.Close();
-            return result;
-        }
-
+         
 
     }
 }

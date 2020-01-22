@@ -1,8 +1,10 @@
 ﻿using BL;
 using BE;
 using System;
+using System.Net;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq; 
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,6 +17,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Threading.Tasks;
+using System.Threading;
 using System.IO;
 
 
@@ -30,12 +35,13 @@ namespace PL
         List<GuestRequest> guestRequestsList;
         List<HostingUnit> hostingUnitsList;
         List<Order> ordersList;
+        public List<BankBranch> branchesList = new List<BankBranch>();
+        List<GuestRequest> yourGuestList=new List<GuestRequest>();
 
-         
         List<GuestRequest> MgGuestRequestsList;
         List<HostingUnit> MgHostingUnitsList;
         List<Order> MgOrdersList;
-
+        XElement banks;
         Calendar Dairy;
         DateTime today = DateTime.Today;
         public string guestMail, hostMail;
@@ -53,6 +59,7 @@ namespace PL
                 Guest_Zone();
                 Host_Zone();
                 Manager_Zone();
+                LoadBanksList();
             }
             catch (Exception e)
             {
@@ -88,9 +95,23 @@ namespace PL
             this.HostZone.dataGrid.MouseDoubleClick +=UnitUpdateButton_Click;
             this.HostZone.LogoutButton.Click += HostLogoutButton_Click;
             this.HostZone.watchDairy.Click += WatchDairy_Click;
+            //this.HostZone.displayYourGuestButton.Click += DisplayYourGuestButton_Click;
         }
 
-       
+        /*private void DisplayYourGuestButton_Click(object sender, RoutedEventArgs e)
+        {
+             
+            foreach(var guestrequest in bL.getAllOrders(item => item.HostingUnitKey == HostingUnit.HostingUnitKey).
+                Select(item=>item.GuestRequestKey).Distinct())
+            {
+                yourGuestList.Add(bL.GetAllGuestRequests(item => item.GuestRequestKey == guestrequest).FirstOrDefault());
+            }
+            this.HostZone.dataGrid.AutoGeneratingColumn -= HostingUnit_AutoGenerateColumns;
+            this.HostZone.dataGrid.AutoGeneratingColumn += Guest_AutoGenerateColumns;
+            this.HostZone.dataGrid.ItemsSource = yourGuestList;
+ 
+        }*/
+
         private void Manager_Zone()
         {
             this.ManagerZone.tbkEnterMail.Text = "";
@@ -103,6 +124,62 @@ namespace PL
             this.ManagerZone.tbxSearch.TextChanged += ManagerFilter;
             this.ManagerZone.dataGrid.SelectionChanged+= Manager_SelectionChanged;
             this.ManagerZone.dataGrid.MouseDoubleClick += ManagerZone_edit;
+        }
+
+        public void LoadBanksList()
+        {
+            BackgroundWorker Worker = new BackgroundWorker();
+            Worker.DoWork += Worker_DoWork;
+            Worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+            Worker.WorkerReportsProgress = true;
+            Worker.RunWorkerAsync("argument");
+
+        }
+
+        private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+            try
+            {
+                banks = XElement.Load(e.Result.ToString());
+            }
+            catch
+            {
+                MessageBox.Show("קרתה בעיה עם טעינת הנתונים");
+            }
+            branchesList = (from bank in banks.Elements()
+                            select
+                         new BankBranch(
+                             Convert.ToInt32(bank.Element("קוד_בנק").Value),
+                             bank.Element("שם_בנק").Value,
+                             Convert.ToInt32(bank.Element("קוד_סניף").Value),
+                             bank.Element("כתובת_ה-ATM").Value,
+                             bank.Element("ישוב").Value
+                              )).ToList();
+        
+
+        }
+
+        private void Worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            const string xmlLocalPath = @"atm.xml";
+            WebClient wc = new WebClient();
+            try
+            {
+                string xmlServerPath =
+               @"http://www.boi.org.il/he/BankingSupervision/BanksAndBranchLocations/Lists/BoiBankBranchesDocs/atm.xml";
+                wc.DownloadFile(xmlServerPath, xmlLocalPath);
+            }
+            catch (Exception)
+            {
+                string xmlServerPath = @"http://www.jct.ac.il/~coshri/atm.xml";
+                wc.DownloadFile(xmlServerPath, xmlLocalPath);
+            }
+            finally
+            {
+                wc.Dispose();
+            }
+            e.Result = @"atm.xml";
         }
 
         private void ManagerZone_edit(object sender, MouseButtonEventArgs e)
@@ -588,6 +665,8 @@ namespace PL
                 zone.cbxfilter.Visibility = Visibility.Visible;
             if (zone == this.GuestZone)
                 zone.cbxNewOld.Visibility = Visibility.Visible;
+            if (zone == this.HostZone)
+                zone.displayYourGuestButton.Visibility = Visibility.Visible;
 
         }
 
@@ -665,8 +744,7 @@ namespace PL
             }
             
         }
-
-
+       
 
 
 

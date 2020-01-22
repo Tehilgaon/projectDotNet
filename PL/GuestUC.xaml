@@ -41,7 +41,7 @@
             </Grid>
         </StackPanel>
 
-
+        <Button x:Name="displayYourGuestButton" Content=" לרשימת הלקוחות שלך" VerticalAlignment="Top" Width="120" HorizontalAlignment="Right" Margin="5,5" Visibility="Collapsed"/>
 
         <StackPanel x:Name="spFilter" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="70" FlowDirection="LeftToRight" Visibility="Collapsed"  >
             <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
