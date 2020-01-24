@@ -26,23 +26,68 @@ namespace DAL
 
         private DAL_XML()
         {
-          
+            if (!File.Exists(hostingUnitsPath))
+                tool.SaveToXML<List<HostingUnit>>(hostingUnitList, hostingUnitsPath);
+            if (!File.Exists(guestRequestsPath))
+                tool.SaveToXML<List<GuestRequest>>(guestRequestsList, guestRequestsPath);
+            if (!File.Exists(ordersPath))
+                tool.SaveToXML<List<Order>>(orderList, ordersPath);
+
+
             guestRequestsList = tool.LoadFromXML<List<GuestRequest>>(guestRequestsPath);
             hostingUnitList = tool.LoadFromXML<List<HostingUnit>>(hostingUnitsPath);
             orderList = tool.LoadFromXML<List<Order>>(ordersPath);
+            if(!File.Exists(configPath))
+            {
+                SaveConfigurationToXML(); 
+            }
+            else
+            {
+                configRoot = XElement.Load(configPath);
+                BE.Configuration.GuestRequestKey = Convert.ToInt64(configRoot.Element("GuestRequestKey").Value);
+                BE.Configuration.HostingUnitKey = Convert.ToInt64(configRoot.Element("HostingUnitKey").Value);
+                BE.Configuration.OrderKey = Convert.ToInt64(configRoot.Element("OrderKey").Value);
+                BE.Configuration.Mng = configRoot.Element("Mng").Value;
+                BE.Configuration.Fee = Convert.ToInt32(configRoot.Element("Fee").Value);
+                BE.Configuration.OrderValidity = Convert.ToInt32(configRoot.Element("OrderValidity").Value);
+                BE.Configuration.SMTP_Server =  configRoot.Element("SMTP_Server").Value;
+                BE.Configuration.MailSystem =  configRoot.Element("MailSystem").Value;
+                BE.Configuration.Password =  configRoot.Element("Password").Value;
+ 
+            }
         }
         static DAL_XML() { }
 
         #endregion
 
+        void SaveConfigurationToXML()
+        {
+            configRoot = new XElement("config");
+            try
+            {
+                configRoot.Add(new XElement("GuestRequestKey", BE.Configuration.GuestRequestKey),
+                               new XElement("HostingUnitKey", BE.Configuration.HostingUnitKey),
+                               new XElement("OrderKey", BE.Configuration.OrderKey),
+                               new XElement("Mng", BE.Configuration.Mng),
+                               new XElement("Fee", BE.Configuration.Fee),
+                               new XElement("OrderValidity", BE.Configuration.OrderValidity),
+                               new XElement("SMTP_Server", BE.Configuration.SMTP_Server),
+                               new XElement("MailSystem", BE.Configuration.MailSystem),
+                               new XElement("Password", BE.Configuration.Password));
+                configRoot.Save(configPath);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("מצטערים, קרתה תקלה במערכת");
+            }
+        }
 
         //static readonly string ProjectPath = Directory.GetParent(Directory.GetParent(Environment.CurrentDirectory.ToString()).FullName).FullName;
         XElement configRoot;
         private readonly string guestRequestsPath =  "guestRequests.xml";
         private readonly string hostingUnitsPath =   "hostingUnits.xml";
         private readonly string ordersPath =  "orders.xml";
-        private readonly string configPath =  "config.xml";
-        XElement guestRequestRoot;
+        private readonly string configPath =  "config.xml"; 
         List<GuestRequest> guestRequestsList = new List<GuestRequest>();
         List<HostingUnit> hostingUnitList = new List<HostingUnit>();
         List<Order> orderList = new List<Order>();
@@ -54,6 +99,7 @@ namespace DAL
         {
             hostingUnitList.Add(hostingUnit.Clone());
             tool.SaveToXML<List<HostingUnit>>(hostingUnitList, hostingUnitsPath);
+            SaveConfigurationToXML();
         }
         public List<HostingUnit> getAllHostingUnits(Func<HostingUnit, bool> predicate = null)
         {
@@ -82,6 +128,7 @@ namespace DAL
         {
             orderList.Add(order.Clone());
             tool.SaveToXML<List<Order>>(orderList, ordersPath);
+            SaveConfigurationToXML();
         }
         public List<Order> getAllOrders(Func<Order, bool> predicate = null)
         {
@@ -94,7 +141,7 @@ namespace DAL
         }
         public void updateOrder(Order order)
         {
-            int index = DataSource.orders.FindIndex(Item => Item.OrderKey == order.OrderKey);
+            int index = orderList.FindIndex(Item => Item.OrderKey == order.OrderKey);
             orderList[index] = order.Clone();
             tool.SaveToXML<List<Order>>(orderList, ordersPath);
         }
@@ -105,7 +152,8 @@ namespace DAL
         public void addGuestRequest(GuestRequest guestRequest)
         { 
            guestRequestsList.Add(guestRequest.Clone());
-           tool.SaveToXML<List<GuestRequest>>(guestRequestsList, guestRequestsPath);    
+           tool.SaveToXML<List<GuestRequest>>(guestRequestsList, guestRequestsPath);
+            SaveConfigurationToXML();
         }
         public void updateGuestRequest(GuestRequest guestRequest)
         {

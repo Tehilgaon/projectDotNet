@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Net.Mail;
+using System.ComponentModel;
 using BL;
 using BE;
 
@@ -30,15 +31,14 @@ namespace PL
             bL = MyBL.Instance;
             tbxEnterMail.PreviewMouseDown += TbxEnterMail_PreviewMouseDown;
             tbxEnterMail.LostFocus += TbxEnterMail_LostFocus;
-            tbxSearch.PreviewKeyDown += TbxSearch_PreviewKeyDown;
-
+            tbxSearch.PreviewKeyDown += TbxSearch_PreviewKeyDown;   
         }
 
+        
         private void TbxSearch_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (tbxSearch.Text == "Search")
-                tbxSearch.Clear();
-             
+                tbxSearch.Clear();   
         }
 
         private void TbxEnterMail_LostFocus(object sender, RoutedEventArgs e)
@@ -47,7 +47,7 @@ namespace PL
             {
                 MailAddress email = new MailAddress(tbxEnterMail.Text);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 if (tbxEnterMail.Text != ""&&tbxEnterMail.Text!=BE.Configuration.Mng.ToString())
                 {
@@ -65,12 +65,41 @@ namespace PL
                 tbxEnterMail.Foreground = Brushes.Gray;
             }
         }
-        
-        void Yearlycalender()
+
+
+
+
+
+
+        /*private void ChangeBackGround()
         {
-            Calendar dairy = new Calendar();
-             
+            BackgroundWorker changePicsWorker = new BackgroundWorker();
+            changePicsWorker.DoWork += ChangePicsWorker_DoWork;
+
         }
+
+        private void ChangePicsWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            int i = 0;
+            while (true)
+            {
+                MainGrid.Background. = CreateViewImage(i);  
+
+            }
+        }
+        private Image CreateViewImage(int i)
+        {
+            Image dynamicImage = new Image();
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(((MainWindow)System.Windows.Application.Current.MainWindow).Uris[i]);
+            bitmap.EndInit();
+            // Set Image.Source
+            dynamicImage.Source = bitmap;
+            // Add Image to Window
+            return dynamicImage;
+        }*/
+
 
     }
 }

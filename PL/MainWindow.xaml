@@ -26,7 +26,7 @@
 
 
             <TabItem Header="Guest" >
-                <local:GuestUC x:Name="GuestZone" Background="{x:Null}" />
+                <local:GuestUC x:Name="GuestZone" />
             </TabItem>
             <TabItem Header="Host"   >
                 <local:GuestUC x:Name="HostZone"  />
@@ -39,6 +39,6 @@
             </TabItem>
 
         </TabControl>
-        <Calendar x:Name="myDairy" DisplayMode="Year" HorizontalContentAlignment="Center" VerticalAlignment="Center"  Width="200" Height="200" Grid.RowSpan="3" Visibility="Collapsed"  />
+        <Calendar x:Name="myDairy"   HorizontalContentAlignment="Center" VerticalAlignment="Center"  Width="250" Height="250"   DisplayMode="Year" Visibility="Collapsed"  />
     </Grid>
 </controls:MetroWindow>

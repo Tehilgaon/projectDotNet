@@ -7,14 +7,18 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="הזמנות" Height="450" Width="800">
-    <Grid>
+    <Grid>  
         <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FlowDirection="RightToLeft" TabStripPlacement="Top">
             <TabItem x:Name="existOrders" Header="הזמנות שלך">
-                <StackPanel>
-                    <Grid x:Name="GridFilterOrders" VerticalAlignment="Top"  Height="50" FlowDirection="LeftToRight">
+                <StackPanel   >
+                    <StackPanel.Background>
+                        <ImageBrush ImageSource="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGFbUzW8faT3Xb5U04Pt4IbUBbVW9Fs5YmFMjw1buoB4OWqcqUTA&amp;s"/>
+                    </StackPanel.Background>
+                    <Grid x:Name="GridFilterOrders" VerticalAlignment="Top"  Height="50" FlowDirection="LeftToRight" Background="Transparent">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/> 
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <ComboBox x:Name="cbxOrderStatus" Grid.Column="1" HorizontalAlignment="Left" Height="Auto" Margin="3" Grid.Row="1" VerticalAlignment="Center" Width="100" >
                             <ComboBoxItem Content="NotMailed"/>
@@ -22,11 +26,17 @@
                             <ComboBoxItem Content="Canceled"/> 
                             <ComboBoxItem Content="Closed"/>
                             <ComboBoxItem Content="All"/>
-                        </ComboBox> 
-                        <TextBox x:Name="tbxSearch" Grid.Column="0" Width="130" TextWrapping="Wrap" Text="" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3"  Grid.Row="1"  />
+                        </ComboBox>
+                        <ComboBox x:Name="cbxAllOrderSince" Grid.Column="2" HorizontalAlignment="Left" Height="Auto" Margin="3" Grid.Row="1"   VerticalAlignment="Center" Width="100" >
+                            <ComboBoxItem Content="This week" HorizontalAlignment="Center" />
+                            <ComboBoxItem Content="This month" HorizontalAlignment="Center" />
+                            <ComboBoxItem Content="This year" HorizontalAlignment="Center" />
+                            <ComboBoxItem Content="All" HorizontalAlignment="Center" />
+                        </ComboBox>
+                        <TextBox x:Name="tbxSearch" Text="Search" BorderBrush="Gray" Grid.Column="0" Width="130" TextWrapping="Wrap"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3"  Grid.Row="1"  />
 
                     </Grid>
-                    <DataGrid x:Name="OrdersGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FlowDirection="RightToLeft" AutoGenerateColumns="True" Height="280"/>
+                    <DataGrid x:Name="OrdersGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   FlowDirection="RightToLeft" AutoGenerateColumns="True" Height="280" Opacity="0.85" />
                     <Grid x:Name="GridOrdersStrip" VerticalAlignment="Bottom" Height="35" FlowDirection="LeftToRight" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>

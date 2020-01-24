@@ -19,6 +19,7 @@ namespace BE
         private BankBranch bankBranch;
         private string bankAccountNumber;
         private bool collectionClearance;
+        private double fee;
          
 
 
@@ -72,7 +73,7 @@ namespace BE
                 bankAccountNumber = value;
             }
         }
-        public double Fee { get; set; }
+        public double Fee { get=> fee; set=>fee=value; }
       
 
         public Host()
@@ -84,9 +85,9 @@ namespace BE
 
         public override string ToString()
         {
-            return ",  מספר תעודת זהות:" + hostKey + ",  שם פרטי:" + PrivateName + ",  שם משפחה:"
-                + familyName + ",  מספר טלפון:" + phoneNumber + ",  כתובת מייל:" + mailAddress +
-                ",  פרטי סניף בנק:" + Bankbranch + ",  מספר חשבון בנק:" + bankAccountNumber + ",  עמלה" + Fee; ;
+            return   HostKey + "\t"   + PrivateName + "\t"  
+                + FamilyName + "\t" + PhoneNumber + "\t" + MailAddress +
+                "\t" + Bankbranch + "\t" + BankAccountNumber ;
         }
 
 

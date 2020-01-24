@@ -53,7 +53,7 @@
                      Text="{Binding MailAddress, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
                      VerticalAlignment="Center" Width="120"/>
 
-            <Label Content=" תאריך צ'ק-אין:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center" FontWeight="DemiBold"/>
+            <Label Content=" תאריך צ'ק-אין:"  Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center" FontWeight="DemiBold"/>
             <DatePicker x:Name="EntryDatePicker" Grid.Column="1" HorizontalAlignment="Center" Margin="3" Grid.Row="3" 
                         SelectedDate="{Binding EntryDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" 
                         VerticalAlignment="Center"  DisplayDate="{Binding date, Mode=TwoWay}"   DisplayDateStart="{x:Static sys:DateTime.Today}" DisplayDateEnd="{Binding  aYearFNow}"  IsTodayHighlighted="true"    />
@@ -101,15 +101,15 @@
                     <RowDefinition Height="20"/>
                     <RowDefinition Height="20"/>
                 </Grid.RowDefinitions>
-                <CheckBox Content="בריכה" IsChecked="{Binding Pool}" Grid.Row="0"  />
-                <CheckBox Content="ג'קוזי" IsChecked="{Binding Jacuzzi}" Grid.Row="1"  />
-                <CheckBox Content="חניה" IsChecked="{Binding Parking}" Grid.Row="2"  />
-                <CheckBox Content="מיטת תינוק" IsChecked="{Binding Baby_bed}" Grid.Row="3"  />
-                <CheckBox Content="גינה" IsChecked="{Binding Garden}" Grid.Row="4"  />
+                <CheckBox x:Name="cbxpool" Content="בריכה" IsChecked="{Binding Pool}" Grid.Row="0"  />
+                <CheckBox x:Name="cbxjacuzzi" Content="ג'קוזי" IsChecked="{Binding Jacuzzi}" Grid.Row="1"  />
+                <CheckBox x:Name="cbxparking" Content="חניה" IsChecked="{Binding Parking}" Grid.Row="2"  />
+                <CheckBox x:Name="cbxbabybed" Content="מיטת תינוק" IsChecked="{Binding Baby_bed}" Grid.Row="3"  />
+                <CheckBox x:Name="cbxgarden" Content="גינה" IsChecked="{Binding Garden}" Grid.Row="4"  />
 
             </Grid>
             
         </Grid>
-        <Button x:Name="AddGuestButton" Content="הוסף" HorizontalAlignment="Center" Margin="10"  VerticalAlignment="Bottom" Width="50" Click="AddButton_Click"  ></Button>
+        <Button x:Name="AddGuestButton" Background="Yellow" Content="הוסף" HorizontalAlignment="Center" Margin="10"  VerticalAlignment="Bottom" Width="50" Click="AddButton_Click"  ></Button>
     </Grid>
 </controls:MetroWindow>

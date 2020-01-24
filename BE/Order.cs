@@ -19,7 +19,7 @@ namespace BE
 
         public string HostingUnitKey { get => hostingUnitKey; set => hostingUnitKey = value; }
         public string GuestRequestKey { get => guestRequestKey; set => guestRequestKey = value; }
-        public string OrderKey { get => orderKey; }
+        public string OrderKey { get => orderKey; set => orderKey = value; }
         public DateTime CreateDate { get => createDate; }
         public DateTime OrderDate { get => orderDate ; set => orderDate = value; }
         public Enums.OrderStatus OrderStatus { get => orderStatus; set => orderStatus = value; }

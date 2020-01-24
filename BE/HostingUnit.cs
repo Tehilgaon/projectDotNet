@@ -62,7 +62,12 @@ namespace BE
         public string HostingUnitType { get => hostingUnitType; set => hostingUnitType = value; }
         public string Area { get => area; set => area = value; }
         public string SubArea { get => subArea; set => subArea = value; }
-        public double Fee { get => fee; set => fee = value; }
+        public double Fee { get => fee; set
+            {
+                fee = value;
+                Host.Fee += value;
+            }
+        }
         public int YearlyOccupied { get => yearlyOccupied; set => yearlyOccupied = value; }
         public bool Pool { get => pool; set => pool = value; }
         public bool Jacuzzi { get => jacuzzi; set => jacuzzi = value; }
@@ -93,10 +98,10 @@ namespace BE
 
         public override string ToString()
         {
-            return ",  מספר זיהוי:"+HostingUnitKey + ",  שם :" + HostingUnitName +
-                " ,סוג האירוח:" + HostingUnitType.ToString() + ",  פרטי בעלים:" + Host ;
+            return "\tמספר זיהוי:"+HostingUnitKey + "\tשם :" + HostingUnitName +
+                "\tסוג האירוח:" + HostingUnitType.ToString() + "\tפרטי בעלים:" + Host ;
         }
-
+        
 
         public bool this[DateTime date]
         {

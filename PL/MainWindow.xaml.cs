@@ -18,7 +18,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Threading.Tasks;
 using System.Threading;
 using System.IO;
 
@@ -36,19 +35,26 @@ namespace PL
         List<HostingUnit> hostingUnitsList;
         List<Order> ordersList;
         public List<BankBranch> branchesList = new List<BankBranch>();
-        List<GuestRequest> yourGuestList=new List<GuestRequest>();
+        
 
         List<GuestRequest> MgGuestRequestsList;
         List<HostingUnit> MgHostingUnitsList;
         List<Order> MgOrdersList;
+        List<Host> MgHostList;
+
         XElement banks;
-        Calendar Dairy;
+       
         DateTime today = DateTime.Today;
         public string guestMail, hostMail;
 
         public GuestRequest GuestRequest { get; set; }
         public HostingUnit HostingUnit { get; set; }
         public Order Order { get ; set ; }
+
+        public List<string> Uris = new List<string>() {"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqAfFteQzTFOMnS5TxhADG5iEUB76A1sgLZKtlcsx4UYRTpUpONQ&s",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUlP9896XWkF3fSVtJCZ-OJBwvq3hXSpSFmB86_LkP6lxunVKK&s",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHaIrCPsJnXsfoZeXaHGRRkh0g1BPcmo6Req6MYO2TbKwvfRxj&s",
+        "http://www.lovehotel.live/photos/26aae4d5092f82c89d387d98aef0b19e.jpg"};
 
         public MainWindow()
         {
@@ -70,6 +76,7 @@ namespace PL
         {
             this.GuestZone.tbkEnterMail.Text = "התחבר כאורח";
             this.GuestZone.AddButton.Content = "הוסף בקשה";
+            this.GuestZone.tbxEnterMail.KeyDown += GuestOnKeyDownHandler;
             this.GuestZone.AddButton.Click += GuestAddButton_Click;
             this.GuestZone.LogInButton.Click += GuestLogInButton_Click;
             this.GuestZone.dataGrid.SelectionChanged += Guest_selectionChange;
@@ -85,6 +92,7 @@ namespace PL
         {
             this.HostZone.tbkEnterMail.Text = "התחבר כבעל יחידת אירוח";
             this.HostZone.AddButton.Content = "הוסף יחידה";
+            this.HostZone.tbxEnterMail.KeyDown += HostOnKeyDownHandler;
             this.HostZone.dataGrid.SelectionChanged += Unit_selectionChange;
             this.HostZone.dataGrid.AutoGeneratingColumn += HostingUnit_AutoGenerateColumns;
             this.HostZone.deleteButton.Click += HostingUnitDeleteButton_Click;
@@ -95,27 +103,14 @@ namespace PL
             this.HostZone.dataGrid.MouseDoubleClick +=UnitUpdateButton_Click;
             this.HostZone.LogoutButton.Click += HostLogoutButton_Click;
             this.HostZone.watchDairy.Click += WatchDairy_Click;
-            //this.HostZone.displayYourGuestButton.Click += DisplayYourGuestButton_Click;
-        }
-
-        /*private void DisplayYourGuestButton_Click(object sender, RoutedEventArgs e)
-        {
              
-            foreach(var guestrequest in bL.getAllOrders(item => item.HostingUnitKey == HostingUnit.HostingUnitKey).
-                Select(item=>item.GuestRequestKey).Distinct())
-            {
-                yourGuestList.Add(bL.GetAllGuestRequests(item => item.GuestRequestKey == guestrequest).FirstOrDefault());
-            }
-            this.HostZone.dataGrid.AutoGeneratingColumn -= HostingUnit_AutoGenerateColumns;
-            this.HostZone.dataGrid.AutoGeneratingColumn += Guest_AutoGenerateColumns;
-            this.HostZone.dataGrid.ItemsSource = yourGuestList;
- 
-        }*/
-
+        }
+  
         private void Manager_Zone()
         {
             this.ManagerZone.tbkEnterMail.Text = "";
             this.ManagerZone.AddButton.Visibility = Visibility.Collapsed;
+            this.ManagerZone.tbxEnterMail.KeyDown += ManagerOnKeyDownHandler;
             this.ManagerZone.LogInButton.Click += ManagerLogInButton_Click;
             this.ManagerZone.cbxfilter.SelectionChanged += Cbxfilter_SelectionChanged;
             this.ManagerZone.dataGrid.AutoGeneratingColumn += DataGrid_AutoGeneratingColumn;
@@ -123,79 +118,23 @@ namespace PL
             this.ManagerZone.LogoutButton.Click += LogoutButton_Click;
             this.ManagerZone.tbxSearch.TextChanged += ManagerFilter;
             this.ManagerZone.dataGrid.SelectionChanged+= Manager_SelectionChanged;
-            this.ManagerZone.dataGrid.MouseDoubleClick += ManagerZone_edit;
+            this.ManagerZone.dataGrid.MouseDoubleClick += ManagerZone_DoubleClickEdit;
+            this.ManagerZone.cbxgroupBy.Text = "קבץ לפי";
         }
 
-        public void LoadBanksList()
-        {
-            BackgroundWorker Worker = new BackgroundWorker();
-            Worker.DoWork += Worker_DoWork;
-            Worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
-            Worker.WorkerReportsProgress = true;
-            Worker.RunWorkerAsync("argument");
 
-        }
 
-        private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-
-            try
-            {
-                banks = XElement.Load(e.Result.ToString());
-            }
-            catch
-            {
-                MessageBox.Show("קרתה בעיה עם טעינת הנתונים");
-            }
-            branchesList = (from bank in banks.Elements()
-                            select
-                         new BankBranch(
-                             Convert.ToInt32(bank.Element("קוד_בנק").Value),
-                             bank.Element("שם_בנק").Value,
-                             Convert.ToInt32(bank.Element("קוד_סניף").Value),
-                             bank.Element("כתובת_ה-ATM").Value,
-                             bank.Element("ישוב").Value
-                              )).ToList();
-        
-
-        }
-
-        private void Worker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            const string xmlLocalPath = @"atm.xml";
-            WebClient wc = new WebClient();
-            try
-            {
-                string xmlServerPath =
-               @"http://www.boi.org.il/he/BankingSupervision/BanksAndBranchLocations/Lists/BoiBankBranchesDocs/atm.xml";
-                wc.DownloadFile(xmlServerPath, xmlLocalPath);
-            }
-            catch (Exception)
-            {
-                string xmlServerPath = @"http://www.jct.ac.il/~coshri/atm.xml";
-                wc.DownloadFile(xmlServerPath, xmlLocalPath);
-            }
-            finally
-            {
-                wc.Dispose();
-            }
-            e.Result = @"atm.xml";
-        }
-
-        private void ManagerZone_edit(object sender, MouseButtonEventArgs e)
-        {
-            string choice = ((ComboBoxItem)ManagerZone.cbxfilter.SelectedItem).Content.ToString();
-            if (choice == "יחידות אירוח")
-                UnitUpdateButton_Click(this, new RoutedEventArgs());
-            if (choice == "דרישות לקוח")
-                GuestUpdateButton_Click(this, new RoutedEventArgs());
-            //if (choice == "הזמנות")
-              
-        }
 
 
 
         #region GuestZone
+
+        private void GuestOnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return || e.Key == Key.Enter)
+                GuestLogInButton_Click(this, e);
+        }
+
         private void Guest_selectionChange(object sender, SelectionChangedEventArgs e)
         {
             if (e.OriginalSource != null)
@@ -229,10 +168,43 @@ namespace PL
             guestMail = null;
             logOut(this.GuestZone);
         }
+        public void GuestFilter(object sender, RoutedEventArgs e)
+        {
+
+            string newOld = null;
+            string text = GuestZone.tbxSearch.Text;
+            if (GuestZone.cbxNewOld.SelectedItem != null)
+                newOld = ((ComboBoxItem)GuestZone.cbxNewOld.SelectedItem).Content.ToString();
+            try
+            {
+                guestRequestsList = bL.GetAllGuestRequests(Item => Item.MailAddress == guestMail &&
+               (Item.PrivateName.Contains(text) || Item.FamilyName.Contains(text) || text == "Search")).ToList();
+
+                if (newOld != null)
+                {
+                    guestRequestsList = guestRequestsList.OrderByDescending(item => item.RegistrationDate).ToList();
+                    if (newOld == "הישנים יותר")
+                        guestRequestsList.Reverse();
+                }
+                this.GuestZone.dataGrid.ItemsSource = guestRequestsList;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "לא נמצאו הזמנות", MessageBoxButton.OK,
+                                MessageBoxImage.Error, MessageBoxResult.Cancel, MessageBoxOptions.RightAlign);
+            }
+
+        }
 
         #endregion
 
         #region HostZone
+        private void HostOnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return || e.Key == Key.Enter)
+                HostLogoutButton_Click(this, e);
+        }
         private void HostingUnitAdd_Click(object sender, RoutedEventArgs e)
         {
             if (new AddHostingUnit().ShowDialog() == true) 
@@ -273,12 +245,7 @@ namespace PL
                 {
                     creatOrder(item, HostingUnit);
                 }
-                ordersList = bL.getAllOrders(Item => Item.HostingUnitKey == HostingUnit.HostingUnitKey &&
-                  Item.OrderStatus == Enums.OrderStatus.Mailed && (bL.DaysBetween(Item.OrderDate) > Configuration.OrderValidity));
-                foreach(var item in ordersList)
-                {
-                    bL.updateOrder(item);
-                }
+                
                 ordersList = bL.getAllOrders(Item => Item.HostingUnitKey == HostingUnit.HostingUnitKey);
                 if (ordersList.Count != 0)
                 {  
@@ -291,6 +258,7 @@ namespace PL
             {
                 MessageBox.Show(ex.Message);
             }
+
         }
         public void creatOrder(GuestRequest guestRequest, HostingUnit hostingUnit)
         {
@@ -328,10 +296,54 @@ namespace PL
             hostMail = null;
             logOut(this.HostZone);
         }
+        public void HostingUnitFilter(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                hostingUnitsList = bL.getAllHostingUnits(Item => Item.Host.MailAddress == hostMail); 
+                this.HostZone.dataGrid.ItemsSource = hostingUnitsList;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "לא נמצאו הזמנות", MessageBoxButton.OK,
+                                MessageBoxImage.Error, MessageBoxResult.Cancel, MessageBoxOptions.RightAlign);
+            }
+
+        }
+
+        private void WatchDairy_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (myDairy.Visibility == Visibility.Visible)
+                myDairy.Visibility = Visibility.Collapsed;
+            else
+            {
+                myDairy.Visibility = Visibility.Visible;
+
+                /*var arrayDairy = tool.Flatten(HostingUnit);
+                for (int i=0;i<arrayDairy.Count;i=i+2)
+                { 
+                     myDairy.BlackoutDates.Add(new CalendarDateRange(arrayDairy[i], arrayDairy[i+1]));
+                }*/
+                myDairy.BlackoutDates.Clear();
+                for (DateTime day = DateTime.Today; day < today.AddYears(1); day = day.AddDays(1))
+                {
+                    if (HostingUnit[day] == true)
+                        myDairy.BlackoutDates.Add(new CalendarDateRange(day));
+                }
+            }
+             
+        }
 
         #endregion
 
         #region ManagerZone
+
+        private void ManagerOnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return || e.Key == Key.Enter)
+                ManagerLogInButton_Click (this, e);
+        }
         private void Cbxfilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string[] myKeys;
@@ -359,13 +371,21 @@ namespace PL
                     MgOrdersList = bL.getAllOrders();
                     ManagerFilter(this, new RoutedEventArgs());
                     break;
+                case "בעלי יחידות":
+                    MgHostList = new List<Host>();
+                    foreach (var item in bL.GroupHostByNumOfHostingUnit())
+                        foreach (var host in item)
+                            MgHostList.Add(host);
+                    ManagerFilter(this, new RoutedEventArgs());
+                    break;
                 default: 
                     break;
                     
             }
         }
         private void Manager_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        { 
+ 
             string choice = ((ComboBoxItem)ManagerZone.cbxfilter.SelectedItem).Content.ToString();
             if (choice == "יחידות אירוח")
                 HostingUnit = (sender as DataGrid).SelectedItem as HostingUnit;
@@ -373,7 +393,7 @@ namespace PL
                 GuestRequest = (sender as DataGrid).SelectedItem as GuestRequest;
             if (choice == "הזמנות")
                 Order = (sender as DataGrid).SelectedItem as Order;
-
+            
         }
 
 
@@ -399,6 +419,10 @@ namespace PL
                         ManagerZone.dataGrid.ItemsSource = MgOrdersList.Where(item => item.GuestRequestKey.Contains(text) ||
                         item.HostingUnitKey.Contains(text) || item.OrderKey.Contains(text) || item.OrderStatus.ToString().Contains(text) ||
                         text == "Search" || text == "");
+                        break;
+                    case "בעלי יחידות":
+                        ManagerZone.dataGrid.ItemsSource = MgHostList.Where(item => item.HostKey.Contains(text) || item.MailAddress.Contains(text) ||
+                         item.PhoneNumber.Contains(text) || item.PrivateName.Contains(text) || item.FamilyName.Contains(text) || text == "Search" || text == "");
                         break;
                     default:
                         break;
@@ -435,59 +459,57 @@ namespace PL
             ManagerFilter(this, new RoutedEventArgs());
 
         }
-
-        private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        void showGroupingGuestByAreas()
         {
-            switch (((ComboBoxItem)this.ManagerZone.cbxfilter.SelectedItem).Content.ToString())
-            {
-                case "דרישות לקוח":
-                    
-                    switch(e.PropertyName)
-                    {
-                        case "RegistrationDate":
-                            e.Column.Header = "תאריך הרשמה";
-                            e.Column.Visibility = Visibility.Visible;
-                            break;
-                        case "GuestRequestKey":
-                            e.Column.Header = "מספר סידורי";
-                            e.Column.Visibility = Visibility.Visible;
-                            break;
-                        case "Status":
-                            e.Column.Header = "סטטוס";
-                            e.Column.Visibility = Visibility.Visible;
-                            break;
-                        default:
-                            Guest_AutoGenerateColumns(sender, e);
-                            break;
-                    } 
-                    break;
-                 case "יחידות אירוח":
-
-                    switch(e.PropertyName)
-                    {
-                        case "YearlyOccupied":
-                            e.Column.Header = "תפוסה שנתית";
-                            e.Column.Visibility = Visibility.Visible;
-                            break;
-                        case "HostingUnitKey":
-                            e.Column.Header = "מספר סידורי";
-                            e.Column.Visibility = Visibility.Visible;
-                            break;
-                        case "Host":
-                            e.Column.Header = "Host";
-                            break;
-                        default:
-                            HostingUnit_AutoGenerateColumns(sender, e);
-                            break;
-                    }
-                    break;
-                case "הזמנות":
-                     OrdersGrid_AutoGeneratingColumn(sender, e);
-                    break;
-                default: 
-                    break;
-            }
+            MgGuestRequestsList = new List<GuestRequest>();
+            foreach (var item in bL.GroupGuestRequestByRegion())
+                foreach (var value in item)
+                    MgGuestRequestsList.Add(value);
+            this.ManagerZone.dataGrid.ItemsSource = MgGuestRequestsList;
         }
+        void showGroupingGuestByNumOfPeople()
+        {
+            MgGuestRequestsList = new List<GuestRequest>();
+            foreach (var item in bL.GroupGuestRequestByNumOfGuests())
+                foreach (var value in item)
+                    MgGuestRequestsList.Add(value); 
+            this.ManagerZone.dataGrid.ItemsSource = MgGuestRequestsList;
+        }
+        void showGroupingUnitsByAreas()
+        {
+            MgHostingUnitsList = new List<HostingUnit>();
+            foreach (var item in bL.GroupHostingUnitByRegion())
+                foreach (var value in item)
+                    MgHostingUnitsList.Add(value);
+            this.ManagerZone.dataGrid.ItemsSource = MgHostingUnitsList;
+        }
+        void showGroupingUnitsByType()
+        {
+            MgHostingUnitsList = new List<HostingUnit>();
+            foreach (var item in bL.GroupHostingUnitsByType())
+                foreach (var value in item)
+                    MgHostingUnitsList.Add(value);
+            this.ManagerZone.dataGrid.ItemsSource = MgHostingUnitsList;
+        }
+        void showGroupingOrderByStatus()
+        {
+            MgOrdersList = new List<Order>();
+            foreach (var item in bL.GroupOrdersByStatus())
+                foreach (var value in item)
+                    MgOrdersList.Add(value);
+            this.ManagerZone.dataGrid.ItemsSource = MgOrdersList;
+        }
+        void showGroupingOrderByOrderDate()
+        {
+            MgOrdersList = new List<Order>();
+            foreach (var item in bL.GroupOrderByDate())
+                foreach (var value in item)
+                    MgOrdersList.Add(value);
+            this.ManagerZone.dataGrid.ItemsSource = MgOrdersList.Where(item => item.OrderDate != default);
+        }
+
+
+       
         private void ManagerLogInButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -498,8 +520,27 @@ namespace PL
         {
             logOut(this.ManagerZone);
         }
-         
+        private void ManagerZone_DoubleClickEdit(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                string choice = ((ComboBoxItem)ManagerZone.cbxfilter.SelectedItem).Content.ToString();
+                if (choice == "יחידות אירוח")
+                    new AddHostingUnit(HostingUnit).ShowDialog();
+                if (choice == "דרישות לקוח")
+                    GuestUpdateButton_Click(this, new RoutedEventArgs());
+                //if (choice == "הזמנות")
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
         #endregion
+
+
         public void OrdersGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             switch (e.PropertyName)
@@ -604,50 +645,111 @@ namespace PL
 
             }
         }
-
-        public void GuestFilter(object sender, RoutedEventArgs e)
+        private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
+            switch (((ComboBoxItem)this.ManagerZone.cbxfilter.SelectedItem).Content.ToString())
+            {
+                case "דרישות לקוח":
 
-            string newOld=null; 
-            string text = GuestZone.tbxSearch.Text;
-            if(GuestZone.cbxNewOld.SelectedItem!=null) 
-                 newOld = ((ComboBoxItem)GuestZone.cbxNewOld.SelectedItem).Content.ToString();   
-            try
-            {
-                guestRequestsList =  bL.GetAllGuestRequests(Item => Item.MailAddress == guestMail &&
-                (Item.PrivateName.Contains(text)||Item.FamilyName.Contains(text)||text=="Search")).ToList(); 
-                 
-                if (newOld != null)
-                {
-                    guestRequestsList = guestRequestsList.OrderByDescending(item => item.RegistrationDate).ToList();
-                    if (newOld == "הישנים יותר")
-                        guestRequestsList.Reverse();
-                } 
-                this.GuestZone.dataGrid.ItemsSource = guestRequestsList;
-               
+                    switch (e.PropertyName)
+                    {
+                        case "RegistrationDate":
+                            e.Column.Header = "תאריך הרשמה";
+                            e.Column.Visibility = Visibility.Visible;
+                            break;
+                        case "GuestRequestKey":
+                            e.Column.Header = "מספר סידורי";
+                            e.Column.Visibility = Visibility.Visible;
+                            break;
+                        case "Status":
+                            e.Column.Header = "סטטוס";
+                            e.Column.Visibility = Visibility.Visible;
+                            break;
+                        default:
+                            Guest_AutoGenerateColumns(sender, e);
+                            break;
+                    }
+                    break;
+                case "יחידות אירוח":
+
+                    switch (e.PropertyName)
+                    {
+                        case "YearlyOccupied":
+                            e.Column.Header = "תפוסה שנתית";
+                            e.Column.Visibility = Visibility.Visible;
+                            break;
+                        case "HostingUnitKey":
+                            e.Column.Header = "מספר סידורי";
+                            e.Column.Visibility = Visibility.Visible;
+                            break;
+                        case "Host":
+                            e.Column.Header = "בעל היחידה";
+                            break;
+                        default:
+                            HostingUnit_AutoGenerateColumns(sender, e);
+                            break;
+                    }
+                    break;
+                case "הזמנות":
+                    OrdersGrid_AutoGeneratingColumn(sender, e);
+                    break;
+                case "בעלי יחידות":
+                    HostGrid_AutoGeneratingColumn(sender, e);
+                    break;
+                default:
+                    break;
             }
-            catch (Exception ex)
+        }
+
+        private void HostGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            switch (e.PropertyName)
             {
-                MessageBox.Show(ex.Message, "לא נמצאו הזמנות", MessageBoxButton.OK,
-                                MessageBoxImage.Error, MessageBoxResult.Cancel, MessageBoxOptions.RightAlign);
+                case "HostKey":
+                    e.Column.Header = "תעודת זהות";
+
+                    break;
+                case "PrivateName":
+                    e.Column.Header = "שם פרטי";
+
+                    break;
+                case "FamilyName":
+                    e.Column.Header = "שם משפחה";
+
+                    break;
+                case "PhoneNumber":
+                    e.Column.Header = "פלאפון";
+
+                    break;
+                case "MailAddress":
+                    e.Column.Header = "כתובת מייל";
+
+                    break;
+                case "CollectionClearance":
+                    e.Column.Header = "אישור גביה";
+
+                    break;
+                case "Fee":
+                    e.Column.Header = "עמלה";
+
+                    break;
+                case "Bankbranch":
+                    e.Column.Header = "פרטי סניף";
+
+                    break;
+                case "BankAccountNumber":
+                    e.Column.Header = "מספר חשבון";
+
+                    break;
+
+
             }
 
         }
-        public void HostingUnitFilter(object sender, RoutedEventArgs e)
-        { 
-            try
-            {
-                hostingUnitsList = bL.getAllHostingUnits(Item => Item.Host.MailAddress == hostMail);
-                
-                this.HostZone.dataGrid.ItemsSource = hostingUnitsList;  
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "לא נמצאו הזמנות", MessageBoxButton.OK,
-                                MessageBoxImage.Error, MessageBoxResult.Cancel, MessageBoxOptions.RightAlign);
-            }
 
-        }
+
+
+
         private void logOut(GuestUC zone)
         {
             zone.dataGrid.ItemsSource = null;
@@ -665,88 +767,71 @@ namespace PL
                 zone.cbxfilter.Visibility = Visibility.Visible;
             if (zone == this.GuestZone)
                 zone.cbxNewOld.Visibility = Visibility.Visible;
-            if (zone == this.HostZone)
-                zone.displayYourGuestButton.Visibility = Visibility.Visible;
+            //if (zone == this.HostZone)
+               
 
         }
 
-         
-        void showGroupingGuestByAreas()
-        {
-            MgGuestRequestsList = new List<GuestRequest>();
-            foreach (var item in bL.GroupGuestRequestByRegion()) 
-                foreach (var value in item)
-                  MgGuestRequestsList.Add(value);
-            this.ManagerZone.dataGrid.ItemsSource = MgGuestRequestsList;
-        }
-        void showGroupingGuestByNumOfPeople()
-        {
-            MgGuestRequestsList = new List<GuestRequest>();
-            foreach (var item in bL.GroupGuestRequestByNumOfGuests())
-                foreach (var value in item)
-                    MgGuestRequestsList.Add(value);
-            this.ManagerZone.dataGrid.ItemsSource = MgGuestRequestsList;
-        }
-        void showGroupingUnitsByAreas()
-        {
-            MgHostingUnitsList= new List<HostingUnit>();
-            foreach (var item in bL.GroupHostingUnitByRegion())
-                foreach (var value in item)
-                    MgHostingUnitsList.Add(value);
-            this.ManagerZone.dataGrid.ItemsSource = MgHostingUnitsList;
-        }
-        void showGroupingUnitsByType()
-        {
-            MgHostingUnitsList = new List<HostingUnit>();
-            foreach (var item in bL.GroupHostingUnitsByType())
-                foreach (var value in item)
-                    MgHostingUnitsList.Add(value);
-            this.ManagerZone.dataGrid.ItemsSource = MgHostingUnitsList;
-        }
-        void showGroupingOrderByStatus()
-        {
-            MgOrdersList = new List<Order>();
-            foreach (var item in bL.GroupOrdersByStatus())
-                foreach (var value in item)
-                    MgOrdersList.Add(value);
-            this.ManagerZone.dataGrid.ItemsSource = MgOrdersList;
-        }
-        void showGroupingOrderByOrderDate()
-        {
-            MgOrdersList = new List<Order>();
-            foreach (var item in bL.GroupOrderByDate())
-                foreach (var value in item)
-                    MgOrdersList.Add(value);
-            this.ManagerZone.dataGrid.ItemsSource = MgOrdersList.Where(item=>item.OrderDate!=default);
-        }
-       
+          
 
-        private void WatchDairy_Click(object sender, RoutedEventArgs e)
-        {
-
-            if (myDairy.Visibility == Visibility.Visible)
-                myDairy.Visibility =Dairy.Visibility= Visibility.Collapsed;
-            else
+            public void LoadBanksList()
             {
-                myDairy.Visibility = Visibility.Visible;
-                Dairy = new Calendar
-                {
-                    DisplayMode = CalendarMode.Year,
-                    SelectionMode = CalendarSelectionMode.None,
-                    IsTodayHighlighted = true
-                };
-                for (DateTime day = DateTime.Today; day < today.AddYears(1); day = day.AddDays(1))
-                {
-                    if (HostingUnit[day])
-                        Dairy.BlackoutDates.Add(new CalendarDateRange(day));
-                }
-                myDairy = Dairy;
+                BackgroundWorker Worker = new BackgroundWorker();
+                Worker.DoWork += Worker_DoWork;
+                Worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+                Worker.WorkerReportsProgress = true;
+                Worker.RunWorkerAsync("argument");
+
             }
-            
+
+            private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+            {
+
+                try
+                {
+                    banks = XElement.Load(e.Result.ToString());
+                }
+                catch
+                {
+                    MessageBox.Show("קרתה תקלה בטעינת הנתונים");
+                }
+                branchesList = (from bank in banks.Elements()
+                                select
+                             new BankBranch(
+                                 Convert.ToInt32(bank.Element("קוד_בנק").Value),
+                                 bank.Element("שם_בנק").Value,
+                                 Convert.ToInt32(bank.Element("קוד_סניף").Value),
+                                 bank.Element("כתובת_ה-ATM").Value,
+                                 bank.Element("ישוב").Value
+                                  )).ToList();
+
+
+            }
+
+        private void Worker_DoWork(object sender, DoWorkEventArgs e)
+        { if (!File.Exists(@"atm.xml")) {
+                const string xmlLocalPath = @"atm.xml";
+
+            WebClient wc = new WebClient();
+            try
+            {
+                string xmlServerPath =
+               @"http://www.boi.org.il/he/BankingSupervision/BanksAndBranchLocations/Lists/BoiBankBranchesDocs/atm.xml";
+                wc.DownloadFile(xmlServerPath, xmlLocalPath);
+            }
+            catch (Exception)
+            {
+                string xmlServerPath = @"http://www.jct.ac.il/~coshri/atm.xml";
+                wc.DownloadFile(xmlServerPath, xmlLocalPath);
+            }
+            finally
+            {
+                wc.Dispose();
+            }
+          }
+                e.Result = @"atm.xml";
         }
-       
 
-
-
+        
     }
 }

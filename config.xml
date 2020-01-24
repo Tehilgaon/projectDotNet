@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config>
+  <GuestRequestKey>1000000</GuestRequestKey>
+  <HostingUnitKey>1000000</HostingUnitKey>
+  <OrderKey>2005000</OrderKey>
+  <Mng>0000</Mng>
+  <Fee>10</Fee>
+  <OrderValidity>14</OrderValidity>
+  <SMTP_Server>smtp.gmail.com</SMTP_Server>
+  <MailSystem>tgaon@g.jct.ac.il</MailSystem>
+  <Password>miniproject</Password>
+</config>

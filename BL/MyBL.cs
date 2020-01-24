@@ -7,7 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Mail;
-using System.Data;  
+using System.Data;
+using System.Threading;
 
 namespace BL
 {
@@ -29,13 +30,35 @@ namespace BL
             string TypeDAL = Configuration.TypeDAL;
             myDAL = factoryDAL.getDAL(TypeDAL);
         }
-        private MyBL() { }
+        private MyBL()
+        {
+            Thread t1 = new Thread(cancellOrder);
+            t1.Name = "OrderThread";
+            t1.Start();  
+        }
+
+        private void cancellOrder()
+        {
+            while (true)
+            {
+                var ordersList = getAllOrders(Item => Item.OrderStatus == Enums.OrderStatus.Mailed && 
+                (DaysBetween(Item.OrderDate) > Configuration.OrderValidity));
+                foreach (var item in ordersList)
+                {
+                    item.OrderStatus = Enums.OrderStatus.Canceled;
+                    updateOrder(item);
+                    Thread.Sleep(86400000);
+                }
+            }
+        }
         #endregion
 
         #region HostingUnit
         public void addHostingUnit(HostingUnit hostingUnit)
         {
-            if (hostingUnit.HostingUnitName == null ||hostingUnit.HostingUnitType == null||
+            if (hostingUnit.HostingUnitName == null || hostingUnit.HostingUnitName ==""|| hostingUnit.HostingUnitType == null||hostingUnit.Host.MailAddress==null|| hostingUnit.Host.MailAddress == ""||
+                hostingUnit.Area==null||hostingUnit.Host.PrivateName==null|| hostingUnit.Host.PrivateName ==""|| hostingUnit.Host.PhoneNumber==null|| hostingUnit.Host.PhoneNumber == ""|| 
+                hostingUnit.Host.BankAccountNumber==null|| hostingUnit.Host.BankAccountNumber == "" ||
                 hostingUnit.Host.Bankbranch.BankNumber==0||hostingUnit.Host.Bankbranch.BranchNumber==0) 
                 throw new Exception("חובה למלא את כל הפרטים");
             myDAL.addHostingUnit(hostingUnit);
@@ -66,8 +89,9 @@ namespace BL
 
         #region GuestRequest
         public void addGuestRequest(GuestRequest guestRequest)
-        {   if (guestRequest.PrivateName == null || guestRequest.FamilyName == null || guestRequest.MailAddress == null
-                || guestRequest.EntryDate == default || guestRequest.ReleaseDate == default || guestRequest.Area == null)
+        {   if (guestRequest.PrivateName == null || guestRequest.PrivateName == ""|| guestRequest.FamilyName == null || guestRequest.FamilyName == ""||
+                guestRequest.MailAddress == null || guestRequest.MailAddress ==""|| guestRequest.EntryDate == default 
+                || guestRequest.ReleaseDate == default || guestRequest.Area == null)
                 throw new Exception("חובה למלא את כל הפרטים"); 
             if((guestRequest.ReleaseDate-guestRequest.EntryDate).Days<1) 
                 throw new Exception("לא ניתן לבצע הזמנה לפחות מיום אחד");
@@ -121,7 +145,13 @@ namespace BL
             {
                 if (hostingUnit.Host.CollectionClearance==false)
                     throw new Exception("חובה לחתום על הרשאה לחיוב חשבון בנק לפני שליחת מייל ללקוח");
-                tool.SendEmail(guestRequest.MailAddress, hostingUnit.Host.MailAddress);
+                order.OrderDate = DateTime.Now;
+                try
+                {
+                    tool.SendEmail(guestRequest.MailAddress, hostingUnit);
+                }
+                catch(Exception ex) { throw ex; }           
+                    
             }
             if (oldOrder.OrderStatus==Enums.OrderStatus.Mailed&&order.OrderStatus==Enums.OrderStatus.Closed)
             {
@@ -171,7 +201,7 @@ namespace BL
         public List<Order> AllOrdersSince(TimeSpan Time)
         {
             var orders = from order in getAllOrders()
-                         where (DateTime.Now - order.OrderDate >= Time)
+                         where (DateTime.Now - order.OrderDate <= Time)
                          select order;
             return orders.ToList();
         }
@@ -193,13 +223,10 @@ namespace BL
             return  (from guestRequest in GetAllGuestRequests()
                     group guestRequest by guestRequest.Children + guestRequest.Adults).ToList();
         }
-        public  IGrouping<int, Host> GroupHostByNumOfHostingUnit()
-        {             
-            List<Host> hosts = new List<Host>();
-            foreach (var Item in getAllHostingUnits())
-                hosts.Add(Item.Host);
-            hosts.Distinct();
-            return (IGrouping<int, Host>)hosts.GroupBy(Item => getAllHostingUnits(x => x.Host == Item).Count);
+        public  List<IGrouping<int, Host>> GroupHostByNumOfHostingUnit()
+        {      
+            return ((from item in getAllHostingUnits() select item.Host).Distinct()
+                .GroupBy(Item => getAllHostingUnits(x => x.Host == Item).Count)). ToList();  
         }  
         public List<IGrouping<string, HostingUnit>> GroupHostingUnitByRegion()
         {

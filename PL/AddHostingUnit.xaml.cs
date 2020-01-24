@@ -72,16 +72,12 @@ namespace PL
         {
             try
             {
-                if (!ValidBankDetails())
-                {
-                    tbxBankNum.Clear();
-                    tbxBranchNum.Clear();
-                    throw new Exception(" פרטי בנק שגוים");
+                if (ValidBankDetails())
+                { 
+                    bl.addHostingUnit(hostingUnit);
+                    DialogResult = true;
+                    this.Close();
                 }
-                bl.addHostingUnit(hostingUnit);
-                DialogResult = true;
-                this.Close();
-                
             }
             catch(Exception ex)
             {
@@ -103,12 +99,19 @@ namespace PL
         } 
         public bool ValidBankDetails()
         {
-            if (((MainWindow)System.Windows.Application.Current.MainWindow).branchesList.Where
+            BankBranch branch = ((MainWindow)System.Windows.Application.Current.MainWindow).branchesList.Where
                 (item => item.BankNumber == hostingUnit.Host.Bankbranch.BankNumber &&
-                item.BranchNumber == hostingUnit.Host.Bankbranch.BranchNumber).FirstOrDefault() != null)
-                return true;
-            return false; 
-             
+                item.BranchNumber == hostingUnit.Host.Bankbranch.BranchNumber).FirstOrDefault();
+            if (branch != null)
+            {
+                hostingUnit.Host.Bankbranch.BankName = branch.BankName;
+                hostingUnit.Host.Bankbranch.BranchAddress = branch.BranchAddress;
+                hostingUnit.Host.Bankbranch.BranchCity = branch.BranchCity;  
+                return true; 
+            }
+            tbxBankNum.Clear();
+            tbxBranchNum.Clear();
+            throw new Exception(" פרטי בנק שגוים");   
         }
 
 

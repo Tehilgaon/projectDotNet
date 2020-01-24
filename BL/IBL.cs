@@ -37,11 +37,11 @@ namespace BL
         int AllOrdersOfHostingUnit(string hostingUnitKey, Enums.OrderStatus status); 
         List<IGrouping<string, GuestRequest>> GroupGuestRequestByRegion();  
         List<IGrouping<int, GuestRequest>> GroupGuestRequestByNumOfGuests(); 
-        IGrouping<int, Host> GroupHostByNumOfHostingUnit();  
+        List<IGrouping<int, Host>> GroupHostByNumOfHostingUnit();  
         List<IGrouping<string, HostingUnit>> GroupHostingUnitByRegion();
         List<IGrouping<string, HostingUnit>> GroupHostingUnitsByType();
         List<IGrouping<Enums.OrderStatus, Order>> GroupOrdersByStatus(); 
-       List<IGrouping<DateTime, Order>> GroupOrderByDate();
+        List<IGrouping<DateTime, Order>> GroupOrderByDate();
          
 
     }

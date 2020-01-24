@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.ComponentModel;
+
 using BL;
 using BE;
 
@@ -39,10 +41,25 @@ namespace PL
             bL = MyBL.Instance;
             OrdersGrid.AutoGeneratingColumn += ((MainWindow)System.Windows.Application.Current.MainWindow).OrdersGrid_AutoGeneratingColumn;
             OrdersGrid.SelectionChanged += OrdersGrid_SelectionChanged;
+            OrdersGrid.MouseDoubleClick += OrdersGrid_MouseDoubleClick;
+            tbxSearch.PreviewKeyDown += TbxSearch_PreviewKeyDown;
             IconMail.Click += IconMail_Click;
             IconClose.Click += IconClose_Click;
             tbxSearch.TextChanged += OrderFilter;
             cbxOrderStatus.SelectionChanged += OrderFilter;
+            
+        }
+
+        private void TbxSearch_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (tbxSearch.Text == "Search")
+                tbxSearch.Clear();
+        }
+
+        private void OrdersGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            guestRequest = bL.GetAllGuestRequests(item => item.GuestRequestKey == currentOrder.GuestRequestKey).FirstOrDefault();
+            new AddGuestRequest(guestRequest).ShowDialog();
         }
 
         private void IconClose_Click(object sender, RoutedEventArgs e)
@@ -50,6 +67,7 @@ namespace PL
             currentOrder.OrderStatus = Enums.OrderStatus.Closed;
             bL.updateOrder(currentOrder);
             OrderFilter(this, new RoutedEventArgs());
+            MessageBox.Show("ההזמנה נסגרה בהצלחה");
         }
     
          
@@ -82,9 +100,28 @@ namespace PL
         {
             IconMail.IsEnabled = false;
             currentOrder.OrderStatus = Enums.OrderStatus.Mailed;
-            currentOrder.OrderDate = DateTime.Now;
-            bL.updateOrder(currentOrder); 
-            OrderFilter(this, new RoutedEventArgs()); 
+            try
+            {
+               
+                    BackgroundWorker MailWorker = new BackgroundWorker();
+                    MailWorker.DoWork += (se, args) =>
+                    {
+                        bL.updateOrder(currentOrder);
+                        
+                    };
+                    MailWorker.RunWorkerCompleted += (se, args) =>
+                    {
+                        OrderFilter(this, new RoutedEventArgs());
+                        MessageBox.Show("המייל נשלח בהצלחה");
+                    };
+                    MailWorker.RunWorkerAsync();
+                    
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+             
         }
 
         
@@ -102,13 +139,24 @@ namespace PL
         public void OrderFilter(object sender, RoutedEventArgs e)
         {
             string orderStatus = null;
+            string ordersSince= null;
+            TimeSpan span;
             string text = tbxSearch.Text;
             if (cbxOrderStatus.SelectedItem != null)
                 orderStatus = ((ComboBoxItem)cbxOrderStatus.SelectedItem).Content.ToString();
+            if(cbxAllOrderSince.SelectedItem!=null)
+                ordersSince= ((ComboBoxItem)cbxOrderStatus.SelectedItem).Content.ToString();
             try
             {
-                ordersList = bL.getAllOrders(item => item.HostingUnitKey == CurrentHostingUnit.HostingUnitKey &&
-                (item.OrderStatus.ToString().Contains(text) || item.OrderKey.Contains(text)) && (item.OrderStatus.ToString() == orderStatus || orderStatus == null||orderStatus=="All"));
+                if (ordersSince != null)
+                {
+                    span = ordersSince == "This week" ? new TimeSpan(7, 0, 0, 0) : ordersSince == "This month" ? new TimeSpan(30, 0, 0, 0) : new TimeSpan(372, 0, 0, 0);
+                    ordersList = bL.AllOrdersSince(span);
+                }
+                else { ordersList = bL.getAllOrders(); }      
+                ordersList = ordersList.Where(item => item.HostingUnitKey == CurrentHostingUnit.HostingUnitKey &&
+                (item.OrderStatus.ToString().Contains(text) || item.OrderKey.Contains(text)||text=="Search"||text=="") && 
+                (item.OrderStatus.ToString() == orderStatus || orderStatus == null||orderStatus=="All")).ToList();
                 
                 OrdersGrid.ItemsSource = ordersList;
                 
@@ -117,9 +165,7 @@ namespace PL
             {
                 MessageBox.Show(ex.Message, "לא נמצאו הזמנות", MessageBoxButton.OK,
                                 MessageBoxImage.Error, MessageBoxResult.Cancel, MessageBoxOptions.RightAlign);
-            }
-
-
+            } 
 
         }
 

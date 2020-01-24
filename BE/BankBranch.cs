@@ -39,8 +39,8 @@ namespace BE
         
         public override string ToString()
         {
-            return ",  שם בנק:" + BankName + " ,מספר בנק:" + BankNumber + ",  מספר סניף:" + 
-                BranchNumber + " ,כתובת סניף:" + BranchAddress + " " + BranchCity;
+            return "\t" + BankName + "\t" + BankNumber + "\t" + 
+                BranchNumber + "\t" + BranchAddress + " " + BranchCity;
         }
     }
 }

@@ -35,27 +35,51 @@ namespace BE
                 return (T)formatter.Deserialize(stream);
             }
         }
-        public static bool SendEmail(string guestMail, string hostMail)
+        public static bool SendEmail(string guestMail, HostingUnit hostingUnit)
         {
+
+            MailMessage mail = new MailMessage();
+            mail.To.Add(guestMail);
+            mail.From = new MailAddress(hostingUnit.Host.MailAddress);
+            mail.Subject = "הזמנת צימר";
+            mail.Body ="\tשם מארח:"+hostingUnit.Host.PrivateName+ "\t פלאפון:" + hostingUnit.Host.PhoneNumber + "\t כתובת:" + hostingUnit.Area;
+            mail.IsBodyHtml = false;
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new System.Net.NetworkCredential(Configuration.MailSystem, Configuration.Password);
+            smtp.EnableSsl = true;
             try
+            {
+                smtp.Send(mail);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);     
+            }
+            /*try
             {
                 var client = new SmtpClient(BE.Configuration.SMTP_Server)
                 {
+                    UseDefaultCredentials = false;
                     Credentials = new NetworkCredential(Configuration.MailSystem, Configuration.Password),
                     EnableSsl = true
                 };
-                MailMessage mailMessage = new MailMessage(hostMail,guestMail) { Body ="nothing", IsBodyHtml = true, Subject = "הגיעה אליך הזמנה "};
+                MailMessage mailMessage = new MailMessage(Configuration.MailSystem, Configuration.MailSystem) { Body ="nothing", IsBodyHtml = false, Subject = " "};
                 client.Send(mailMessage);
                 return true;
             }
             catch (Exception ex)
             {
                 throw new Exception( ex.Message);
-                return false;
-            }
+                 
+            }*/
         }
 
-        /*public static  List<DateTime> Flatten(HostingUnit hostingUnit)
+
+
+        public static  List<DateTime> Flatten(HostingUnit hostingUnit)
         {
             List<DateTime> DairySer = new List<DateTime>();
             if (hostingUnit[today] == true)
@@ -70,7 +94,7 @@ namespace BE
             if (hostingUnit[aYearFromNow] == true)
                 DairySer.Add(aYearFromNow);
             return DairySer;
-        }*/
+        }
 
         public static T[] Flatten<T>(this T[,] arr)
         {
