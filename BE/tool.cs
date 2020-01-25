@@ -9,7 +9,6 @@ using System.Xml.Linq;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Net.Mail;
 using System.Xml.Serialization;
  
 namespace BE
@@ -42,7 +41,9 @@ namespace BE
             mail.To.Add(guestMail);
             mail.From = new MailAddress(hostingUnit.Host.MailAddress);
             mail.Subject = "הזמנת צימר";
-            mail.Body ="\tשם מארח:"+hostingUnit.Host.PrivateName+ "\t פלאפון:" + hostingUnit.Host.PhoneNumber + "\t כתובת:" + hostingUnit.Area;
+            mail.Body = "שלום, שמחים שהמקום שלנו מתאים לך"+"נשמח לדבר איתך ולספר לך עלינו..."+"הפרטים שלנו:"+"\nשם מארח:"
+                + hostingUnit.Host.PrivateName + "\n פלאפון:" + hostingUnit.Host.PhoneNumber + "\t פלאפון נוסף:" +
+                hostingUnit.AnotherPhoneNumber + "\n כתובת:" + hostingUnit.Area + "\n" + hostingUnit.DetailedAddr + "\n\n" + hostingUnit.DetailsForGuest;
             mail.IsBodyHtml = false;
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";
@@ -57,24 +58,7 @@ namespace BE
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);     
-            }
-            /*try
-            {
-                var client = new SmtpClient(BE.Configuration.SMTP_Server)
-                {
-                    UseDefaultCredentials = false;
-                    Credentials = new NetworkCredential(Configuration.MailSystem, Configuration.Password),
-                    EnableSsl = true
-                };
-                MailMessage mailMessage = new MailMessage(Configuration.MailSystem, Configuration.MailSystem) { Body ="nothing", IsBodyHtml = false, Subject = " "};
-                client.Send(mailMessage);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception( ex.Message);
-                 
-            }*/
+            }   
         }
 
 
@@ -142,6 +126,10 @@ namespace BE
             xmlSerializer.Serialize(file, source); file.Close();
         }
     }
+
+
+
+
     /* public static bool SendingEmail(string recipients, string subject, string body)
      {
          try
@@ -160,6 +148,23 @@ namespace BE
              return false;
          }
      }*/
+     /*try
+            {
+                var client = new SmtpClient(BE.Configuration.SMTP_Server)
+                {
+                    UseDefaultCredentials = false;
+                    Credentials = new NetworkCredential(Configuration.MailSystem, Configuration.Password),
+                    EnableSsl = true
+                };
+                MailMessage mailMessage = new MailMessage(Configuration.MailSystem, Configuration.MailSystem) { Body ="nothing", IsBodyHtml = false, Subject = " "};
+                client.Send(mailMessage);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception( ex.Message);
+                 
+            }*/
 
 }
 

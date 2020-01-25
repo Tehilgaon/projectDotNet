@@ -32,16 +32,16 @@ namespace BL
         }
         private MyBL()
         {
-            Thread t1 = new Thread(cancellOrder);
+            /*Thread t1 = new Thread(cancellOrder);
             t1.Name = "OrderThread";
-            t1.Start();  
+            t1.Start();  */
         }
 
         private void cancellOrder()
         {
             while (true)
             {
-                var ordersList = getAllOrders(Item => Item.OrderStatus == Enums.OrderStatus.Mailed && 
+                List<Order> ordersList = getAllOrders(Item => Item.OrderStatus == Enums.OrderStatus.Mailed && 
                 (DaysBetween(Item.OrderDate) > Configuration.OrderValidity));
                 foreach (var item in ordersList)
                 {
@@ -201,7 +201,7 @@ namespace BL
         public List<Order> AllOrdersSince(TimeSpan Time)
         {
             var orders = from order in getAllOrders()
-                         where (DateTime.Now - order.OrderDate <= Time)
+                         where (DateTime.Now - order.CreateDate <= Time)
                          select order;
             return orders.ToList();
         }
@@ -247,43 +247,15 @@ namespace BL
         public HostingUnit updateDairy(HostingUnit hostingUnit,GuestRequest guestRequest)
         {
             DateTime date = guestRequest.EntryDate;
-            while(date.Day!= guestRequest.ReleaseDate.Day)
+            while(date.Day<= guestRequest.ReleaseDate.Day)
             {
-                hostingUnit[date] = true;
-                /*if (date.Year==DateTime.Today.Year)
-                    hostingUnit.YearlyOccupied++;
-                else
-                    hostingUnit.YearlyOccupied = 1;*/
+                hostingUnit[date] = true;   
                 date = date.AddDays(1);
             }
             return hostingUnit;
         }
          
-        /*public void sendEmail(String HostMail, String GuestMail)
-        {
-
-           
-           MailMessage mail = new MailMessage(); 
-            mail.To.Add(GuestMail); 
-            mail.From = new MailAddress(HostMail);
-            mail.Subject = "הזמנת צימר"; 
-            mail.Body = "mailBody"; 
-            mail.IsBodyHtml = false; 
-            SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.gmail.com";
-            smtp.Credentials = new System.Net.NetworkCredential(Configuration.MailSystem, Configuration.Password);
-            smtp.EnableSsl = true;
-            try
-            {
-                smtp.Send(mail);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-               // txtMessage.Text = ex.ToString();
-            }
-        }*/
-
+         
 
     }
 }

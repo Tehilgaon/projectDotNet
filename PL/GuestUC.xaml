@@ -72,8 +72,8 @@
             </Grid>
         </StackPanel>
 
-        <DataGrid Grid.Row="1" x:Name="dataGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AutoGenerateColumns="True"  FlowDirection="RightToLeft" Visibility="Collapsed"   HorizontalContentAlignment="Center" ></DataGrid>
-        <DataGrid Grid.Row="1" x:Name="groupGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AutoGenerateColumns="True"  FlowDirection="RightToLeft" Visibility="Collapsed"  ></DataGrid>
+        <DataGrid Grid.Row="1" x:Name="dataGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AutoGenerateColumns="True"  FlowDirection="RightToLeft" Visibility="Collapsed"   HorizontalContentAlignment="Center" Opacity="0.85" ></DataGrid>
+         
 
         <Grid x:Name="dataGridUnits" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
             <Grid.ColumnDefinitions>

@@ -76,6 +76,7 @@ namespace PL
         {
             this.GuestZone.tbkEnterMail.Text = "התחבר כאורח";
             this.GuestZone.AddButton.Content = "הוסף בקשה";
+            this.HostZone.AddButton.ToolTip = "הוספת בקשה חדשה";
             this.GuestZone.tbxEnterMail.KeyDown += GuestOnKeyDownHandler;
             this.GuestZone.AddButton.Click += GuestAddButton_Click;
             this.GuestZone.LogInButton.Click += GuestLogInButton_Click;
@@ -92,6 +93,9 @@ namespace PL
         {
             this.HostZone.tbkEnterMail.Text = "התחבר כבעל יחידת אירוח";
             this.HostZone.AddButton.Content = "הוסף יחידה";
+            this.HostZone.AddButton.ToolTip = "הוספת יחידת אירוח חדשה";
+            this.HostZone.deleteButton.ToolTip = "מחיקת יחידת האירוח מהמערכת";
+            this.HostZone.updateButton.ToolTip = "עידכון פרטי היחידה";
             this.HostZone.tbxEnterMail.KeyDown += HostOnKeyDownHandler;
             this.HostZone.dataGrid.SelectionChanged += Unit_selectionChange;
             this.HostZone.dataGrid.AutoGeneratingColumn += HostingUnit_AutoGenerateColumns;
@@ -161,7 +165,8 @@ namespace PL
             guestMail = this.GuestZone.tbxEnterMail.Text;
             GuestFilter(this, new RoutedEventArgs());
             if (guestRequestsList.Count != 0)
-                logIn(this.GuestZone);             
+                logIn(this.GuestZone);
+              
         }
         private void GuestLogoutButton_Click(object sender, RoutedEventArgs e)
         {
@@ -294,6 +299,7 @@ namespace PL
         private void HostLogoutButton_Click(object sender, RoutedEventArgs e)
         {
             hostMail = null;
+            myDairy.Visibility = Visibility.Collapsed;
             logOut(this.HostZone);
         }
         public void HostingUnitFilter(object sender, RoutedEventArgs e)
@@ -350,38 +356,42 @@ namespace PL
             this.ManagerZone.cbxgroupBy.Visibility = Visibility.Visible;
             this.ManagerZone.LgroupBy.Visibility = Visibility.Visible;
             string text = this.ManagerZone.tbxSearch.Text;
-            switch (((ComboBoxItem)ManagerZone.cbxfilter.SelectedItem).Content.ToString())
-            { 
-                case "דרישות לקוח": 
-                    myKeys=new string[] { "אזורי ביקוש", "מספר אנשים" };
-                    this.ManagerZone.cbxgroupBy.ItemsSource = myKeys;
-                    MgGuestRequestsList = bL.GetAllGuestRequests();
-                    ManagerFilter(this, new RoutedEventArgs() );
-                    break;
-                case "יחידות אירוח":
-                    
-                    myKeys =new string[] { "אזורי אירוח", "סוגי אירוח" };
-                    this.ManagerZone.cbxgroupBy.ItemsSource = myKeys;
-                    MgHostingUnitsList = bL.getAllHostingUnits();
-                    ManagerFilter(this, new RoutedEventArgs());
-                    break;
-                case "הזמנות": 
-                    myKeys = new string[] { "סטטוס", "תאריך הזמנה" };
-                    this.ManagerZone.cbxgroupBy.ItemsSource = myKeys;
-                    MgOrdersList = bL.getAllOrders();
-                    ManagerFilter(this, new RoutedEventArgs());
-                    break;
-                case "בעלי יחידות":
-                    MgHostList = new List<Host>();
-                    foreach (var item in bL.GroupHostByNumOfHostingUnit())
-                        foreach (var host in item)
-                            MgHostList.Add(host);
-                    ManagerFilter(this, new RoutedEventArgs());
-                    break;
-                default: 
-                    break;
-                    
+            try
+            {
+                switch (((ComboBoxItem)ManagerZone.cbxfilter.SelectedItem).Content.ToString())
+                {
+                    case "דרישות לקוח":
+                        myKeys = new string[] { "אזורי ביקוש", "מספר אנשים" };
+                        this.ManagerZone.cbxgroupBy.ItemsSource = myKeys;
+                        MgGuestRequestsList = bL.GetAllGuestRequests();
+                        ManagerFilter(this, new RoutedEventArgs());
+                        break;
+                    case "יחידות אירוח":
+
+                        myKeys = new string[] { "אזורי אירוח", "סוגי אירוח" };
+                        this.ManagerZone.cbxgroupBy.ItemsSource = myKeys;
+                        MgHostingUnitsList = bL.getAllHostingUnits();
+                        ManagerFilter(this, new RoutedEventArgs());
+                        break;
+                    case "הזמנות":
+                        myKeys = new string[] { "סטטוס", "תאריך הזמנה" };
+                        this.ManagerZone.cbxgroupBy.ItemsSource = myKeys;
+                        MgOrdersList = bL.getAllOrders();
+                        ManagerFilter(this, new RoutedEventArgs());
+                        break;
+                    case "בעלי יחידות":
+                        MgHostList = new List<Host>();
+                        foreach (var item in bL.GroupHostByNumOfHostingUnit())
+                            foreach (var host in item)
+                                MgHostList.Add(host);
+                        ManagerFilter(this, new RoutedEventArgs());
+                        break;
+                    default:
+                        break;
+
+                }
             }
+            catch (Exception) { }
         }
         private void Manager_SelectionChanged(object sender, SelectionChangedEventArgs e)
         { 
@@ -525,15 +535,17 @@ namespace PL
             try
             {
                 string choice = ((ComboBoxItem)ManagerZone.cbxfilter.SelectedItem).Content.ToString();
-                if (choice == "יחידות אירוח")
-                    new AddHostingUnit(HostingUnit).ShowDialog();
-                if (choice == "דרישות לקוח")
+                if (choice == "יחידות אירוח" && HostingUnit != null)
+                    throw new Exception();
+                    //new AddHostingUnit(HostingUnit).ShowDialog();
+                if (choice == "דרישות לקוח"&&GuestRequest!=null)
                     GuestUpdateButton_Click(this, new RoutedEventArgs());
-                //if (choice == "הזמנות")
+                if (choice == "הזמנות")
+                    throw new Exception();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+              
             }
 
         }

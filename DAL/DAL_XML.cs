@@ -132,12 +132,16 @@ namespace DAL
         }
         public List<Order> getAllOrders(Func<Order, bool> predicate = null)
         {
-            if (predicate != null)
-                return orderList.Where(predicate).ToList().Clone();
-            Order[] OrderArr = new Order[orderList.Count];
-            orderList.CopyTo(OrderArr);
-            return OrderArr.ToList();
-
+            try
+            {
+                if (predicate != null)
+                    return orderList.Where(predicate).ToList().Clone();
+                Order[] OrderArr = new Order[orderList.Count];
+                orderList.CopyTo(OrderArr);
+                return OrderArr.ToList();
+            }
+            catch (Exception)
+            { throw new Exception("מצטערים, קרתה שגיאה");  }
         }
         public void updateOrder(Order order)
         {

@@ -68,12 +68,17 @@ namespace BE
                 Host.Fee += value;
             }
         }
-        public int YearlyOccupied { get => yearlyOccupied; set => yearlyOccupied = value; }
+        //public int YearlyOccupied { get => yearlyOccupied; set => yearlyOccupied = value; }
         public bool Pool { get => pool; set => pool = value; }
         public bool Jacuzzi { get => jacuzzi; set => jacuzzi = value; }
         public bool Garden { get => garden; set => garden = value; }
         public bool Parking { get => parking; set => parking = value; }
         public bool Baby_bed { get => baby_bed; set => baby_bed = value; }
+
+        public string DetailsForGuest { get; set; }
+        public string AnotherPhoneNumber { get; set; }
+        public string DetailedAddr { get; set; }
+
 
         [XmlArray("Diary")]
         public bool [] DairySer

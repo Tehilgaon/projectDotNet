@@ -102,20 +102,12 @@ namespace PL
             currentOrder.OrderStatus = Enums.OrderStatus.Mailed;
             try
             {
-               
-                    BackgroundWorker MailWorker = new BackgroundWorker();
-                    MailWorker.DoWork += (se, args) =>
-                    {
-                        bL.updateOrder(currentOrder);
-                        
-                    };
-                    MailWorker.RunWorkerCompleted += (se, args) =>
-                    {
-                        OrderFilter(this, new RoutedEventArgs());
-                        MessageBox.Show("המייל נשלח בהצלחה");
-                    };
-                    MailWorker.RunWorkerAsync();
-                    
+                Email emailwind = new Email(currentOrder); 
+                if(emailwind.ShowDialog() == true)
+                {
+                   OrderFilter(this, new RoutedEventArgs());
+                   MessageBox.Show("המייל נשלח בהצלחה");    
+                }    
             }
             catch(Exception ex)
             {
@@ -148,7 +140,7 @@ namespace PL
                 ordersSince= ((ComboBoxItem)cbxOrderStatus.SelectedItem).Content.ToString();
             try
             {
-                if (ordersSince != null)
+                if (ordersSince != null||ordersSince!="All")
                 {
                     span = ordersSince == "This week" ? new TimeSpan(7, 0, 0, 0) : ordersSince == "This month" ? new TimeSpan(30, 0, 0, 0) : new TimeSpan(372, 0, 0, 0);
                     ordersList = bL.AllOrdersSince(span);

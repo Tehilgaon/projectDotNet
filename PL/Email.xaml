@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="מייל ללקוח" Height="300" Width="300">
-    <Grid FlowDirection="RightToLeft">
+    <Grid FlowDirection="RightToLeft" x:Name="EmailGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -25,16 +25,16 @@
 
         <Label Content="כתובת מדויקת :" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <TextBox x:Name="tbxaddress" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1"    
-                     VerticalAlignment="Center" Width="120"/>
+                     VerticalAlignment="Center" Width="120"  Text="{Binding DetailedAddr, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" />
 
         <Label Content="מספר פלאפון נוסף:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
         <TextBox x:Name="tbxphone" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2"    
-                     VerticalAlignment="Center" Width="120"/>
+                     VerticalAlignment="Center" Width="120"  Text="{Binding AnotherPhoneNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" />
         <Label Content="ספר לו על המקום:" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" FontWeight="ExtraBold" Margin="3,3,0,0" Grid.Row="3"  VerticalAlignment="Top"/>
-        <TextBox x:Name="tbxFamilyName" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="100" Margin="3" Grid.Row="4"    
-                     VerticalAlignment="Center" Width="288"/>
+        <TextBox x:Name="tbxmessage" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="100" Margin="3" Grid.Row="4"    
+                     VerticalAlignment="Center" TextWrapping="Wrap" Width="288"  Text="{Binding DetailsForGuest, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnDataErrors=True, ValidatesOnExceptions=true}" />
         
-        <controls:MetroProgressBar IsIndeterminate="False" Grid.Row="4"  HorizontalAlignment="Center" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent" />
-        <Button x:Name="AddGuestButton" Background="Yellow" Grid.Column="0" Grid.ColumnSpan="2" Content="שלח" Grid.Row="5" HorizontalAlignment="Center" Margin="10"  VerticalAlignment="Bottom" Width="50" Click="AddButton_Click"  ></Button>
+        <controls:MetroProgressBar x:Name="progressBar" IsIndeterminate="False" Grid.Row="4"  HorizontalAlignment="Center" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent" />
+        <Button x:Name="sendButton" Background="Yellow" Grid.Column="0" Grid.ColumnSpan="2" Content="שלח" Grid.Row="5" HorizontalAlignment="Center" Margin="10"  VerticalAlignment="Bottom" Width="50"   ></Button>
     </Grid>
 </controls:MetroWindow>
