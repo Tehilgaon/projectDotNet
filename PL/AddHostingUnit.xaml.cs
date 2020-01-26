@@ -38,7 +38,8 @@ namespace PL
 
         void newOfSameHost()
         {
-            HostingUnit SameHost = bl.getAllHostingUnits(Item => Item.Host.MailAddress == ((MainWindow)System.Windows.Application.Current.MainWindow).hostMail).FirstOrDefault();
+            HostingUnit SameHost = bl.getAllHostingUnits(Item => Item.Host.MailAddress ==
+            ((MainWindow)System.Windows.Application.Current.MainWindow).hostMail).FirstOrDefault();
             if (SameHost != null)
                 hostingUnit.Host = SameHost.Host;
         }

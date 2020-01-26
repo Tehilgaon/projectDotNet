@@ -117,7 +117,7 @@ namespace PL
         }
 
         
-        private void createOrder_button(object sender, RoutedEventArgs e)
+        /*private void createOrder_button(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -127,7 +127,8 @@ namespace PL
             {
                 MessageBox.Show(ex.Message);
             } 
-        }
+        }*/
+
         public void OrderFilter(object sender, RoutedEventArgs e)
         {
             string orderStatus = null;

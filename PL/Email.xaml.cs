@@ -38,7 +38,11 @@ namespace PL
 
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
-            progressBar.IsIndeterminate = true;
+            progressBar.Visibility = Visibility.Visible;
+            //hostingUnit.DetailedAddr = tbxaddress.Text;
+            //hostingUnit.AnotherPhoneNumber = tbxphone.Text;
+            //hostingUnit.DetailsForGuest = tbxmessage.Text;
+            //bL.updateHostingUnit(hostingUnit);
             BackgroundWorker MailWorker = new BackgroundWorker();
             MailWorker.DoWork += (se, args) =>
             { 
@@ -48,7 +52,7 @@ namespace PL
             {
                 DialogResult = true;
                 this.Close();
-                MessageBox.Show("המייל נשלח בהצלחה");
+                
                 
             };
             MailWorker.RunWorkerAsync();

@@ -35,14 +35,15 @@ namespace PL
         List<HostingUnit> hostingUnitsList;
         List<Order> ordersList;
         public List<BankBranch> branchesList = new List<BankBranch>();
-        
+         XElement banks;
 
         List<GuestRequest> MgGuestRequestsList;
         List<HostingUnit> MgHostingUnitsList;
         List<Order> MgOrdersList;
         List<Host> MgHostList;
+        
 
-        XElement banks;
+       
        
         DateTime today = DateTime.Today;
         public string guestMail, hostMail;
@@ -107,6 +108,7 @@ namespace PL
             this.HostZone.dataGrid.MouseDoubleClick +=UnitUpdateButton_Click;
             this.HostZone.LogoutButton.Click += HostLogoutButton_Click;
             this.HostZone.watchDairy.Click += WatchDairy_Click;
+            this.HostZone.tbxSearch.TextChanged += HostingUnitFilter;
              
         }
   
@@ -131,6 +133,7 @@ namespace PL
 
 
 
+        
         #region GuestZone
 
         private void GuestOnKeyDownHandler(object sender, KeyEventArgs e)
@@ -153,6 +156,8 @@ namespace PL
         { 
             if (new AddGuestRequest().ShowDialog() == true) 
                 MessageBox.Show("בקשתך נוספה");
+            GuestFilter(this, new RoutedEventArgs());
+            
                   
         }
         private void GuestUpdateButton_Click(object sender, RoutedEventArgs e)
@@ -214,6 +219,7 @@ namespace PL
         {
             if (new AddHostingUnit().ShowDialog() == true) 
                 MessageBox.Show("היחידה נוספה בהצלחה");
+            HostingUnitFilter(this, new RoutedEventArgs());
       
         }
         private void HostLogInButton_Click(object sender, RoutedEventArgs e)
@@ -267,7 +273,8 @@ namespace PL
         }
         public void creatOrder(GuestRequest guestRequest, HostingUnit hostingUnit)
         {
-            if (bL.getAllOrders(item => item.GuestRequestKey == guestRequest.GuestRequestKey && item.HostingUnitKey == hostingUnit.HostingUnitKey).Count == 0)
+            if (bL.getAllOrders(item => item.GuestRequestKey == guestRequest.GuestRequestKey &&
+            item.HostingUnitKey == hostingUnit.HostingUnitKey).Count == 0)
             {
                 Order = new Order();
                 Order.GuestRequestKey = guestRequest.GuestRequestKey;
@@ -304,9 +311,11 @@ namespace PL
         }
         public void HostingUnitFilter(object sender, RoutedEventArgs e)
         {
+            string text = this.HostZone.tbxSearch.Text;
             try
             {
-                hostingUnitsList = bL.getAllHostingUnits(Item => Item.Host.MailAddress == hostMail); 
+                hostingUnitsList = bL.getAllHostingUnits(Item => Item.Host.MailAddress == hostMail&&
+                (Item.HostingUnitName.Contains(text)||text==""||text=="Search")); 
                 this.HostZone.dataGrid.ItemsSource = hostingUnitsList;
             }
             catch (Exception ex)
@@ -331,6 +340,7 @@ namespace PL
                 { 
                      myDairy.BlackoutDates.Add(new CalendarDateRange(arrayDairy[i], arrayDairy[i+1]));
                 }*/
+
                 myDairy.BlackoutDates.Clear();
                 for (DateTime day = DateTime.Today; day < today.AddYears(1); day = day.AddDays(1))
                 {
@@ -343,6 +353,7 @@ namespace PL
 
         #endregion
 
+        
         #region ManagerZone
 
         private void ManagerOnKeyDownHandler(object sender, KeyEventArgs e)
@@ -535,15 +546,16 @@ namespace PL
             try
             {
                 string choice = ((ComboBoxItem)ManagerZone.cbxfilter.SelectedItem).Content.ToString();
-                if (choice == "יחידות אירוח" && HostingUnit != null)
-                    throw new Exception();
-                    //new AddHostingUnit(HostingUnit).ShowDialog();
+                
                 if (choice == "דרישות לקוח"&&GuestRequest!=null)
                     GuestUpdateButton_Click(this, new RoutedEventArgs());
+                if (choice == "יחידות אירוח" && HostingUnit != null)
+                    UnitUpdateButton_Click(this, new RoutedEventArgs());
+                    //new AddHostingUnit(HostingUnit).ShowDialog();
                 if (choice == "הזמנות")
                     throw new Exception();
             }
-            catch (Exception ex)
+            catch (Exception )
             {
               
             }
@@ -686,10 +698,7 @@ namespace PL
 
                     switch (e.PropertyName)
                     {
-                        case "YearlyOccupied":
-                            e.Column.Header = "תפוסה שנתית";
-                            e.Column.Visibility = Visibility.Visible;
-                            break;
+                         
                         case "HostingUnitKey":
                             e.Column.Header = "מספר סידורי";
                             e.Column.Visibility = Visibility.Visible;

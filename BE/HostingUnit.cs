@@ -68,7 +68,7 @@ namespace BE
                 Host.Fee += value;
             }
         }
-        //public int YearlyOccupied { get => yearlyOccupied; set => yearlyOccupied = value; }
+        
         public bool Pool { get => pool; set => pool = value; }
         public bool Jacuzzi { get => jacuzzi; set => jacuzzi = value; }
         public bool Garden { get => garden; set => garden = value; }

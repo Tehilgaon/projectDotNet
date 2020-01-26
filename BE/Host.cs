@@ -85,9 +85,8 @@ namespace BE
 
         public override string ToString()
         {
-            return   HostKey + "\t"   + PrivateName + "\t"  
-                + FamilyName + "\t" + PhoneNumber + "\t" + MailAddress +
-                "\t" + Bankbranch + "\t" + BankAccountNumber ;
+            return HostKey + "\t" + PrivateName + "\t"
+                + FamilyName + "\t" + PhoneNumber + "\t" + MailAddress;
         }
 
 

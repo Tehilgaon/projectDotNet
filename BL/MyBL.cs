@@ -32,12 +32,12 @@ namespace BL
         }
         private MyBL()
         {
-            /*Thread t1 = new Thread(cancellOrder);
+            Thread t1 = new Thread(CancellOrder);
             t1.Name = "OrderThread";
-            t1.Start();  */
+            t1.Start();  
         }
 
-        private void cancellOrder()
+        private void CancellOrder()
         {
             while (true)
             {
@@ -47,8 +47,9 @@ namespace BL
                 {
                     item.OrderStatus = Enums.OrderStatus.Canceled;
                     updateOrder(item);
-                    Thread.Sleep(86400000);
+                    
                 }
+                Thread.Sleep(86400000);
             }
         }
         #endregion
@@ -148,7 +149,10 @@ namespace BL
                 order.OrderDate = DateTime.Now;
                 try
                 {
-                    tool.SendEmail(guestRequest.MailAddress, hostingUnit);
+                    string Body= "שלום "+ guestRequest.PrivateName +",\n שמחים שהמקום שלנו מתאים לך" + "\n נשמח לדבר איתך ולספר לך עלינו..." 
+                        + "\nהפרטים שלנו:" + "\n\nשם מארח:"+ hostingUnit.Host.PrivateName + "\n פלאפון:" + hostingUnit.Host.PhoneNumber + "\t פלאפון נוסף:" +
+                        hostingUnit.AnotherPhoneNumber + "\n כתובת:" + hostingUnit.Area + "\n" + hostingUnit.DetailedAddr + "\n\n" + hostingUnit.DetailsForGuest;
+                    tool.SendEmail(guestRequest.MailAddress, hostingUnit, Body);
                 }
                 catch(Exception ex) { throw ex; }           
                     

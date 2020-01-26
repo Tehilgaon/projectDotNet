@@ -34,16 +34,14 @@ namespace BE
                 return (T)formatter.Deserialize(stream);
             }
         }
-        public static bool SendEmail(string guestMail, HostingUnit hostingUnit)
+        public static bool SendEmail(string guestMail, HostingUnit hostingUnit, string Body)
         {
 
             MailMessage mail = new MailMessage();
             mail.To.Add(guestMail);
             mail.From = new MailAddress(hostingUnit.Host.MailAddress);
             mail.Subject = "הזמנת צימר";
-            mail.Body = "שלום, שמחים שהמקום שלנו מתאים לך"+"נשמח לדבר איתך ולספר לך עלינו..."+"הפרטים שלנו:"+"\nשם מארח:"
-                + hostingUnit.Host.PrivateName + "\n פלאפון:" + hostingUnit.Host.PhoneNumber + "\t פלאפון נוסף:" +
-                hostingUnit.AnotherPhoneNumber + "\n כתובת:" + hostingUnit.Area + "\n" + hostingUnit.DetailedAddr + "\n\n" + hostingUnit.DetailsForGuest;
+            mail.Body = Body;
             mail.IsBodyHtml = false;
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";
@@ -130,41 +128,7 @@ namespace BE
 
 
 
-    /* public static bool SendingEmail(string recipients, string subject, string body)
-     {
-         try
-         {
-             var client = new SmtpClient(BE.Configuration.SMTP_Server, BE.Configuration.SMTP_Port)
-             {
-                 Credentials = new NetworkCredential(Configuration.SenderEmailAddress, Configuration.EmailServerPasword),
-                 EnableSsl = true
-             };
-             MailMessage mailMessage = new MailMessage(recipients, recipients) { Body = body, IsBodyHtml = true, Subject = subject, };
-             client.Send(mailMessage);
-             return true;
-         }
-         catch (Exception)
-         {
-             return false;
-         }
-     }*/
-     /*try
-            {
-                var client = new SmtpClient(BE.Configuration.SMTP_Server)
-                {
-                    UseDefaultCredentials = false;
-                    Credentials = new NetworkCredential(Configuration.MailSystem, Configuration.Password),
-                    EnableSsl = true
-                };
-                MailMessage mailMessage = new MailMessage(Configuration.MailSystem, Configuration.MailSystem) { Body ="nothing", IsBodyHtml = false, Subject = " "};
-                client.Send(mailMessage);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception( ex.Message);
-                 
-            }*/
+    
 
 }
 
