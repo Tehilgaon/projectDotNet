@@ -91,7 +91,10 @@ namespace PL
             }
         }
 
-         
+
+         /// <summary>
+         /// while inside the private-zone, displying the basic details on the Add-window
+         /// </summary>
         void NewRequestOfSameGuest() 
         {
             GuestRequest SameGuest = bl.GetAllGuestRequests(Item => Item.MailAddress == ((MainWindow)System.Windows.
@@ -103,6 +106,10 @@ namespace PL
                 guestRequest.MailAddress = SameGuest.MailAddress;
             }
         }
+
+        /// <summary>
+        /// changing is permitted only if an order to this request was not created yet.
+        /// </summary>
         void IsRequestStillEnable()
         {
             if (bl.getAllOrders(item => item.GuestRequestKey == guestRequest.GuestRequestKey).Count != 0)

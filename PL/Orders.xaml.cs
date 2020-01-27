@@ -32,8 +32,6 @@ namespace PL
         
 
 
-
-
         public HostingUnit CurrentHostingUnit { get; set; }
         public Orders()
         {
@@ -56,6 +54,11 @@ namespace PL
                 tbxSearch.Clear();
         }
 
+        /// <summary>
+        /// open the guestRequest details
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OrdersGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             guestRequest = bL.GetAllGuestRequests(item => item.GuestRequestKey == currentOrder.GuestRequestKey).FirstOrDefault();
@@ -96,6 +99,11 @@ namespace PL
             
         }
   
+        /// <summary>
+        /// open the Mail Window when clicking on it
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void IconMail_Click(object sender, RoutedEventArgs e)
         {
             IconMail.IsEnabled = false;
@@ -117,18 +125,11 @@ namespace PL
         }
 
         
-        /*private void createOrder_button(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                ((MainWindow)System.Windows.Application.Current.MainWindow).creatOrder(guestRequest, CurrentHostingUnit);  
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            } 
-        }*/
-
+        /// <summary>
+        /// filtering the OrderList according to status, registrationDate and text on the 'search' textBox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void OrderFilter(object sender, RoutedEventArgs e)
         {
             string orderStatus = null;

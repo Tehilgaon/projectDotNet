@@ -176,10 +176,10 @@ namespace BL
         #endregion
 
 
-        public List<BankBranch> GetAllBranches()
+        /*public List<BankBranch> GetAllBranches()
         {
             return myDAL.GetAllBranches();
-        }
+        }*/
         public List<HostingUnit> AllAvailable(DateTime FirstDate, int NumOfDays)
         {
             return getAllHostingUnits().Where(hostingUnit => 

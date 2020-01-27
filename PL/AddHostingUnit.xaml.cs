@@ -36,6 +36,9 @@ namespace PL
         }
 
 
+        /// <summary>
+        /// while inside the private-zone, displying the Host details on the Add-window
+        /// </summary>
         void newOfSameHost()
         {
             HostingUnit SameHost = bl.getAllHostingUnits(Item => Item.Host.MailAddress ==
@@ -98,6 +101,11 @@ namespace PL
             }
 
         } 
+
+        /// <summary>
+        /// checking if the bank details are correct and filling the rest of the details (city, bankName, bankBranch).
+        /// </summary>
+        /// <returns></returns>
         public bool ValidBankDetails()
         {
             BankBranch branch = ((MainWindow)System.Windows.Application.Current.MainWindow).branchesList.Where

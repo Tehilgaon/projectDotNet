@@ -9,7 +9,7 @@ using System.Net.Mail;
 namespace BE
 {
     [Serializable]
-    public class Host
+    public class Host : IEquatable<Host>
     {
         private string hostKey;
         private string privateName;
@@ -89,6 +89,14 @@ namespace BE
                 + FamilyName + "\t" + PhoneNumber + "\t" + MailAddress;
         }
 
-
+        //IEquatable<Host> methods, for the distinct function in host_grouping
+        public bool Equals(Host other)
+        {
+            return HostKey.Equals(HostKey);
+        }
+        public override int GetHashCode()
+        {
+            return HostKey.GetHashCode();
+        }
     }
 }

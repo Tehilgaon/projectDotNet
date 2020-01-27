@@ -35,14 +35,16 @@ namespace PL
             hostingUnit = bL.getAllHostingUnits(item => item.HostingUnitKey == currentOrder.HostingUnitKey).FirstOrDefault();  
             DataContext = hostingUnit;
         }
-
+         
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
             progressBar.Visibility = Visibility.Visible;
+
             //hostingUnit.DetailedAddr = tbxaddress.Text;
             //hostingUnit.AnotherPhoneNumber = tbxphone.Text;
             //hostingUnit.DetailsForGuest = tbxmessage.Text;
             //bL.updateHostingUnit(hostingUnit);
+
             BackgroundWorker MailWorker = new BackgroundWorker();
             MailWorker.DoWork += (se, args) =>
             { 

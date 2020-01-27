@@ -28,7 +28,7 @@ namespace BL
         void updateOrder(Order order);
         #endregion
 
-        List<BankBranch> GetAllBranches(); 
+        //List<BankBranch> GetAllBranches(); 
         List<HostingUnit> AllAvailable(DateTime FirstDate, int NumOfDays); 
         HostingUnit ifAvailable(HostingUnit hostingUnit, DateTime EntryDate, DateTime ReleaseDate);  
         int DaysBetween(DateTime D1, DateTime D2 = default); 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BE;
-using DS;
+ 
 using System.Xml.Serialization;
 using System.Xml.Linq;
 using System.IO;
@@ -175,10 +175,10 @@ namespace DAL
 
         #endregion
 
-        public List<BankBranch> GetAllBranches()
+        /*public List<BankBranch> GetAllBranches()
         {
             return DataSource.GetAllBranches();
-        }
+        }*/
 
 
 

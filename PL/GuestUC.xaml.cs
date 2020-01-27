@@ -20,7 +20,7 @@ using BE;
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for GuestUC.xaml
+    /// Interaction logic for GuestUC.xaml, User Control for all zones
     /// </summary>
     public partial class GuestUC : UserControl
     {
@@ -66,40 +66,7 @@ namespace PL
             }
         }
 
-
-
-
-
-
-        /*private void ChangeBackGround()
-        {
-            BackgroundWorker changePicsWorker = new BackgroundWorker();
-            changePicsWorker.DoWork += ChangePicsWorker_DoWork;
-
-        }
-
-        private void ChangePicsWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            int i = 0;
-            while (true)
-            {
-                MainGrid.Background. = CreateViewImage(i);  
-
-            }
-        }
-        private Image CreateViewImage(int i)
-        {
-            Image dynamicImage = new Image();
-            BitmapImage bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri(((MainWindow)System.Windows.Application.Current.MainWindow).Uris[i]);
-            bitmap.EndInit();
-            // Set Image.Source
-            dynamicImage.Source = bitmap;
-            // Add Image to Window
-            return dynamicImage;
-        }*/
-
+  
 
     }
 }

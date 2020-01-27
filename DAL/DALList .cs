@@ -12,7 +12,7 @@ using System.IO;
 
 namespace DAL
 {
-    internal class DALList : IDAL
+    internal class DALList:IDAL  
     {
         #region Singleton
         private static readonly DALList instance = new DALList();
@@ -78,29 +78,7 @@ namespace DAL
         #region GuestRequest
         public void addGuestRequest(GuestRequest guestRequest)
         {
-             
-            /*try
-            {
-                XElement Request = new XElement("guestRequest");
-                Request.Add(new XElement("guestRequestKey", guestRequest.GuestRequestKey),
-                      new XElement("PrivateName", guestRequest.PrivateName),
-                      new XElement("FamilyName", guestRequest.FamilyName),
-                      new XElement("entryDate", guestRequest.EntryDate.ToShortDateString()),
-                      new XElement("releaseDate", guestRequest.ReleaseDate.ToShortDateString()),
-                      new XElement("RegistrationDate", guestRequest.RegistrationDate.ToString()),
-                      new XElement("MailAddress", guestRequest.MailAddress),
-                      new XElement("Area", guestRequest.Area),
-                      new XElement("Adults", guestRequest.Adults),
-                      new XElement("Children", guestRequest.Children),
-                      new XElement("Type", guestRequest.Type),
-                      new XElement("Status", guestRequest.Status));
-               // new XElement("NumOfDrivingLessons", guestRequest.), 
-               guestRequestRoot.Add(Request);
-               guestRequestRoot.Save(guestRequestsPath);
-                
-            }
-            catch (Exception)
-            { }*/
+            
             DataSource.guestRequests.Add(guestRequest.Clone());
         }
         public void updateGuestRequest(GuestRequest guestRequest)
@@ -122,14 +100,12 @@ namespace DAL
 
         #endregion
 
-        public List<BankBranch> GetAllBranches()
+        /*public List<BankBranch> GetAllBranches()
         {
             return DataSource.GetAllBranches();
-        }
+        }*/
 
-
-
-
+ 
         public static void SaveToXML<T>(T source, string path)
         {
             FileStream file = new FileStream(path, FileMode.Create);
@@ -153,5 +129,5 @@ namespace DAL
         }
 
 
-    }
+    } 
 }

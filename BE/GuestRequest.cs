@@ -68,8 +68,8 @@ namespace BE
             get => entryDate;
             set
             {
-                if (value < DateTime.Now)
-                    throw new Exception("תאריך לא תקין");
+                //if (value < DateTime.Now)
+                    //throw new Exception("תאריך לא תקין");
                 entryDate = value;
             }
         }

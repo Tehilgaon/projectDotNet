@@ -37,6 +37,8 @@ namespace PL
         public List<BankBranch> branchesList = new List<BankBranch>();
          XElement banks;
 
+
+        //Lists for the manager LINQ
         List<GuestRequest> MgGuestRequestsList;
         List<HostingUnit> MgHostingUnitsList;
         List<Order> MgOrdersList;
@@ -52,10 +54,7 @@ namespace PL
         public HostingUnit HostingUnit { get; set; }
         public Order Order { get ; set ; }
 
-        public List<string> Uris = new List<string>() {"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqAfFteQzTFOMnS5TxhADG5iEUB76A1sgLZKtlcsx4UYRTpUpONQ&s",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUlP9896XWkF3fSVtJCZ-OJBwvq3hXSpSFmB86_LkP6lxunVKK&s",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHaIrCPsJnXsfoZeXaHGRRkh0g1BPcmo6Req6MYO2TbKwvfRxj&s",
-        "http://www.lovehotel.live/photos/26aae4d5092f82c89d387d98aef0b19e.jpg"};
+        
 
         public MainWindow()
         {
@@ -73,6 +72,10 @@ namespace PL
                 MessageBox.Show(e.Message);
             }
         }
+
+        /// <summary>
+        /// events and properties for the guests zone
+        /// </summary>
         private void Guest_Zone()
         {
             this.GuestZone.tbkEnterMail.Text = "התחבר כאורח";
@@ -89,7 +92,10 @@ namespace PL
             this.GuestZone.LogoutButton.Click += GuestLogoutButton_Click;
 
         }
-         
+
+        /// <summary>
+        /// events and properties for the host zone
+        /// </summary>
         private void Host_Zone()
         {
             this.HostZone.tbkEnterMail.Text = "התחבר כבעל יחידת אירוח";
@@ -111,7 +117,10 @@ namespace PL
             this.HostZone.tbxSearch.TextChanged += HostingUnitFilter;
              
         }
-  
+
+        /// <summary>
+        /// events and properties for the 'מנהל האתר' zone
+        /// </summary>
         private void Manager_Zone()
         {
             this.ManagerZone.tbkEnterMail.Text = "";
@@ -128,10 +137,7 @@ namespace PL
             this.ManagerZone.cbxgroupBy.Text = "קבץ לפי";
         }
 
-
-
-
-
+         
 
         
         #region GuestZone
@@ -351,9 +357,8 @@ namespace PL
              
         }
 
-        #endregion
+        #endregion 
 
-        
         #region ManagerZone
 
         private void ManagerOnKeyDownHandler(object sender, KeyEventArgs e)
@@ -565,6 +570,7 @@ namespace PL
         #endregion
 
 
+         
         public void OrdersGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             switch (e.PropertyName)
@@ -768,9 +774,7 @@ namespace PL
 
         }
 
-
-
-
+          
         private void logOut(GuestUC zone)
         {
             zone.dataGrid.ItemsSource = null;
@@ -793,9 +797,9 @@ namespace PL
 
         }
 
-          
 
-            public void LoadBanksList()
+        #region BankThread
+        public void LoadBanksList()
             {
                 BackgroundWorker Worker = new BackgroundWorker();
                 Worker.DoWork += Worker_DoWork;
@@ -852,7 +856,14 @@ namespace PL
           }
                 e.Result = @"atm.xml";
         }
+        #endregion
+
 
         
+        public List<string> Uris = new List<string>() {"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqAfFteQzTFOMnS5TxhADG5iEUB76A1sgLZKtlcsx4UYRTpUpONQ&s",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUlP9896XWkF3fSVtJCZ-OJBwvq3hXSpSFmB86_LkP6lxunVKK&s",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHaIrCPsJnXsfoZeXaHGRRkh0g1BPcmo6Req6MYO2TbKwvfRxj&s",
+        "http://www.lovehotel.live/photos/26aae4d5092f82c89d387d98aef0b19e.jpg"};
+
     }
 }
