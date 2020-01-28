@@ -80,7 +80,7 @@ namespace PL
         {
             this.GuestZone.tbkEnterMail.Text = "התחבר כאורח";
             this.GuestZone.AddButton.Content = "הוסף בקשה";
-            this.HostZone.AddButton.ToolTip = "הוספת בקשה חדשה";
+            this.GuestZone.AddButton.ToolTip = "הוספת בקשה חדשה";
             this.GuestZone.tbxEnterMail.KeyDown += GuestOnKeyDownHandler;
             this.GuestZone.AddButton.Click += GuestAddButton_Click;
             this.GuestZone.LogInButton.Click += GuestLogInButton_Click;
